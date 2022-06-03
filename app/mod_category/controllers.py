@@ -1,6 +1,6 @@
 # Import flask dependencies
 from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for
+                  flash, g, session, redirect, url_for, jsonify
 
 # Import the database object from the main app module
 from app import db
@@ -43,6 +43,11 @@ mod_category = Blueprint('category', __name__, url_prefix='/category')
 def index():
     categories = Category.query.all()
     return render_template('category/index.html', categories=categories)
+
+@mod_category.route('/raw/')
+def raw():
+    categories = Category.query.all()
+    return jsonify(data=[i.to_dict() for i in categories])
 
 @mod_category.route('/<int:category_id>/')
 def category(category_id):

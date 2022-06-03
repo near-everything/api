@@ -4,6 +4,8 @@ from flask import Flask, render_template
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy_serializer import SerializerMixin
+
 # Define the WSGI application object
 app = Flask(__name__)
 
@@ -15,7 +17,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 # Define a base model for other database tables to inherit
-class Base(db.Model):
+class Base(db.Model, SerializerMixin):
 
     __abstract__  = True
 
