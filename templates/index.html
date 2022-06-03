@@ -1,22 +1,26 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <h1 class="title">{% block title %} Categories {% endblock %}</h1>
-    <div class="content">
-        {% for category in categories %}
-            <div class="category">
-                <p><b>#{{ category.id }}</b></p>
-                <b>
-                    <p class="name">{{ category.name }}</p>
-                </b>
-                <!-- <p>{{ category.email }}</p>
-                <p>{{ category.age }} years old.</p>
-                <p>Joined: {{ category.created_at }}</p>
-                <div class="bio">
-                    <h4>Bio</h4>
-                    <p>{{ category.bio }}</p>
-                </div> -->
-            </div>
-        {% endfor %}
-    </div>
+{% extends 'base.html' %} {% block content %}
+<h1 class="title">{% block title %} Categories {% endblock %}</h1>
+<div class="content">
+  {% for category in categories %}
+  <div class="category">
+    <p><b>#{{ category.id }}</b></p>
+    <b>
+      <p class="name">
+        <a href="{{ url_for('category', category_id=category.id)}}">
+          {{ category.name }}
+        </a>
+      </p>
+    </b>
+  </div>
+  <a href="{{ url_for('edit', category_id=category.id) }}">Edit</a>
+  <hr />
+  <form method="POST" action="{{ url_for('delete', category_id=category.id) }}">
+    <input
+      type="submit"
+      value="Delete Category"
+      onclick="return confirm('Are you sure you want to delete this entry?')"
+    />
+  </form>
+  {% endfor %}
+</div>
 {% endblock %}
