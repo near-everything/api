@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="title">{% block title %} subcategories {% endblock %}</h1>
+<div class="content">
+  {% for subcategory in subcategories %}
+  <div class="box">
+    <p><b>#{{ subcategory.id }}</b></p>
+    <b>
+      <p class="name">
+        <a href="{{ url_for('subcategory.subcategory', subcategory_id=subcategory.id)}}">
+          {{ subcategory.name }}
+        </a>
+      </p>
+    </b>
+  </div>
+  <a href="{{ url_for('subcategory.edit', subcategory_id=subcategory.id) }}">Edit</a>
+  <hr />
+  <form method="POST" action="{{ url_for('subcategory.delete', subcategory_id=subcategory.id) }}">
+    <input
+      type="submit"
+      value="Delete subcategory"
+      onclick="return confirm('Are you sure you want to delete this entry?')"
+    />
+  </form>
+  {% endfor %}
+</div>
+{% endblock %}

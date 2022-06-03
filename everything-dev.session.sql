@@ -18,6 +18,9 @@ CREATE TABLE Subcategory(
 DESCRIBE Subcategory;
 
 -- @BLOCK
+SELECT * FROM Subcategory;
+
+-- @BLOCK
 CREATE TABLE CategorySubcategoryRelation(
   CategoryID INT NOT NULL,
   SubcategoryID INT NOT NULL,
