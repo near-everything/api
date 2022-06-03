@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %} - FlaskApp</title>
+    <title>{% block title %} {% endblock %} - everything API</title>
     <style>
         .title {
             margin: 5px;
@@ -39,8 +39,8 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">everything API</a>
-        <a href="{{ url_for('create') }}">Create</a>
+        <a href="#">everything API</a>
+        <a href="{{ url_for('category.index') }}">Categories</a>
         <a href="#">About</a>
     </nav>
     <hr>
