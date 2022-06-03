@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="title">{% block title %} Categories {% endblock %}</h1>
+    <div class="content">
+        {% for category in categories %}
+            <div class="category">
+                <p><b>#{{ category.id }}</b></p>
+                <b>
+                    <p class="name">{{ category.name }}</p>
+                </b>
+                <!-- <p>{{ category.email }}</p>
+                <p>{{ category.age }} years old.</p>
+                <p>Joined: {{ category.created_at }}</p>
+                <div class="bio">
+                    <h4>Bio</h4>
+                    <p>{{ category.bio }}</p>
+                </div> -->
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
