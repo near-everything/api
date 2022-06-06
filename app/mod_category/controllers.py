@@ -47,7 +47,7 @@ def index():
 @mod_category.route('/raw/')
 def raw():
     categories = Category.query.all()
-    response = jsonify(categories=[i.to_dict() for i in categories])
+    response = jsonify(categories=[i.to_dict(rules=('-subcategories.attributes',)) for i in categories])
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 

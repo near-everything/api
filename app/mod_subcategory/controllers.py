@@ -18,6 +18,13 @@ def raw():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
+@mod_subcategory.route('/raw/<int:subcategory_id>/')
+def rawAttributes():
+    subcategories = Subcategory.query.all()
+    response = jsonify(subcategories=[i.to_dict() for i in subcategories])
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
 @mod_subcategory.route('/<int:subcategory_id>/')
 def subcategory(subcategory_id):
     subcategory = Subcategory.query.get_or_404(subcategory_id)

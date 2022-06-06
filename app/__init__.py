@@ -19,7 +19,6 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-# Define a base model for other database tables to inherit
 class Base(db.Model, SerializerMixin):
 
     __abstract__  = True
