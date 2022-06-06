@@ -41,15 +41,26 @@ docker-compose up -d
 
 5. Run application
 ```bash
-export FLASK_APP=app
-export FLASK_ENVIRONMENT=development
-flask run
+python3 run.py
 ```
+
+
 
 6. Open interface in browser via http://127.0.0.1:5000. This should show the contents of the database
 
 
 # 
+### Data migrations
+Changes to object models will not be automatically reflected in the database. To handle these migrations automatically, run the following commands via [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/):
+
+```bash
+flask db migrate -m "{{migration name}}"
+```
+
+```bash
+flask db upgrade
+```
+
 ### Interacting with the Database via SQLTools
 
 In order to connect to the database via SQLTools and do fun stuff, we need to create a new user with all permissions.

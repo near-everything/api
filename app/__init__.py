@@ -3,8 +3,9 @@ from flask import Flask, render_template
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy_serializer import SerializerMixin
+
+from flask_migrate import Migrate
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -15,6 +16,8 @@ app.config.from_object('config')
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
 
 # Define a base model for other database tables to inherit
 class Base(db.Model, SerializerMixin):
