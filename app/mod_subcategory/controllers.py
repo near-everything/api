@@ -1,69 +1,57 @@
-from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for, jsonify
+from flask import Blueprint, request, jsonify
 from app import db
 from app.mod_subcategory.models import Subcategory
 
 mod_subcategory = Blueprint('subcategory', __name__, url_prefix='/subcategory')
 
 
+# GET : all subcategories
 @mod_subcategory.route('/')
 def index():
     subcategories = Subcategory.query.all()
-    return render_template('subcategory/index.html', subcategories=subcategories)
-
-@mod_subcategory.route('/raw/')
-def raw():
-    subcategories = Subcategory.query.all()
     response = jsonify(subcategories=[i.to_dict() for i in subcategories])
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@mod_subcategory.route('/raw/<int:subcategory_id>/')
-def rawAttributes():
-    subcategories = Subcategory.query.all()
-    response = jsonify(subcategories=[i.to_dict() for i in subcategories])
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
-
+# GET : subcategory by id
 @mod_subcategory.route('/<int:subcategory_id>/')
 def subcategory(subcategory_id):
     subcategory = Subcategory.query.get_or_404(subcategory_id)
-    return render_template('subcategory/subcategory.html', subcategory=subcategory)
+    response = jsonify(subcategory.to_dict())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-@mod_subcategory.route('/create/', methods=('GET', 'POST'))
+# POST : create subcategory
+@mod_subcategory.post('/create/')
 def create():
-    if request.method == 'POST':
-        name = request.form['name']
-        category_id = request.form['category_id']
-        subcategory = Subcategory(name=name, category_id=category_id)
-        db.session.add(subcategory)
-        db.session.commit()
+    subcategory = Subcategory(
+        name=request.json['name'],
+        category_id=request.json['category_id'],
+    )
+    db.session.add(subcategory)
+    db.session.commit()
+    response = jsonify(subcategory.to_dict())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-        return redirect(url_for('subcategory.index'))
-
-    return render_template('subcategory/create.html')
-
-@mod_subcategory.route('/<int:subcategory_id>/edit/', methods=('GET', 'POST'))
+# PUT : edit subcategory
+@mod_subcategory.put('/<int:subcategory_id>/')
 def edit(subcategory_id):
     subcategory = Subcategory.query.get_or_404(subcategory_id)
+    if 'name' in request.json:
+        subcategory.name = request.json['name']
+    if 'category_id' in request.json:
+        subcategory.category_id = request.json['category_id']
+    db.session.add(subcategory)
+    db.session.commit()
+    response = jsonify(subcategory.to_dict())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-    if request.method == 'POST':
-        name = request.form['name']
-        category_id = request.form['category_id']
-
-        subcategory.name = name
-        subcategory.category_id = category_id
-
-        db.session.add(subcategory)
-        db.session.commit()
-
-        return redirect(url_for('subcategory.index'))
-
-    return render_template('subcategory/edit.html', subcategory=subcategory)
-
-@mod_subcategory.post('/<int:subcategory_id>/delete/')
+# DELETE : delete subcategory
+@mod_subcategory.delete('/<int:subcategory_id>/')
 def delete(subcategory_id):
     subcategory = Subcategory.query.get_or_404(subcategory_id)
     db.session.delete(subcategory)
     db.session.commit()
-    return redirect(url_for('subcategory.index'))
+    return '', 204
