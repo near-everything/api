@@ -8,14 +8,14 @@ import logging
 def create_app() -> Flask:
     appvar = Flask(__name__)
     appvar.config.from_object('config')
-    # CORS(appvar, resources={r'/.*': {'origins': '*'}}, supports_credentials=True)
+    CORS(appvar, resources={r'/.*': {'origins': '*'}}, supports_credentials=True)
     return appvar
 
 app = create_app()
 logging.getLogger('flask_cors').level = logging.DEBUG
 
 with app.app_context():
-    # cors = CORS(app)
+    cors = CORS(app)
     db = SQLAlchemy(app)
     migrate = Migrate(app, db)
 
