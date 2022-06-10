@@ -1,17 +1,16 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
+
 from app import db
-from app.mod_attribute.models import Attribute, AttributeOption
+from app.mod_attribute.models import Attribute
 
 mod_attribute = Blueprint('attribute', __name__, url_prefix='/attribute')
-mod_option = Blueprint('option', __name__, url_prefix='/option')
-
 
 # GET : all attribute
 @mod_attribute.route('/')
 def index():
-    attribute = Attribute.query.all()
-    response = jsonify(attribute=[i.to_dict() for i in attribute])
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    attributes = Attribute.query.all()
+    response = jsonify(attributes=[i.to_dict() for i in attributes])
     return response
 
 # GET : attribute by id
@@ -19,11 +18,11 @@ def index():
 def attribute(attribute_id):
     attribute = Attribute.query.get_or_404(attribute_id)
     response = jsonify(attribute.to_dict(rules=('-subcategories.attributes',)))
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 # POST : create attribute
 @mod_attribute.post('/create/')
+@cross_origin
 def create():
     attribute = Attribute(
         name=request.json['name'],
@@ -31,7 +30,6 @@ def create():
     db.session.add(attribute)
     db.session.commit()
     response = jsonify(attribute.to_dict())
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 # PUT : edit attribute
@@ -42,7 +40,6 @@ def edit(attribute_id):
     db.session.add(attribute)
     db.session.commit()
     response = jsonify(attribute.to_dict())
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 # DELETE : delete attribute

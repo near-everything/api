@@ -28,13 +28,13 @@ with app.app_context():
     # Import modules
     from app.mod_category.controllers import mod_category as category_module
     from app.mod_subcategory.controllers import mod_subcategory as subcategory_module
-    # from app.mod_attribute.controllers import mod_attribute as attribute_module
-    # from app.mod_attribute.controllers import mod_option as option_module
+    from app.mod_attribute.controllers import mod_attribute as attribute_module
+    from app.mod_characteristic.controllers import mod_characteristic as characteristic_module
     # Register blueprints
     app.register_blueprint(category_module)
     app.register_blueprint(subcategory_module)
-    # app.register_blueprint(attribute_module)
-    # app.register_blueprint(option_module)
+    app.register_blueprint(attribute_module)
+    app.register_blueprint(characteristic_module)
     db.create_all()
 
 # Configurations
@@ -44,7 +44,6 @@ class Base(db.Model, SerializerMixin):
 
     __abstract__  = True
 
-    # id            = db.Column(db.Integer, primary_key=True)
     # date_created  = db.Column(db.DateTime,  default=db.func.current_timestamp())
     # date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
     #                                        onupdate=db.func.current_timestamp())

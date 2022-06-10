@@ -4,7 +4,7 @@ class Category(Base):
 
     __tablename__ = "category"
 
-    serialize_only = ('id', 'name')
+    serialize_only = ('id', 'name', 'subcategories')
 
     name = db.Column(db.String(255), nullable=False)
     subcategories = db.relationship('Subcategory')
