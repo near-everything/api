@@ -54,15 +54,35 @@ VALUES ("color");
 SELECT * from Attribute;
 
 -- @BLOCK
-INSERT INTO attribute_option(name, attribute_id)
-VALUES ("blue", 1)
+DESCRIBE `option`;
 
 -- @BLOCK
-SELECT * from attribute_option;
+INSERT INTO `Option`(name)
+VALUES ("blue");
 
 -- @BLOCK
-INSERT INTO subc_attr_relation(subcategory_id, attribute_id)
-VALUES (1, 1);
+SELECT * from `Option`;
 
 -- @BLOCK
-SELECT * from subc_attr_relation;
+DROP TABLE `Option`;
+
+-- @BLOCK
+INSERT INTO characteristic(subcategory_id, attribute_id)
+VALUES (1, 1)
+
+-- @BLOCK
+SELECT * from characteristic;
+
+-- @BLOCK
+INSERT INTO association(option_id, subcategory_id, attribute_id)
+VALUES (1, 1, 1);
+
+-- @BLOCK
+SELECT * from association;
+
+-- @BLOCK
+DROP TABLE association;
+-- @BLOCK
+DROP DATABASE everything;
+
+

@@ -1,5 +1,6 @@
 # Import flask dependencies
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
 
 # Import the database object from the main app module
 from app import db
@@ -28,6 +29,7 @@ def category(category_id):
 
 # POST : create category
 @mod_category.post('/create/')
+@cross_origin()
 def create():
     category = Category(
         name=request.json['name'],
@@ -35,7 +37,6 @@ def create():
     db.session.add(category)
     db.session.commit()
     response = jsonify(category.to_dict(rules=('-subcategories.attributes',)))
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 # PUT : edit category
