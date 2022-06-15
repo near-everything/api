@@ -22,7 +22,6 @@ def attribute(attribute_id):
 
 # POST : create attribute
 @mod_attribute.post('/create/')
-@cross_origin
 def create():
     attribute = Attribute(
         name=request.json['name'],

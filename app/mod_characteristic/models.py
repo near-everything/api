@@ -12,5 +12,5 @@ class Characteristic(Base):
     attribute_id = db.Column(db.ForeignKey("attribute.id"), primary_key=True)
 
     def __repr__(self):
-        return f'<Attribute {self.attribute_id} is a Characteristic of Subcategory {self.subcategory_id}>'
+        return f'<Attribute {self.attribute_id} has a Characteristic with Subcategory {self.subcategory_id}>'
 

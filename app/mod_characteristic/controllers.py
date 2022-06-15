@@ -8,25 +8,27 @@ from app.mod_subcategory.models import Subcategory
 
 mod_characteristic = Blueprint('characteristic', __name__, url_prefix='/characteristic')
 
-# GET : all characteristic
+# GET : characteristic
 @mod_characteristic.route('/')
 def index():
-    characteristic = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == Attribute.id) & (Characteristic.subcategory_id == Subcategory.id)).all()
-    response = jsonify(characteristic=[i.to_dict() for i in characteristic])
-    return response
-
-# GET : characteristic by id
-@mod_characteristic.route('/<int:subcategory_id>/<int:attribute_id>/')
-def characteristic(subcategory_id, attribute_id):
-    characteristic = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == attribute_id) & (Characteristic.subcategory_id == subcategory_id)).first()
-    response = jsonify(characteristic.to_dict(rules=('-subcategories.characteristics',)))
+    attribute_id = request.args.get('attribute_id')
+    subcategory_id = request.args.get('subcategory_id')
+    if None not in (attribute_id, subcategory_id):
+        characteristics = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == attribute_id) & (Characteristic.subcategory_id == subcategory_id)).all()
+    elif attribute_id is not None:
+        characteristics = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == attribute_id) & (Characteristic.subcategory_id == Subcategory.id)).all()
+    elif subcategory_id is not None:
+        characteristics = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == Attribute.id) & (Characteristic.subcategory_id == subcategory_id)).all()
+    else:
+        characteristics = Subcategory.query.join(Characteristic).join(Attribute).filter((Characteristic.attribute_id == Attribute.id) & (Characteristic.subcategory_id == Subcategory.id)).all()
+    response = jsonify(characteristics=[i.to_dict() for i in characteristics])
     return response
 
 # POST : create characteristic
 @mod_characteristic.post('/create/')
 @cross_origin()
 def create():
-    characteristic = characteristic(
+    characteristic = Characteristic(
         subcategory_id=request.json['subcategory_id'],
         attribute_id=request.json['attribute_id'],
     )

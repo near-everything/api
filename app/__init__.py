@@ -30,11 +30,13 @@ with app.app_context():
     from app.mod_subcategory.controllers import mod_subcategory as subcategory_module
     from app.mod_attribute.controllers import mod_attribute as attribute_module
     from app.mod_characteristic.controllers import mod_characteristic as characteristic_module
+    from app.mod_option.controllers import mod_option as option_module
     # Register blueprints
     app.register_blueprint(category_module)
     app.register_blueprint(subcategory_module)
     app.register_blueprint(attribute_module)
     app.register_blueprint(characteristic_module)
+    app.register_blueprint(option_module)
     db.create_all()
 
 # Configurations
