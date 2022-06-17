@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+
+load_dotenv()
 # Statement for enabling the development environment
 DEBUG = True
 
@@ -7,7 +10,10 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Define the database - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://sqluser:password@localhost:3306/everything"
+SQL_USERNAME=os.environ["SQL_USERNAME"]
+SQL_PASSWORD=os.environ["SQL_PASSWORD"]
+SQL_URL=os.environ["SQL_URL"]
+SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{SQL_USERNAME}:{SQL_PASSWORD}@{SQL_URL}/everything'
 DATABASE_CONNECT_OPTIONS = { }
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
