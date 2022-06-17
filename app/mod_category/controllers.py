@@ -10,7 +10,7 @@ mod_category = Blueprint('category', __name__, url_prefix='/category')
 @mod_category.route('/')
 def index():
     categories = Category.query.all()
-    response = jsonify(categories=[i.to_dict(rules=('-subcategories.attributes',)) for i in categories])
+    response = jsonify(categories=[i.to_dict() for i in categories])
     return response
 
 # GET : category by id

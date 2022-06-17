@@ -116,4 +116,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Gunicorn
+*.pyc
+
 # End of https://www.gitignore.io/api/flask

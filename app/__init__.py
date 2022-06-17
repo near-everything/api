@@ -23,7 +23,9 @@ with app.app_context():
 
         __abstract__  = True
 
-        id            = db.Column(db.Integer, primary_key=True)
+        # date_created  = db.Column(db.DateTime,  default=db.func.current_timestamp())
+        # date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
+        #                 onupdate=db.func.current_timestamp())
 
     # Import modules
     from app.mod_category.controllers import mod_category as category_module
@@ -38,21 +40,3 @@ with app.app_context():
     app.register_blueprint(characteristic_module)
     app.register_blueprint(option_module)
     db.create_all()
-
-# Configurations
-
-# Base class
-class Base(db.Model, SerializerMixin):
-
-    __abstract__  = True
-
-    # date_created  = db.Column(db.DateTime,  default=db.func.current_timestamp())
-    # date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
-    #                                        onupdate=db.func.current_timestamp())
-
-
-
-
-
-
-# Build the database

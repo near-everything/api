@@ -25,6 +25,8 @@ def attribute(attribute_id):
 def create():
     attribute = Attribute(
         name=request.json['name'],
+        label=request.json['label'],
+        isMulti=request.json['isMulti']
     )
     db.session.add(attribute)
     db.session.commit()
@@ -35,7 +37,12 @@ def create():
 @mod_attribute.put('/<int:attribute_id>/')
 def edit(attribute_id):
     attribute = Attribute.query.get_or_404(attribute_id)
-    attribute.name = request.json['name']
+    if 'name' in request.json:
+        attribute.name = request.json['name']
+    if 'label' in request.json:
+        attribute.label=request.json['label'],
+    if 'isMulti' in request.json:
+        attribute.isMulti=request.json['isMulti']
     db.session.add(attribute)
     db.session.commit()
     response = jsonify(attribute.to_dict())
