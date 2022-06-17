@@ -13,7 +13,8 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SQL_USERNAME=os.environ["SQL_USERNAME"]
 SQL_PASSWORD=os.environ["SQL_PASSWORD"]
 SQL_URL=os.environ["SQL_URL"]
-SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{SQL_USERNAME}:{SQL_PASSWORD}@{SQL_URL}/everything'
+SQL_PORT=os.environ["SQL_PORT"]
+SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{SQL_USERNAME}:{SQL_PASSWORD}@{SQL_URL}:{SQL_PORT}/everything'
 DATABASE_CONNECT_OPTIONS = { }
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
