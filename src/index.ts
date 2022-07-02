@@ -25,11 +25,11 @@ const middleware = postgraphile(
     graphiql: true,
     enhanceGraphiql: true,
     enableCors: true,
-    // appendPlugins: [
-    //   require('./plugins/mutations/CreateItemMutationPlugin'),
-    //   require('./plugins/mutations/RequestItemMutationPlugin'),
-    //   require('./plugins/mutations/ApproveInviteMutationPlugin')
-    // ]
+    appendPlugins: [
+      require('./plugins/mutations/CreateItemMutationPlugin'),
+      require('./plugins/mutations/RequestItemMutationPlugin'),
+      require('./plugins/mutations/ApproveInviteMutationPlugin')
+    ]
   }
 );
 
