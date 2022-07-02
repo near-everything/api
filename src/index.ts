@@ -13,6 +13,7 @@ const middleware = postgraphile(
     enableCors: true,
     appendPlugins: [
       require('./plugins/mutations/CreateItemMutationPlugin'),
+      require('./plugins/mutations/RequestItemMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin')
     ]
   }

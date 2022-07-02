@@ -64,20 +64,41 @@ create table everything.item (
 	category_id		    int not null references everything.category(id),
 	subcategory_id		int not null references everything.subcategory(id),
   owner_id          int not null references everything.user(id),
-  media             text[]
+  media             text[],
   metadata          json,
   created_at        timestamp default now()
 );
 
 comment on table everything.item is E'@omit create,update';
 
-create table everything.characteristic (
+create table everything.request (
+	id 				        serial primary key,
+	category_id		    int not null references everything.category(id),
+	subcategory_id		int not null references everything.subcategory(id),
+  requester_id      int not null references everything.user(id),
+  media             text[],
+  metadata          json,
+  created_at        timestamp default now()
+);
+
+comment on table everything.request is E'@omit create,update';
+
+create table everything.item_characteristic (
   item_id           int references everything.item(id),
   attribute_id      int references everything.attribute(id),
   option_id         int references everything.option(id),
   initial_value     text not null,
   created_at        timestamp default now(),
   primary key (item_id, attribute_id, option_id)
+);
+
+create table everything.request_characteristic (
+  request_id           int references everything.request(id),
+  attribute_id      int references everything.attribute(id),
+  option_id         int references everything.option(id),
+  initial_value     text not null,
+  created_at        timestamp default now(),
+  primary key (request_id, attribute_id, option_id)
 );
 
 
