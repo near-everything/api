@@ -14,7 +14,7 @@ create table everything.invite (
   phone_number       text not null check (char_length(phone_number) = 12),
   is_approved        boolean default false,
   primary key (phone_number)
-)
+);
 
 create table everything.category (
 	id 				        serial primary key,
