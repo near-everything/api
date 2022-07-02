@@ -15,7 +15,7 @@ const middleware = postgraphile(
     password: process.env.SQL_PASSWORD,
     port: process.env.SQL_PORT,
     ssl: {
-      rejectUnauthorized: true,
+      rejectUnauthorized: false,
       ca:
         process.env.NODE_ENV === 'production'
           ? process.env.CA_CERT
@@ -23,7 +23,7 @@ const middleware = postgraphile(
     },
   }),
   {
-    watchPg: true,
+    watchPg: process.env.NODE_ENV !== 'production', // false in production
     graphiql: true,
     enhanceGraphiql: true,
     enableCors: true,
