@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config()
 
 const middleware = postgraphile(
-  `postgres://${process.env.SQL_USERNAME}:${process.env.SQL_PASSWORD}@${process.env.SQL_URL}:${process.env.SQL_PORT}/everything` || "postgres://postgres:changeme@localhost:5432/everything",
+  `postgres://${process.env.SQL_USERNAME}:${process.env.SQL_PASSWORD}@${process.env.SQL_URL}:${process.env.SQL_PORT}/everything?sslmode=require` || "postgres://postgres:changeme@localhost:5432/everything",
   "everything",
   {
     watchPg: true,
