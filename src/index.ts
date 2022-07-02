@@ -2,12 +2,26 @@
 const express = require('express');
 const { postgraphile } = require('postgraphile');
 const cors = require('cors');
+const pg = require('pg');
+const fs = require('fs');
 
 require('dotenv').config()
 
 const middleware = postgraphile(
-  `postgres://${process.env.SQL_USERNAME}:${process.env.SQL_PASSWORD}@${process.env.SQL_URL}:${process.env.SQL_PORT}/everything?sslmode=require` || "postgres://postgres:changeme@localhost:5432/everything",
-  "everything",
+  new pg.Pool({
+    user: process.env.SQL_USERNAME,
+    host: process.env.SQL_HOSTNAME,
+    database: process.env.SQL_DATABASE,
+    password: process.env.SQL_PASSWORD,
+    port: process.env.SQL_PORT,
+    ssl: {
+      rejectUnauthorized: true,
+      ca:
+        process.env.NODE_ENV === 'production'
+          ? process.env.CA_CERT
+          : fs.readFileSync("ca_certificate.crt").toString(),
+    },
+  }),
   {
     watchPg: true,
     graphiql: true,
@@ -34,11 +48,15 @@ app.use(cors({
 app.use(middleware);
 
 const server = app.listen(process.env.PORT || 3000, () => {
-  const address = server.address();
-  if (typeof address !== 'string') {
-    const href = `http://localhost:${address.port}/graphiql`;
-    console.log(`PostGraphiQL available at ${href} 🚀`);
+  if (process.env.NODE_ENV === 'production') {
+    console.log("Nice")
   } else {
-    console.log(`PostGraphile listening on ${address} 🚀`);
+    const address = server.address();
+    if (typeof address !== 'string') {
+      const href = `http://localhost:${address.port}/graphiql`;
+      console.log(`PostGraphiQL available at ${href} 🚀`);
+    } else {
+      console.log(`PostGraphile listening on ${address} 🚀`);
+    }
   }
 });
