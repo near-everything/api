@@ -8,20 +8,18 @@ const fs = require('fs');
 require('dotenv').config()
 
 const middleware = postgraphile(
-  new pg.Pool({
+  {
     user: process.env.SQL_USERNAME,
     host: process.env.SQL_HOSTNAME,
     database: process.env.SQL_DATABASE,
     password: process.env.SQL_PASSWORD,
     port: process.env.SQL_PORT,
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ? {
       rejectUnauthorized: false,
-      ca:
-        process.env.NODE_ENV === 'production'
-          ? process.env.CA_CERT
-          : fs.readFileSync("ca_certificate.crt").toString(),
-    },
-  }),
+      ca: process.env.CA_CERT
+    } : null
+  },
+  process.env.SQL_DATABASE,
   {
     watchPg: process.env.NODE_ENV !== 'production', // false in production
     graphiql: true,
