@@ -1,104 +1,50 @@
-# Everything API
-
-The entry point to communicating with the ecosystem of everything.
-
-*IN PROGRESS*
-
-#
-## Usage
-
-**Prerequisites**:
-  * [Python](https://www.python.org/downloads/)
-  * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-  * [Visual Studio Code](https://code.visualstudio.com)
-  * [VS Code Extension: SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools)
-  * [SQLTools MySQL Driver](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools-driver-mysql)
+# Postgresql & PgAdmin powered by compose
 
 
-### Getting Started 
+## Requirements:
+* docker >= 17.12.0+
+* docker-compose
 
-1. Clone the repository
-```bash
-git clone https://github.com/near-everything/api.git
+## Quick Start
+* Clone or download this repository
+* Go inside of directory,  `cd compose-postgres`
+* Run this command `docker-compose up -d`
+
+
+## Environments
+This Compose file contains the following environment variables:
+
+* `POSTGRES_USER` the default value is **postgres**
+* `POSTGRES_PASSWORD` the default value is **changeme**
+* `PGADMIN_PORT` the default value is **5050**
+* `PGADMIN_DEFAULT_EMAIL` the default value is **pgadmin4@pgadmin.org**
+* `PGADMIN_DEFAULT_PASSWORD` the default value is **admin**
+
+## Access to postgres: 
+* `localhost:5432`
+* **Username:** postgres (as a default)
+* **Password:** changeme (as a default)
+
+## Access to PgAdmin: 
+* **URL:** `http://localhost:5050`
+* **Username:** pgadmin4@pgadmin.org (as a default)
+* **Password:** admin (as a default)
+
+## Add a new server in PgAdmin:
+* **Host name/address** `postgres`
+* **Port** `5432`
+* **Username** as `POSTGRES_USER`, by default: `postgres`
+* **Password** as `POSTGRES_PASSWORD`, by default `changeme`
+
+## Logging
+
+There are no easy way to configure pgadmin log verbosity and it can be overwhelming at times. It is possible to disable pgadmin logging on the container level.
+
+Add the following to `pgadmin` service in the `docker-compose.yml`:
+
+```
+logging:
+  driver: "none"
 ```
 
-2. Navigate to the directory and create a virtual environment
-```bash
-cd api
-python3 -m venv venv/
-source venv/bin/activate
-```
-
-3. Install packages
-```bash
-pip install -r requirements.txt
-```
-
-4. Start the docker container that will host the mySQL database
-```bash
-docker-compose up -d
-```
-
-5. Run application
-```bash
-python3 run.py
-```
-
-
-
-6. Open interface in browser via http://127.0.0.1:5000. This should show the contents of the database
-
-
-# 
-### Data migrations
-Changes to object models will not be automatically reflected in the database. To handle these migrations automatically, run the following commands via [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/):
-
-```bash
-flask db migrate -m "{{migration name}}"
-```
-
-```bash
-flask db upgrade
-```
-
-### Interacting with the Database via SQLTools
-
-In order to connect to the database via SQLTools and do fun stuff, we need to create a new user with all permissions.
-
-Step into the docker container
-```bash
-docker exec -it api-mysql-1 mysql -u root -p
-```
-This will prompt a password, enter `localeverything`. This password can be found in [docker-compose.yml](/docker-compose.yml).
-
-Upon successful login, you'll find yourself in a mySQL command client.
-
-Create the new user (sqluser) and assign priveleges with the following commands:
-```sql
-CREATE USER 'sqluser'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
-GRANT ALL PRIVILEGES ON *.* TO 'sqluser'@'%';
-FLUSH PRIVILEGES;
-```
-
-Now we can connect to the database via SQLTools.
-
-Open VSCode and open the SQLTools Plugin (found on the left tool bar):
-
-Add a New Connection
-Select mySQL
-
-And now populate with the following values:
-
-![Connection Assistant](/docs/connection-assistant.png)
-
-The username and password are of the user we just created in the mySQL command client
-```
-username: sqluser
-password: password
-```
-
-Test and save the connection, then connect to the database.
-If successful, this should bring up everything-dev.session.sql.
-
-Run the "DESCRIBE Category" Block.
-
+[reference](https://github.com/khezen/compose-postgres/pull/23/files)
