@@ -11,7 +11,7 @@ const middleware = postgraphile(
     graphiql: true,
     enhanceGraphiql: true,
     enableCors: true,
-    appendPlugins: [require('./CustomCreateItemMutationPlugin')]
+    appendPlugins: [require('./CreateItemMutationPlugin')]
   }
 );
 

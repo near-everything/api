@@ -1,6 +1,6 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 
-const CustomCreateItemMutationPlugin = makeExtendSchemaPlugin(build => {
+const CreateItemMutationPlugin = makeExtendSchemaPlugin(build => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
@@ -9,25 +9,25 @@ const CustomCreateItemMutationPlugin = makeExtendSchemaPlugin(build => {
         initial_value: String!
       }
 
-      input CustomCreateItemInput {
+      input CreateItemInput {
         category_id: Int!
         subcategory_id: Int!
         attributes: [NewAttributeInput!]!
         media: [String!]!
       }
 
-      type CustomCreateItemPayload {
+      type CreateItemPayload {
         item: Item @pgField
         query: Query
       }
 
       extend type Mutation {
-        customCreateItem(input: CustomCreateItemInput!): CustomCreateItemPayload
+        createItem(input: CreateItemInput!): CreateItemPayload
       }
     `,
     resolvers: {
       Mutation: {
-        customCreateItem: async (_query, args, context, resolveInfo) => {
+        createItem: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
@@ -75,4 +75,4 @@ const CustomCreateItemMutationPlugin = makeExtendSchemaPlugin(build => {
   };
 });
 
-module.exports = CustomCreateItemMutationPlugin;
+module.exports = CreateItemMutationPlugin;

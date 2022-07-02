@@ -10,6 +10,12 @@ create table everything.user (
   created_at        timestamp default now()
 );
 
+create table everything.invite (
+  phone_number       text not null check (char_length(phone_number) = 12),
+  is_approved        boolean default false,
+  primary key (phone_number)
+)
+
 create table everything.category (
 	id 				        serial primary key,
 	name			        text not null check (char_length(name) < 80) unique,
@@ -55,18 +61,21 @@ create table everything.relationship (
 
 create table everything.item (
 	id 				        serial primary key,
-	nft				        text, -- what should this be?
 	category_id		    int not null references everything.category(id),
 	subcategory_id		int not null references everything.subcategory(id),
   owner_id          int not null references everything.user(id),
+  media             text[]
   metadata          json,
   created_at        timestamp default now()
 );
+
+comment on table everything.item is E'@omit create,update';
 
 create table everything.characteristic (
   item_id           int references everything.item(id),
   attribute_id      int references everything.attribute(id),
   option_id         int references everything.option(id),
+  initial_value     text not null,
   created_at        timestamp default now(),
   primary key (item_id, attribute_id, option_id)
 );
