@@ -5,6 +5,9 @@ create schema everything;
 -- do I want to create schema labels?
 create schema everything_private;
 
+create type everything.option_type as enum ('text', 'company', 'size');
+
+
 create table everything.user (
   id                serial primary key, -- uuid?
   created_at        timestamp default now()
@@ -23,25 +26,34 @@ create table everything.category (
   created_at        timestamp default now()
 );
 
+comment on table everything.category is E'@omit create';
+
 create table everything.subcategory (
 	id 	              serial primary key,
   category_id       int not null references everything.category(id),
-	name			        text not null check (char_length(name) < 80) unique,
+	name			        text not null check (char_length(name) < 80),
   description       text,
-  created_at        timestamp default now()
+  created_at        timestamp default now(),
+  unique(category_id, name)
 );
 
 create table everything.attribute (
 	id 	              serial primary key,
 	name			        text not null check (char_length(name) < 80) unique,
   description       text,
-  metadata          json,
-  created_at        timestamp default now()
+  type              everything.option_type,
+  created_at        timestamp default now(),
 );
+
+alter table everything.attribute
+add column type              everything.option_type;
+
+comment on table everything.attribute is E'@omit create';
 
 create table everything.option (
 	id 	              serial primary key,
-	value			        text not null check (char_length(value) < 80) unique,
+	value			        text not null check (char_length(value) < 80),
+  type              everything.option_type,
   created_at        timestamp default now()
 );
 
@@ -69,7 +81,7 @@ create table everything.item (
   created_at        timestamp default now()
 );
 
-comment on table everything.item is E'@omit create,update';
+comment on table everything.item is E'@omit create,update,delete';
 
 create table everything.request (
 	id 				        serial primary key,
@@ -87,6 +99,8 @@ create table everything.item_characteristic (
   item_id           int references everything.item(id),
   attribute_id      int references everything.attribute(id),
   option_id         int references everything.option(id),
+  num_approvals     int not null default 0,
+  is_validated      bool not null default false,
   initial_value     text not null,
   created_at        timestamp default now(),
   primary key (item_id, attribute_id, option_id)

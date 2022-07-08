@@ -27,8 +27,11 @@ const middleware = postgraphile(
     enableCors: true,
     appendPlugins: [
       require('./plugins/mutations/CreateItemMutationPlugin'),
+      require('./plugins/mutations/DeleteItemMutationPlugin'),
       require('./plugins/mutations/RequestItemMutationPlugin'),
-      require('./plugins/mutations/ApproveInviteMutationPlugin')
+      require('./plugins/mutations/ApproveInviteMutationPlugin'),
+      require('./plugins/mutations/CreateCategoryMutationPlugin'),
+      require('./plugins/mutations/CreateAttributeMutationPlugin')
     ]
   }
 );

@@ -46,9 +46,21 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
             // create all the characteristics using the item id
             await Promise.all(
               args.input.attributes.map(async (attribute) => {
+                // create the option (regular text)
+                const {
+                  rows: [option],
+                } = await pgClient.query(
+                  `INSERT INTO everything.option( value, type ) VALUES ($1, $2) RETURNING *`,
+                  [attribute.initial_value, 'text']
+                );
                 await pgClient.query(
                   `INSERT INTO everything.item_characteristic(                item_id, attribute_id, option_id, initial_value              ) VALUES ($1, $2, $3, $4)              RETURNING *`,
-                  [item.id, attribute.attribute_id, 2, attribute.initial_value]
+                  [
+                    item.id,
+                    attribute.attribute_id,
+                    option.id,
+                    attribute.initial_value,
+                  ]
                 );
               })
             );
