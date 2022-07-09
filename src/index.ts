@@ -1,9 +1,11 @@
 #!/usr/bin/env -S npx ts-node
+
 const express = require('express');
 const { postgraphile } = require('postgraphile');
 const cors = require('cors');
 const pg = require('pg');
 const fs = require('fs');
+const config = require('./config.ts');
 
 require('dotenv').config()
 
@@ -21,11 +23,8 @@ const middleware = postgraphile(
   },
   process.env.SQL_DATABASE,
   {
-    watchPg: process.env.NODE_ENV !== 'production', // false in production
-    graphiql: true,
-    enhanceGraphiql: true,
-    enableCors: true,
-    appendPlugins: [
+    ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev), appendPlugins: [
+      // require("@graphile-contrib/pg-simplify-inflector"), TODO
       require('./plugins/mutations/CreateItemMutationPlugin'),
       require('./plugins/mutations/DeleteItemMutationPlugin'),
       require('./plugins/mutations/RequestItemMutationPlugin'),
@@ -37,7 +36,7 @@ const middleware = postgraphile(
 );
 
 const app = express();
-
+var whitelist = process.env.CORS_WHITE_LIST || ['http://localhost:3000', 'http://localhost:3010', 'http://localhost:3020', 'http://localhost:3030', 'http://localhost:3040'];
 app.use(cors({
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
