@@ -2,19 +2,19 @@
 begin;
 
 create schema everything;
--- do I want to create schema labels?
 create schema everything_private;
 
 create type everything.option_type as enum ('text', 'company', 'size');
 
-
+-- the id will match uid from firebase (is this text? var char?)
 create table everything.user (
-  id                serial primary key, -- uuid?
-  created_at        timestamp default now()
+  id                text not null, 
+  created_at        timestamp default now(),
+  primary key (id)
 );
 
 create table everything.invite (
-  phone_number       text not null check (char_length(phone_number) = 12),
+  phone_number       text not null, -- verify phone number? check (char_length(phone_number) = 12)?
   is_approved        boolean default false,
   primary key (phone_number)
 );
