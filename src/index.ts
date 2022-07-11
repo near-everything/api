@@ -36,7 +36,7 @@ const middleware = postgraphile(
   {
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
-      // require("@graphile-contrib/pg-simplify-inflector"), TODO
+      require("@graphile-contrib/pg-simplify-inflector"), 
       require('./plugins/mutations/CreateItemMutationPlugin'),
       require('./plugins/mutations/DeleteItemMutationPlugin'),
       require('./plugins/mutations/RequestItemMutationPlugin'),
@@ -46,7 +46,9 @@ const middleware = postgraphile(
     ],
     pgSettings: async (req) => {
       if (req.headers.authorization === undefined ) {
-        // Authorization not needed (pre-login)
+        return {
+          role: 'everything_anon'
+        }
       } else {
         const token = req.headers.authorization.split('Bearer ')[1];
         const decodedToken = await admin.auth().verifyIdToken(token);

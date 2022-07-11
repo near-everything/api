@@ -18,7 +18,7 @@ type Query implements Node {
   ): Node
 
   """Reads and enables pagination through a set of `Association`."""
-  allAssociations(
+  associations(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -47,7 +47,7 @@ type Query implements Node {
   ): AssociationsConnection
 
   """Reads and enables pagination through a set of `Attribute`."""
-  allAttributes(
+  attributes(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -76,7 +76,7 @@ type Query implements Node {
   ): AttributesConnection
 
   """Reads and enables pagination through a set of `Category`."""
-  allCategories(
+  categories(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -105,7 +105,7 @@ type Query implements Node {
   ): CategoriesConnection
 
   """Reads and enables pagination through a set of `Invite`."""
-  allInvites(
+  invites(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -134,7 +134,7 @@ type Query implements Node {
   ): InvitesConnection
 
   """Reads and enables pagination through a set of `Item`."""
-  allItems(
+  items(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -163,7 +163,7 @@ type Query implements Node {
   ): ItemsConnection
 
   """Reads and enables pagination through a set of `ItemCharacteristic`."""
-  allItemCharacteristics(
+  itemCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -192,7 +192,7 @@ type Query implements Node {
   ): ItemCharacteristicsConnection
 
   """Reads and enables pagination through a set of `Option`."""
-  allOptions(
+  options(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -221,7 +221,7 @@ type Query implements Node {
   ): OptionsConnection
 
   """Reads and enables pagination through a set of `Relationship`."""
-  allRelationships(
+  relationships(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -250,7 +250,7 @@ type Query implements Node {
   ): RelationshipsConnection
 
   """Reads and enables pagination through a set of `Request`."""
-  allRequests(
+  requests(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -279,7 +279,7 @@ type Query implements Node {
   ): RequestsConnection
 
   """Reads and enables pagination through a set of `RequestCharacteristic`."""
-  allRequestCharacteristics(
+  requestCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -308,7 +308,7 @@ type Query implements Node {
   ): RequestCharacteristicsConnection
 
   """Reads and enables pagination through a set of `Subcategory`."""
-  allSubcategories(
+  subcategories(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -337,7 +337,7 @@ type Query implements Node {
   ): SubcategoriesConnection
 
   """Reads and enables pagination through a set of `User`."""
-  allUsers(
+  users(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -364,24 +364,24 @@ type Query implements Node {
     """
     condition: UserCondition
   ): UsersConnection
-  associationBySubcategoryIdAndAttributeId(subcategoryId: Int!, attributeId: Int!): Association
-  attributeById(id: Int!): Attribute
+  association(subcategoryId: Int!, attributeId: Int!): Association
+  attribute(id: Int!): Attribute
   attributeByName(name: String!): Attribute
-  categoryById(id: Int!): Category
+  category(id: Int!): Category
   categoryByName(name: String!): Category
-  inviteByPhoneNumber(phoneNumber: String!): Invite
-  itemById(id: Int!): Item
-  itemCharacteristicByItemIdAndAttributeIdAndOptionId(itemId: Int!, attributeId: Int!, optionId: Int!): ItemCharacteristic
-  optionById(id: Int!): Option
-  relationshipByAttributeIdAndOptionId(attributeId: Int!, optionId: Int!): Relationship
-  requestById(id: Int!): Request
-  requestCharacteristicByRequestIdAndAttributeIdAndOptionId(requestId: Int!, attributeId: Int!, optionId: Int!): RequestCharacteristic
-  subcategoryById(id: Int!): Subcategory
+  invite(phoneNumber: String!): Invite
+  item(id: Int!): Item
+  itemCharacteristic(itemId: Int!, attributeId: Int!, optionId: Int!): ItemCharacteristic
+  option(id: Int!): Option
+  relationship(attributeId: Int!, optionId: Int!): Relationship
+  request(id: Int!): Request
+  requestCharacteristic(requestId: Int!, attributeId: Int!, optionId: Int!): RequestCharacteristic
+  subcategory(id: Int!): Subcategory
   subcategoryByName(name: String!): Subcategory
-  userById(id: Int!): User
+  user(id: Int!): User
 
   """Reads a single `Association` using its globally unique `ID`."""
-  association(
+  associationByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `Association`.
     """
@@ -389,31 +389,31 @@ type Query implements Node {
   ): Association
 
   """Reads a single `Attribute` using its globally unique `ID`."""
-  attribute(
+  attributeByNodeId(
     """The globally unique `ID` to be used in selecting a single `Attribute`."""
     nodeId: ID!
   ): Attribute
 
   """Reads a single `Category` using its globally unique `ID`."""
-  category(
+  categoryByNodeId(
     """The globally unique `ID` to be used in selecting a single `Category`."""
     nodeId: ID!
   ): Category
 
   """Reads a single `Invite` using its globally unique `ID`."""
-  invite(
+  inviteByNodeId(
     """The globally unique `ID` to be used in selecting a single `Invite`."""
     nodeId: ID!
   ): Invite
 
   """Reads a single `Item` using its globally unique `ID`."""
-  item(
+  itemByNodeId(
     """The globally unique `ID` to be used in selecting a single `Item`."""
     nodeId: ID!
   ): Item
 
   """Reads a single `ItemCharacteristic` using its globally unique `ID`."""
-  itemCharacteristic(
+  itemCharacteristicByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `ItemCharacteristic`.
     """
@@ -421,13 +421,13 @@ type Query implements Node {
   ): ItemCharacteristic
 
   """Reads a single `Option` using its globally unique `ID`."""
-  option(
+  optionByNodeId(
     """The globally unique `ID` to be used in selecting a single `Option`."""
     nodeId: ID!
   ): Option
 
   """Reads a single `Relationship` using its globally unique `ID`."""
-  relationship(
+  relationshipByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `Relationship`.
     """
@@ -435,13 +435,13 @@ type Query implements Node {
   ): Relationship
 
   """Reads a single `Request` using its globally unique `ID`."""
-  request(
+  requestByNodeId(
     """The globally unique `ID` to be used in selecting a single `Request`."""
     nodeId: ID!
   ): Request
 
   """Reads a single `RequestCharacteristic` using its globally unique `ID`."""
-  requestCharacteristic(
+  requestCharacteristicByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `RequestCharacteristic`.
     """
@@ -449,7 +449,7 @@ type Query implements Node {
   ): RequestCharacteristic
 
   """Reads a single `Subcategory` using its globally unique `ID`."""
-  subcategory(
+  subcategoryByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `Subcategory`.
     """
@@ -457,7 +457,7 @@ type Query implements Node {
   ): Subcategory
 
   """Reads a single `User` using its globally unique `ID`."""
-  user(
+  userByNodeId(
     """The globally unique `ID` to be used in selecting a single `User`."""
     nodeId: ID!
   ): User
@@ -498,10 +498,10 @@ type Association implements Node {
   createdAt: Datetime
 
   """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads a single `Attribute` that is related to this `Association`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 }
 
 """
@@ -522,10 +522,10 @@ type Subcategory implements Node {
   createdAt: Datetime
 
   """Reads a single `Category` that is related to this `Subcategory`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """Reads and enables pagination through a set of `Association`."""
-  associationsBySubcategoryId(
+  associations(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -554,7 +554,7 @@ type Subcategory implements Node {
   ): AssociationsConnection!
 
   """Reads and enables pagination through a set of `Item`."""
-  itemsBySubcategoryId(
+  items(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -583,7 +583,7 @@ type Subcategory implements Node {
   ): ItemsConnection!
 
   """Reads and enables pagination through a set of `Request`."""
-  requestsBySubcategoryId(
+  requests(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -623,7 +623,7 @@ type Category implements Node {
   createdAt: Datetime
 
   """Reads and enables pagination through a set of `Subcategory`."""
-  subcategoriesByCategoryId(
+  subcategories(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -652,7 +652,7 @@ type Category implements Node {
   ): SubcategoriesConnection!
 
   """Reads and enables pagination through a set of `Item`."""
-  itemsByCategoryId(
+  items(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -681,7 +681,7 @@ type Category implements Node {
   ): ItemsConnection!
 
   """Reads and enables pagination through a set of `Request`."""
-  requestsByCategoryId(
+  requests(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -823,13 +823,13 @@ type Item implements Node {
   media: [String]
 
   """Reads a single `Category` that is related to this `Item`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """Reads a single `Subcategory` that is related to this `Item`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads and enables pagination through a set of `ItemCharacteristic`."""
-  itemCharacteristicsByItemId(
+  itemCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -896,15 +896,15 @@ type ItemCharacteristic implements Node {
   isValidated: Boolean!
 
   """Reads a single `Item` that is related to this `ItemCharacteristic`."""
-  itemByItemId: Item
+  item: Item
 
   """
   Reads a single `Attribute` that is related to this `ItemCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `ItemCharacteristic`."""
-  optionByOptionId: Option
+  option: Option
 }
 
 type Attribute implements Node {
@@ -920,7 +920,7 @@ type Attribute implements Node {
   type: OptionType
 
   """Reads and enables pagination through a set of `Association`."""
-  associationsByAttributeId(
+  associations(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -949,7 +949,7 @@ type Attribute implements Node {
   ): AssociationsConnection!
 
   """Reads and enables pagination through a set of `Relationship`."""
-  relationshipsByAttributeId(
+  relationships(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -978,7 +978,7 @@ type Attribute implements Node {
   ): RelationshipsConnection!
 
   """Reads and enables pagination through a set of `ItemCharacteristic`."""
-  itemCharacteristicsByAttributeId(
+  itemCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1007,7 +1007,7 @@ type Attribute implements Node {
   ): ItemCharacteristicsConnection!
 
   """Reads and enables pagination through a set of `RequestCharacteristic`."""
-  requestCharacteristicsByAttributeId(
+  requestCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1097,10 +1097,10 @@ type Relationship implements Node {
   createdAt: Datetime
 
   """Reads a single `Attribute` that is related to this `Relationship`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `Relationship`."""
-  optionByOptionId: Option
+  option: Option
 }
 
 type Option implements Node {
@@ -1114,7 +1114,7 @@ type Option implements Node {
   type: OptionType
 
   """Reads and enables pagination through a set of `Relationship`."""
-  relationshipsByOptionId(
+  relationships(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1143,7 +1143,7 @@ type Option implements Node {
   ): RelationshipsConnection!
 
   """Reads and enables pagination through a set of `ItemCharacteristic`."""
-  itemCharacteristicsByOptionId(
+  itemCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1172,7 +1172,7 @@ type Option implements Node {
   ): ItemCharacteristicsConnection!
 
   """Reads and enables pagination through a set of `RequestCharacteristic`."""
-  requestCharacteristicsByOptionId(
+  requestCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1310,17 +1310,17 @@ type RequestCharacteristic implements Node {
   """
   Reads a single `Request` that is related to this `RequestCharacteristic`.
   """
-  requestByRequestId: Request
+  request: Request
 
   """
   Reads a single `Attribute` that is related to this `RequestCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """
   Reads a single `Option` that is related to this `RequestCharacteristic`.
   """
-  optionByOptionId: Option
+  option: Option
 }
 
 type Request implements Node {
@@ -1336,13 +1336,13 @@ type Request implements Node {
   createdAt: Datetime
 
   """Reads a single `Category` that is related to this `Request`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """Reads a single `Subcategory` that is related to this `Request`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads and enables pagination through a set of `RequestCharacteristic`."""
-  requestCharacteristicsByRequestId(
+  requestCharacteristics(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1940,6 +1940,14 @@ type Mutation {
   """
   Updates a single `Association` using its globally unique id and a patch.
   """
+  updateAssociationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAssociationByNodeIdInput!
+  ): UpdateAssociationPayload
+
+  """Updates a single `Association` using a unique key and a patch."""
   updateAssociation(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1947,28 +1955,20 @@ type Mutation {
     input: UpdateAssociationInput!
   ): UpdateAssociationPayload
 
-  """Updates a single `Association` using a unique key and a patch."""
-  updateAssociationBySubcategoryIdAndAttributeId(
+  """Updates a single `Attribute` using its globally unique id and a patch."""
+  updateAttributeByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateAssociationBySubcategoryIdAndAttributeIdInput!
-  ): UpdateAssociationPayload
+    input: UpdateAttributeByNodeIdInput!
+  ): UpdateAttributePayload
 
-  """Updates a single `Attribute` using its globally unique id and a patch."""
+  """Updates a single `Attribute` using a unique key and a patch."""
   updateAttribute(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateAttributeInput!
-  ): UpdateAttributePayload
-
-  """Updates a single `Attribute` using a unique key and a patch."""
-  updateAttributeById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAttributeByIdInput!
   ): UpdateAttributePayload
 
   """Updates a single `Attribute` using a unique key and a patch."""
@@ -1980,19 +1980,19 @@ type Mutation {
   ): UpdateAttributePayload
 
   """Updates a single `Category` using its globally unique id and a patch."""
+  updateCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryByNodeIdInput!
+  ): UpdateCategoryPayload
+
+  """Updates a single `Category` using a unique key and a patch."""
   updateCategory(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateCategoryInput!
-  ): UpdateCategoryPayload
-
-  """Updates a single `Category` using a unique key and a patch."""
-  updateCategoryById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCategoryByIdInput!
   ): UpdateCategoryPayload
 
   """Updates a single `Category` using a unique key and a patch."""
@@ -2004,6 +2004,14 @@ type Mutation {
   ): UpdateCategoryPayload
 
   """Updates a single `Invite` using its globally unique id and a patch."""
+  updateInviteByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateInviteByNodeIdInput!
+  ): UpdateInvitePayload
+
+  """Updates a single `Invite` using a unique key and a patch."""
   updateInvite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2011,17 +2019,17 @@ type Mutation {
     input: UpdateInviteInput!
   ): UpdateInvitePayload
 
-  """Updates a single `Invite` using a unique key and a patch."""
-  updateInviteByPhoneNumber(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateInviteByPhoneNumberInput!
-  ): UpdateInvitePayload
-
   """
   Updates a single `ItemCharacteristic` using its globally unique id and a patch.
   """
+  updateItemCharacteristicByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateItemCharacteristicByNodeIdInput!
+  ): UpdateItemCharacteristicPayload
+
+  """Updates a single `ItemCharacteristic` using a unique key and a patch."""
   updateItemCharacteristic(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2029,15 +2037,15 @@ type Mutation {
     input: UpdateItemCharacteristicInput!
   ): UpdateItemCharacteristicPayload
 
-  """Updates a single `ItemCharacteristic` using a unique key and a patch."""
-  updateItemCharacteristicByItemIdAndAttributeIdAndOptionId(
+  """Updates a single `Option` using its globally unique id and a patch."""
+  updateOptionByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateItemCharacteristicByItemIdAndAttributeIdAndOptionIdInput!
-  ): UpdateItemCharacteristicPayload
+    input: UpdateOptionByNodeIdInput!
+  ): UpdateOptionPayload
 
-  """Updates a single `Option` using its globally unique id and a patch."""
+  """Updates a single `Option` using a unique key and a patch."""
   updateOption(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2045,17 +2053,17 @@ type Mutation {
     input: UpdateOptionInput!
   ): UpdateOptionPayload
 
-  """Updates a single `Option` using a unique key and a patch."""
-  updateOptionById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateOptionByIdInput!
-  ): UpdateOptionPayload
-
   """
   Updates a single `Relationship` using its globally unique id and a patch.
   """
+  updateRelationshipByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRelationshipByNodeIdInput!
+  ): UpdateRelationshipPayload
+
+  """Updates a single `Relationship` using a unique key and a patch."""
   updateRelationship(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2063,16 +2071,18 @@ type Mutation {
     input: UpdateRelationshipInput!
   ): UpdateRelationshipPayload
 
-  """Updates a single `Relationship` using a unique key and a patch."""
-  updateRelationshipByAttributeIdAndOptionId(
+  """
+  Updates a single `RequestCharacteristic` using its globally unique id and a patch.
+  """
+  updateRequestCharacteristicByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRelationshipByAttributeIdAndOptionIdInput!
-  ): UpdateRelationshipPayload
+    input: UpdateRequestCharacteristicByNodeIdInput!
+  ): UpdateRequestCharacteristicPayload
 
   """
-  Updates a single `RequestCharacteristic` using its globally unique id and a patch.
+  Updates a single `RequestCharacteristic` using a unique key and a patch.
   """
   updateRequestCharacteristic(
     """
@@ -2082,31 +2092,21 @@ type Mutation {
   ): UpdateRequestCharacteristicPayload
 
   """
-  Updates a single `RequestCharacteristic` using a unique key and a patch.
+  Updates a single `Subcategory` using its globally unique id and a patch.
   """
-  updateRequestCharacteristicByRequestIdAndAttributeIdAndOptionId(
+  updateSubcategoryByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRequestCharacteristicByRequestIdAndAttributeIdAndOptionIdInput!
-  ): UpdateRequestCharacteristicPayload
+    input: UpdateSubcategoryByNodeIdInput!
+  ): UpdateSubcategoryPayload
 
-  """
-  Updates a single `Subcategory` using its globally unique id and a patch.
-  """
+  """Updates a single `Subcategory` using a unique key and a patch."""
   updateSubcategory(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateSubcategoryInput!
-  ): UpdateSubcategoryPayload
-
-  """Updates a single `Subcategory` using a unique key and a patch."""
-  updateSubcategoryById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSubcategoryByIdInput!
   ): UpdateSubcategoryPayload
 
   """Updates a single `Subcategory` using a unique key and a patch."""
@@ -2118,6 +2118,14 @@ type Mutation {
   ): UpdateSubcategoryPayload
 
   """Updates a single `User` using its globally unique id and a patch."""
+  updateUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByNodeIdInput!
+  ): UpdateUserPayload
+
+  """Updates a single `User` using a unique key and a patch."""
   updateUser(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2125,15 +2133,15 @@ type Mutation {
     input: UpdateUserInput!
   ): UpdateUserPayload
 
-  """Updates a single `User` using a unique key and a patch."""
-  updateUserById(
+  """Deletes a single `Association` using its globally unique id."""
+  deleteAssociationByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateUserByIdInput!
-  ): UpdateUserPayload
+    input: DeleteAssociationByNodeIdInput!
+  ): DeleteAssociationPayload
 
-  """Deletes a single `Association` using its globally unique id."""
+  """Deletes a single `Association` using a unique key."""
   deleteAssociation(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2141,28 +2149,20 @@ type Mutation {
     input: DeleteAssociationInput!
   ): DeleteAssociationPayload
 
-  """Deletes a single `Association` using a unique key."""
-  deleteAssociationBySubcategoryIdAndAttributeId(
+  """Deletes a single `Attribute` using its globally unique id."""
+  deleteAttributeByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteAssociationBySubcategoryIdAndAttributeIdInput!
-  ): DeleteAssociationPayload
+    input: DeleteAttributeByNodeIdInput!
+  ): DeleteAttributePayload
 
-  """Deletes a single `Attribute` using its globally unique id."""
+  """Deletes a single `Attribute` using a unique key."""
   deleteAttribute(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteAttributeInput!
-  ): DeleteAttributePayload
-
-  """Deletes a single `Attribute` using a unique key."""
-  deleteAttributeById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAttributeByIdInput!
   ): DeleteAttributePayload
 
   """Deletes a single `Attribute` using a unique key."""
@@ -2174,19 +2174,19 @@ type Mutation {
   ): DeleteAttributePayload
 
   """Deletes a single `Category` using its globally unique id."""
+  deleteCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNodeIdInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
   deleteCategory(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteCategoryInput!
-  ): DeleteCategoryPayload
-
-  """Deletes a single `Category` using a unique key."""
-  deleteCategoryById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCategoryByIdInput!
   ): DeleteCategoryPayload
 
   """Deletes a single `Category` using a unique key."""
@@ -2198,6 +2198,14 @@ type Mutation {
   ): DeleteCategoryPayload
 
   """Deletes a single `Invite` using its globally unique id."""
+  deleteInviteByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteInviteByNodeIdInput!
+  ): DeleteInvitePayload
+
+  """Deletes a single `Invite` using a unique key."""
   deleteInvite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2205,15 +2213,15 @@ type Mutation {
     input: DeleteInviteInput!
   ): DeleteInvitePayload
 
-  """Deletes a single `Invite` using a unique key."""
-  deleteInviteByPhoneNumber(
+  """Deletes a single `ItemCharacteristic` using its globally unique id."""
+  deleteItemCharacteristicByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteInviteByPhoneNumberInput!
-  ): DeleteInvitePayload
+    input: DeleteItemCharacteristicByNodeIdInput!
+  ): DeleteItemCharacteristicPayload
 
-  """Deletes a single `ItemCharacteristic` using its globally unique id."""
+  """Deletes a single `ItemCharacteristic` using a unique key."""
   deleteItemCharacteristic(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2221,15 +2229,15 @@ type Mutation {
     input: DeleteItemCharacteristicInput!
   ): DeleteItemCharacteristicPayload
 
-  """Deletes a single `ItemCharacteristic` using a unique key."""
-  deleteItemCharacteristicByItemIdAndAttributeIdAndOptionId(
+  """Deletes a single `Option` using its globally unique id."""
+  deleteOptionByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteItemCharacteristicByItemIdAndAttributeIdAndOptionIdInput!
-  ): DeleteItemCharacteristicPayload
+    input: DeleteOptionByNodeIdInput!
+  ): DeleteOptionPayload
 
-  """Deletes a single `Option` using its globally unique id."""
+  """Deletes a single `Option` using a unique key."""
   deleteOption(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2237,15 +2245,15 @@ type Mutation {
     input: DeleteOptionInput!
   ): DeleteOptionPayload
 
-  """Deletes a single `Option` using a unique key."""
-  deleteOptionById(
+  """Deletes a single `Relationship` using its globally unique id."""
+  deleteRelationshipByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteOptionByIdInput!
-  ): DeleteOptionPayload
+    input: DeleteRelationshipByNodeIdInput!
+  ): DeleteRelationshipPayload
 
-  """Deletes a single `Relationship` using its globally unique id."""
+  """Deletes a single `Relationship` using a unique key."""
   deleteRelationship(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2253,15 +2261,15 @@ type Mutation {
     input: DeleteRelationshipInput!
   ): DeleteRelationshipPayload
 
-  """Deletes a single `Relationship` using a unique key."""
-  deleteRelationshipByAttributeIdAndOptionId(
+  """Deletes a single `Request` using its globally unique id."""
+  deleteRequestByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRelationshipByAttributeIdAndOptionIdInput!
-  ): DeleteRelationshipPayload
+    input: DeleteRequestByNodeIdInput!
+  ): DeleteRequestPayload
 
-  """Deletes a single `Request` using its globally unique id."""
+  """Deletes a single `Request` using a unique key."""
   deleteRequest(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2269,15 +2277,15 @@ type Mutation {
     input: DeleteRequestInput!
   ): DeleteRequestPayload
 
-  """Deletes a single `Request` using a unique key."""
-  deleteRequestById(
+  """Deletes a single `RequestCharacteristic` using its globally unique id."""
+  deleteRequestCharacteristicByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRequestByIdInput!
-  ): DeleteRequestPayload
+    input: DeleteRequestCharacteristicByNodeIdInput!
+  ): DeleteRequestCharacteristicPayload
 
-  """Deletes a single `RequestCharacteristic` using its globally unique id."""
+  """Deletes a single `RequestCharacteristic` using a unique key."""
   deleteRequestCharacteristic(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2285,28 +2293,20 @@ type Mutation {
     input: DeleteRequestCharacteristicInput!
   ): DeleteRequestCharacteristicPayload
 
-  """Deletes a single `RequestCharacteristic` using a unique key."""
-  deleteRequestCharacteristicByRequestIdAndAttributeIdAndOptionId(
+  """Deletes a single `Subcategory` using its globally unique id."""
+  deleteSubcategoryByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRequestCharacteristicByRequestIdAndAttributeIdAndOptionIdInput!
-  ): DeleteRequestCharacteristicPayload
+    input: DeleteSubcategoryByNodeIdInput!
+  ): DeleteSubcategoryPayload
 
-  """Deletes a single `Subcategory` using its globally unique id."""
+  """Deletes a single `Subcategory` using a unique key."""
   deleteSubcategory(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteSubcategoryInput!
-  ): DeleteSubcategoryPayload
-
-  """Deletes a single `Subcategory` using a unique key."""
-  deleteSubcategoryById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSubcategoryByIdInput!
   ): DeleteSubcategoryPayload
 
   """Deletes a single `Subcategory` using a unique key."""
@@ -2318,19 +2318,19 @@ type Mutation {
   ): DeleteSubcategoryPayload
 
   """Deletes a single `User` using its globally unique id."""
+  deleteUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByNodeIdInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
   deleteUser(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteUserInput!
-  ): DeleteUserPayload
-
-  """Deletes a single `User` using a unique key."""
-  deleteUserById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUserByIdInput!
   ): DeleteUserPayload
   createItem(
     """
@@ -2387,10 +2387,10 @@ type CreateAssociationPayload {
   query: Query
 
   """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads a single `Attribute` that is related to this `Association`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """An edge for our `Association`. May be used by Relay 1."""
   associationEdge(
@@ -2476,15 +2476,15 @@ type CreateItemCharacteristicPayload {
   query: Query
 
   """Reads a single `Item` that is related to this `ItemCharacteristic`."""
-  itemByItemId: Item
+  item: Item
 
   """
   Reads a single `Attribute` that is related to this `ItemCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `ItemCharacteristic`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `ItemCharacteristic`. May be used by Relay 1."""
   itemCharacteristicEdge(
@@ -2576,10 +2576,10 @@ type CreateRelationshipPayload {
   query: Query
 
   """Reads a single `Attribute` that is related to this `Relationship`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `Relationship`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `Relationship`. May be used by Relay 1."""
   relationshipEdge(
@@ -2626,17 +2626,17 @@ type CreateRequestCharacteristicPayload {
   """
   Reads a single `Request` that is related to this `RequestCharacteristic`.
   """
-  requestByRequestId: Request
+  request: Request
 
   """
   Reads a single `Attribute` that is related to this `RequestCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """
   Reads a single `Option` that is related to this `RequestCharacteristic`.
   """
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `RequestCharacteristic`. May be used by Relay 1."""
   requestCharacteristicEdge(
@@ -2683,7 +2683,7 @@ type CreateSubcategoryPayload {
   query: Query
 
   """Reads a single `Category` that is related to this `Subcategory`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """An edge for our `Subcategory`. May be used by Relay 1."""
   subcategoryEdge(
@@ -2771,10 +2771,10 @@ type UpdateAssociationPayload {
   query: Query
 
   """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads a single `Attribute` that is related to this `Association`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """An edge for our `Association`. May be used by Relay 1."""
   associationEdge(
@@ -2783,8 +2783,8 @@ type UpdateAssociationPayload {
   ): AssociationsEdge
 }
 
-"""All input for the `updateAssociation` mutation."""
-input UpdateAssociationInput {
+"""All input for the `updateAssociationByNodeId` mutation."""
+input UpdateAssociationByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2799,7 +2799,7 @@ input UpdateAssociationInput {
   """
   An object where the defined keys will be set on the `Association` being updated.
   """
-  associationPatch: AssociationPatch!
+  patch: AssociationPatch!
 }
 
 """
@@ -2811,10 +2811,8 @@ input AssociationPatch {
   createdAt: Datetime
 }
 
-"""
-All input for the `updateAssociationBySubcategoryIdAndAttributeId` mutation.
-"""
-input UpdateAssociationBySubcategoryIdAndAttributeIdInput {
+"""All input for the `updateAssociation` mutation."""
+input UpdateAssociationInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2824,7 +2822,7 @@ input UpdateAssociationBySubcategoryIdAndAttributeIdInput {
   """
   An object where the defined keys will be set on the `Association` being updated.
   """
-  associationPatch: AssociationPatch!
+  patch: AssociationPatch!
   subcategoryId: Int!
   attributeId: Int!
 }
@@ -2852,8 +2850,8 @@ type UpdateAttributePayload {
   ): AttributesEdge
 }
 
-"""All input for the `updateAttribute` mutation."""
-input UpdateAttributeInput {
+"""All input for the `updateAttributeByNodeId` mutation."""
+input UpdateAttributeByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2868,7 +2866,7 @@ input UpdateAttributeInput {
   """
   An object where the defined keys will be set on the `Attribute` being updated.
   """
-  attributePatch: AttributePatch!
+  patch: AttributePatch!
 }
 
 """
@@ -2883,8 +2881,8 @@ input AttributePatch {
   type: OptionType
 }
 
-"""All input for the `updateAttributeById` mutation."""
-input UpdateAttributeByIdInput {
+"""All input for the `updateAttribute` mutation."""
+input UpdateAttributeInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2894,7 +2892,7 @@ input UpdateAttributeByIdInput {
   """
   An object where the defined keys will be set on the `Attribute` being updated.
   """
-  attributePatch: AttributePatch!
+  patch: AttributePatch!
   id: Int!
 }
 
@@ -2909,7 +2907,7 @@ input UpdateAttributeByNameInput {
   """
   An object where the defined keys will be set on the `Attribute` being updated.
   """
-  attributePatch: AttributePatch!
+  patch: AttributePatch!
   name: String!
 }
 
@@ -2936,8 +2934,8 @@ type UpdateCategoryPayload {
   ): CategoriesEdge
 }
 
-"""All input for the `updateCategory` mutation."""
-input UpdateCategoryInput {
+"""All input for the `updateCategoryByNodeId` mutation."""
+input UpdateCategoryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2952,7 +2950,7 @@ input UpdateCategoryInput {
   """
   An object where the defined keys will be set on the `Category` being updated.
   """
-  categoryPatch: CategoryPatch!
+  patch: CategoryPatch!
 }
 
 """
@@ -2965,8 +2963,8 @@ input CategoryPatch {
   createdAt: Datetime
 }
 
-"""All input for the `updateCategoryById` mutation."""
-input UpdateCategoryByIdInput {
+"""All input for the `updateCategory` mutation."""
+input UpdateCategoryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2976,7 +2974,7 @@ input UpdateCategoryByIdInput {
   """
   An object where the defined keys will be set on the `Category` being updated.
   """
-  categoryPatch: CategoryPatch!
+  patch: CategoryPatch!
   id: Int!
 }
 
@@ -2991,7 +2989,7 @@ input UpdateCategoryByNameInput {
   """
   An object where the defined keys will be set on the `Category` being updated.
   """
-  categoryPatch: CategoryPatch!
+  patch: CategoryPatch!
   name: String!
 }
 
@@ -3018,8 +3016,8 @@ type UpdateInvitePayload {
   ): InvitesEdge
 }
 
-"""All input for the `updateInvite` mutation."""
-input UpdateInviteInput {
+"""All input for the `updateInviteByNodeId` mutation."""
+input UpdateInviteByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3034,7 +3032,7 @@ input UpdateInviteInput {
   """
   An object where the defined keys will be set on the `Invite` being updated.
   """
-  invitePatch: InvitePatch!
+  patch: InvitePatch!
 }
 
 """
@@ -3045,8 +3043,8 @@ input InvitePatch {
   isApproved: Boolean
 }
 
-"""All input for the `updateInviteByPhoneNumber` mutation."""
-input UpdateInviteByPhoneNumberInput {
+"""All input for the `updateInvite` mutation."""
+input UpdateInviteInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3056,7 +3054,7 @@ input UpdateInviteByPhoneNumberInput {
   """
   An object where the defined keys will be set on the `Invite` being updated.
   """
-  invitePatch: InvitePatch!
+  patch: InvitePatch!
   phoneNumber: String!
 }
 
@@ -3077,15 +3075,15 @@ type UpdateItemCharacteristicPayload {
   query: Query
 
   """Reads a single `Item` that is related to this `ItemCharacteristic`."""
-  itemByItemId: Item
+  item: Item
 
   """
   Reads a single `Attribute` that is related to this `ItemCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `ItemCharacteristic`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `ItemCharacteristic`. May be used by Relay 1."""
   itemCharacteristicEdge(
@@ -3094,8 +3092,8 @@ type UpdateItemCharacteristicPayload {
   ): ItemCharacteristicsEdge
 }
 
-"""All input for the `updateItemCharacteristic` mutation."""
-input UpdateItemCharacteristicInput {
+"""All input for the `updateItemCharacteristicByNodeId` mutation."""
+input UpdateItemCharacteristicByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3110,7 +3108,7 @@ input UpdateItemCharacteristicInput {
   """
   An object where the defined keys will be set on the `ItemCharacteristic` being updated.
   """
-  itemCharacteristicPatch: ItemCharacteristicPatch!
+  patch: ItemCharacteristicPatch!
 }
 
 """
@@ -3126,10 +3124,8 @@ input ItemCharacteristicPatch {
   isValidated: Boolean
 }
 
-"""
-All input for the `updateItemCharacteristicByItemIdAndAttributeIdAndOptionId` mutation.
-"""
-input UpdateItemCharacteristicByItemIdAndAttributeIdAndOptionIdInput {
+"""All input for the `updateItemCharacteristic` mutation."""
+input UpdateItemCharacteristicInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3139,7 +3135,7 @@ input UpdateItemCharacteristicByItemIdAndAttributeIdAndOptionIdInput {
   """
   An object where the defined keys will be set on the `ItemCharacteristic` being updated.
   """
-  itemCharacteristicPatch: ItemCharacteristicPatch!
+  patch: ItemCharacteristicPatch!
   itemId: Int!
   attributeId: Int!
   optionId: Int!
@@ -3168,8 +3164,8 @@ type UpdateOptionPayload {
   ): OptionsEdge
 }
 
-"""All input for the `updateOption` mutation."""
-input UpdateOptionInput {
+"""All input for the `updateOptionByNodeId` mutation."""
+input UpdateOptionByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3184,7 +3180,7 @@ input UpdateOptionInput {
   """
   An object where the defined keys will be set on the `Option` being updated.
   """
-  optionPatch: OptionPatch!
+  patch: OptionPatch!
 }
 
 """
@@ -3197,8 +3193,8 @@ input OptionPatch {
   type: OptionType
 }
 
-"""All input for the `updateOptionById` mutation."""
-input UpdateOptionByIdInput {
+"""All input for the `updateOption` mutation."""
+input UpdateOptionInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3208,7 +3204,7 @@ input UpdateOptionByIdInput {
   """
   An object where the defined keys will be set on the `Option` being updated.
   """
-  optionPatch: OptionPatch!
+  patch: OptionPatch!
   id: Int!
 }
 
@@ -3229,10 +3225,10 @@ type UpdateRelationshipPayload {
   query: Query
 
   """Reads a single `Attribute` that is related to this `Relationship`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `Relationship`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `Relationship`. May be used by Relay 1."""
   relationshipEdge(
@@ -3241,8 +3237,8 @@ type UpdateRelationshipPayload {
   ): RelationshipsEdge
 }
 
-"""All input for the `updateRelationship` mutation."""
-input UpdateRelationshipInput {
+"""All input for the `updateRelationshipByNodeId` mutation."""
+input UpdateRelationshipByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3257,7 +3253,7 @@ input UpdateRelationshipInput {
   """
   An object where the defined keys will be set on the `Relationship` being updated.
   """
-  relationshipPatch: RelationshipPatch!
+  patch: RelationshipPatch!
 }
 
 """
@@ -3269,10 +3265,8 @@ input RelationshipPatch {
   createdAt: Datetime
 }
 
-"""
-All input for the `updateRelationshipByAttributeIdAndOptionId` mutation.
-"""
-input UpdateRelationshipByAttributeIdAndOptionIdInput {
+"""All input for the `updateRelationship` mutation."""
+input UpdateRelationshipInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3282,7 +3276,7 @@ input UpdateRelationshipByAttributeIdAndOptionIdInput {
   """
   An object where the defined keys will be set on the `Relationship` being updated.
   """
-  relationshipPatch: RelationshipPatch!
+  patch: RelationshipPatch!
   attributeId: Int!
   optionId: Int!
 }
@@ -3306,17 +3300,17 @@ type UpdateRequestCharacteristicPayload {
   """
   Reads a single `Request` that is related to this `RequestCharacteristic`.
   """
-  requestByRequestId: Request
+  request: Request
 
   """
   Reads a single `Attribute` that is related to this `RequestCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """
   Reads a single `Option` that is related to this `RequestCharacteristic`.
   """
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `RequestCharacteristic`. May be used by Relay 1."""
   requestCharacteristicEdge(
@@ -3325,8 +3319,8 @@ type UpdateRequestCharacteristicPayload {
   ): RequestCharacteristicsEdge
 }
 
-"""All input for the `updateRequestCharacteristic` mutation."""
-input UpdateRequestCharacteristicInput {
+"""All input for the `updateRequestCharacteristicByNodeId` mutation."""
+input UpdateRequestCharacteristicByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3341,7 +3335,7 @@ input UpdateRequestCharacteristicInput {
   """
   An object where the defined keys will be set on the `RequestCharacteristic` being updated.
   """
-  requestCharacteristicPatch: RequestCharacteristicPatch!
+  patch: RequestCharacteristicPatch!
 }
 
 """
@@ -3355,10 +3349,8 @@ input RequestCharacteristicPatch {
   createdAt: Datetime
 }
 
-"""
-All input for the `updateRequestCharacteristicByRequestIdAndAttributeIdAndOptionId` mutation.
-"""
-input UpdateRequestCharacteristicByRequestIdAndAttributeIdAndOptionIdInput {
+"""All input for the `updateRequestCharacteristic` mutation."""
+input UpdateRequestCharacteristicInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3368,7 +3360,7 @@ input UpdateRequestCharacteristicByRequestIdAndAttributeIdAndOptionIdInput {
   """
   An object where the defined keys will be set on the `RequestCharacteristic` being updated.
   """
-  requestCharacteristicPatch: RequestCharacteristicPatch!
+  patch: RequestCharacteristicPatch!
   requestId: Int!
   attributeId: Int!
   optionId: Int!
@@ -3391,7 +3383,7 @@ type UpdateSubcategoryPayload {
   query: Query
 
   """Reads a single `Category` that is related to this `Subcategory`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """An edge for our `Subcategory`. May be used by Relay 1."""
   subcategoryEdge(
@@ -3400,8 +3392,8 @@ type UpdateSubcategoryPayload {
   ): SubcategoriesEdge
 }
 
-"""All input for the `updateSubcategory` mutation."""
-input UpdateSubcategoryInput {
+"""All input for the `updateSubcategoryByNodeId` mutation."""
+input UpdateSubcategoryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3416,7 +3408,7 @@ input UpdateSubcategoryInput {
   """
   An object where the defined keys will be set on the `Subcategory` being updated.
   """
-  subcategoryPatch: SubcategoryPatch!
+  patch: SubcategoryPatch!
 }
 
 """
@@ -3430,8 +3422,8 @@ input SubcategoryPatch {
   createdAt: Datetime
 }
 
-"""All input for the `updateSubcategoryById` mutation."""
-input UpdateSubcategoryByIdInput {
+"""All input for the `updateSubcategory` mutation."""
+input UpdateSubcategoryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3441,7 +3433,7 @@ input UpdateSubcategoryByIdInput {
   """
   An object where the defined keys will be set on the `Subcategory` being updated.
   """
-  subcategoryPatch: SubcategoryPatch!
+  patch: SubcategoryPatch!
   id: Int!
 }
 
@@ -3456,7 +3448,7 @@ input UpdateSubcategoryByNameInput {
   """
   An object where the defined keys will be set on the `Subcategory` being updated.
   """
-  subcategoryPatch: SubcategoryPatch!
+  patch: SubcategoryPatch!
   name: String!
 }
 
@@ -3483,8 +3475,8 @@ type UpdateUserPayload {
   ): UsersEdge
 }
 
-"""All input for the `updateUser` mutation."""
-input UpdateUserInput {
+"""All input for the `updateUserByNodeId` mutation."""
+input UpdateUserByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3499,7 +3491,7 @@ input UpdateUserInput {
   """
   An object where the defined keys will be set on the `User` being updated.
   """
-  userPatch: UserPatch!
+  patch: UserPatch!
 }
 
 """Represents an update to a `User`. Fields that are set will be updated."""
@@ -3508,8 +3500,8 @@ input UserPatch {
   createdAt: Datetime
 }
 
-"""All input for the `updateUserById` mutation."""
-input UpdateUserByIdInput {
+"""All input for the `updateUser` mutation."""
+input UpdateUserInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3519,7 +3511,7 @@ input UpdateUserByIdInput {
   """
   An object where the defined keys will be set on the `User` being updated.
   """
-  userPatch: UserPatch!
+  patch: UserPatch!
   id: Int!
 }
 
@@ -3533,7 +3525,7 @@ type DeleteAssociationPayload {
 
   """The `Association` that was deleted by this mutation."""
   association: Association
-  deletedAssociationId: ID
+  deletedAssociationNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3541,10 +3533,10 @@ type DeleteAssociationPayload {
   query: Query
 
   """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """Reads a single `Attribute` that is related to this `Association`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """An edge for our `Association`. May be used by Relay 1."""
   associationEdge(
@@ -3553,8 +3545,8 @@ type DeleteAssociationPayload {
   ): AssociationsEdge
 }
 
-"""All input for the `deleteAssociation` mutation."""
-input DeleteAssociationInput {
+"""All input for the `deleteAssociationByNodeId` mutation."""
+input DeleteAssociationByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3567,10 +3559,8 @@ input DeleteAssociationInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteAssociationBySubcategoryIdAndAttributeId` mutation.
-"""
-input DeleteAssociationBySubcategoryIdAndAttributeIdInput {
+"""All input for the `deleteAssociation` mutation."""
+input DeleteAssociationInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3590,7 +3580,7 @@ type DeleteAttributePayload {
 
   """The `Attribute` that was deleted by this mutation."""
   attribute: Attribute
-  deletedAttributeId: ID
+  deletedAttributeNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3604,8 +3594,8 @@ type DeleteAttributePayload {
   ): AttributesEdge
 }
 
-"""All input for the `deleteAttribute` mutation."""
-input DeleteAttributeInput {
+"""All input for the `deleteAttributeByNodeId` mutation."""
+input DeleteAttributeByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3618,8 +3608,8 @@ input DeleteAttributeInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteAttributeById` mutation."""
-input DeleteAttributeByIdInput {
+"""All input for the `deleteAttribute` mutation."""
+input DeleteAttributeInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3648,7 +3638,7 @@ type DeleteCategoryPayload {
 
   """The `Category` that was deleted by this mutation."""
   category: Category
-  deletedCategoryId: ID
+  deletedCategoryNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3662,8 +3652,8 @@ type DeleteCategoryPayload {
   ): CategoriesEdge
 }
 
-"""All input for the `deleteCategory` mutation."""
-input DeleteCategoryInput {
+"""All input for the `deleteCategoryByNodeId` mutation."""
+input DeleteCategoryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3676,8 +3666,8 @@ input DeleteCategoryInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteCategoryById` mutation."""
-input DeleteCategoryByIdInput {
+"""All input for the `deleteCategory` mutation."""
+input DeleteCategoryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3706,7 +3696,7 @@ type DeleteInvitePayload {
 
   """The `Invite` that was deleted by this mutation."""
   invite: Invite
-  deletedInviteId: ID
+  deletedInviteNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3720,8 +3710,8 @@ type DeleteInvitePayload {
   ): InvitesEdge
 }
 
-"""All input for the `deleteInvite` mutation."""
-input DeleteInviteInput {
+"""All input for the `deleteInviteByNodeId` mutation."""
+input DeleteInviteByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3734,8 +3724,8 @@ input DeleteInviteInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteInviteByPhoneNumber` mutation."""
-input DeleteInviteByPhoneNumberInput {
+"""All input for the `deleteInvite` mutation."""
+input DeleteInviteInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3754,7 +3744,7 @@ type DeleteItemCharacteristicPayload {
 
   """The `ItemCharacteristic` that was deleted by this mutation."""
   itemCharacteristic: ItemCharacteristic
-  deletedItemCharacteristicId: ID
+  deletedItemCharacteristicNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3762,15 +3752,15 @@ type DeleteItemCharacteristicPayload {
   query: Query
 
   """Reads a single `Item` that is related to this `ItemCharacteristic`."""
-  itemByItemId: Item
+  item: Item
 
   """
   Reads a single `Attribute` that is related to this `ItemCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `ItemCharacteristic`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `ItemCharacteristic`. May be used by Relay 1."""
   itemCharacteristicEdge(
@@ -3779,8 +3769,8 @@ type DeleteItemCharacteristicPayload {
   ): ItemCharacteristicsEdge
 }
 
-"""All input for the `deleteItemCharacteristic` mutation."""
-input DeleteItemCharacteristicInput {
+"""All input for the `deleteItemCharacteristicByNodeId` mutation."""
+input DeleteItemCharacteristicByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3793,10 +3783,8 @@ input DeleteItemCharacteristicInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteItemCharacteristicByItemIdAndAttributeIdAndOptionId` mutation.
-"""
-input DeleteItemCharacteristicByItemIdAndAttributeIdAndOptionIdInput {
+"""All input for the `deleteItemCharacteristic` mutation."""
+input DeleteItemCharacteristicInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3817,7 +3805,7 @@ type DeleteOptionPayload {
 
   """The `Option` that was deleted by this mutation."""
   option: Option
-  deletedOptionId: ID
+  deletedOptionNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3831,8 +3819,8 @@ type DeleteOptionPayload {
   ): OptionsEdge
 }
 
-"""All input for the `deleteOption` mutation."""
-input DeleteOptionInput {
+"""All input for the `deleteOptionByNodeId` mutation."""
+input DeleteOptionByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3845,8 +3833,8 @@ input DeleteOptionInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteOptionById` mutation."""
-input DeleteOptionByIdInput {
+"""All input for the `deleteOption` mutation."""
+input DeleteOptionInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3865,7 +3853,7 @@ type DeleteRelationshipPayload {
 
   """The `Relationship` that was deleted by this mutation."""
   relationship: Relationship
-  deletedRelationshipId: ID
+  deletedRelationshipNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3873,10 +3861,10 @@ type DeleteRelationshipPayload {
   query: Query
 
   """Reads a single `Attribute` that is related to this `Relationship`."""
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """Reads a single `Option` that is related to this `Relationship`."""
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `Relationship`. May be used by Relay 1."""
   relationshipEdge(
@@ -3885,8 +3873,8 @@ type DeleteRelationshipPayload {
   ): RelationshipsEdge
 }
 
-"""All input for the `deleteRelationship` mutation."""
-input DeleteRelationshipInput {
+"""All input for the `deleteRelationshipByNodeId` mutation."""
+input DeleteRelationshipByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3899,10 +3887,8 @@ input DeleteRelationshipInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteRelationshipByAttributeIdAndOptionId` mutation.
-"""
-input DeleteRelationshipByAttributeIdAndOptionIdInput {
+"""All input for the `deleteRelationship` mutation."""
+input DeleteRelationshipInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3922,7 +3908,7 @@ type DeleteRequestPayload {
 
   """The `Request` that was deleted by this mutation."""
   request: Request
-  deletedRequestId: ID
+  deletedRequestNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3930,10 +3916,10 @@ type DeleteRequestPayload {
   query: Query
 
   """Reads a single `Category` that is related to this `Request`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """Reads a single `Subcategory` that is related to this `Request`."""
-  subcategoryBySubcategoryId: Subcategory
+  subcategory: Subcategory
 
   """An edge for our `Request`. May be used by Relay 1."""
   requestEdge(
@@ -3942,8 +3928,8 @@ type DeleteRequestPayload {
   ): RequestsEdge
 }
 
-"""All input for the `deleteRequest` mutation."""
-input DeleteRequestInput {
+"""All input for the `deleteRequestByNodeId` mutation."""
+input DeleteRequestByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3956,8 +3942,8 @@ input DeleteRequestInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteRequestById` mutation."""
-input DeleteRequestByIdInput {
+"""All input for the `deleteRequest` mutation."""
+input DeleteRequestInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3976,7 +3962,7 @@ type DeleteRequestCharacteristicPayload {
 
   """The `RequestCharacteristic` that was deleted by this mutation."""
   requestCharacteristic: RequestCharacteristic
-  deletedRequestCharacteristicId: ID
+  deletedRequestCharacteristicNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3986,17 +3972,17 @@ type DeleteRequestCharacteristicPayload {
   """
   Reads a single `Request` that is related to this `RequestCharacteristic`.
   """
-  requestByRequestId: Request
+  request: Request
 
   """
   Reads a single `Attribute` that is related to this `RequestCharacteristic`.
   """
-  attributeByAttributeId: Attribute
+  attribute: Attribute
 
   """
   Reads a single `Option` that is related to this `RequestCharacteristic`.
   """
-  optionByOptionId: Option
+  option: Option
 
   """An edge for our `RequestCharacteristic`. May be used by Relay 1."""
   requestCharacteristicEdge(
@@ -4005,8 +3991,8 @@ type DeleteRequestCharacteristicPayload {
   ): RequestCharacteristicsEdge
 }
 
-"""All input for the `deleteRequestCharacteristic` mutation."""
-input DeleteRequestCharacteristicInput {
+"""All input for the `deleteRequestCharacteristicByNodeId` mutation."""
+input DeleteRequestCharacteristicByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4019,10 +4005,8 @@ input DeleteRequestCharacteristicInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteRequestCharacteristicByRequestIdAndAttributeIdAndOptionId` mutation.
-"""
-input DeleteRequestCharacteristicByRequestIdAndAttributeIdAndOptionIdInput {
+"""All input for the `deleteRequestCharacteristic` mutation."""
+input DeleteRequestCharacteristicInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4043,7 +4027,7 @@ type DeleteSubcategoryPayload {
 
   """The `Subcategory` that was deleted by this mutation."""
   subcategory: Subcategory
-  deletedSubcategoryId: ID
+  deletedSubcategoryNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -4051,7 +4035,7 @@ type DeleteSubcategoryPayload {
   query: Query
 
   """Reads a single `Category` that is related to this `Subcategory`."""
-  categoryByCategoryId: Category
+  category: Category
 
   """An edge for our `Subcategory`. May be used by Relay 1."""
   subcategoryEdge(
@@ -4060,8 +4044,8 @@ type DeleteSubcategoryPayload {
   ): SubcategoriesEdge
 }
 
-"""All input for the `deleteSubcategory` mutation."""
-input DeleteSubcategoryInput {
+"""All input for the `deleteSubcategoryByNodeId` mutation."""
+input DeleteSubcategoryByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4074,8 +4058,8 @@ input DeleteSubcategoryInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteSubcategoryById` mutation."""
-input DeleteSubcategoryByIdInput {
+"""All input for the `deleteSubcategory` mutation."""
+input DeleteSubcategoryInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4104,7 +4088,7 @@ type DeleteUserPayload {
 
   """The `User` that was deleted by this mutation."""
   user: User
-  deletedUserId: ID
+  deletedUserNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -4118,8 +4102,8 @@ type DeleteUserPayload {
   ): UsersEdge
 }
 
-"""All input for the `deleteUser` mutation."""
-input DeleteUserInput {
+"""All input for the `deleteUserByNodeId` mutation."""
+input DeleteUserByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4132,8 +4116,8 @@ input DeleteUserInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteUserById` mutation."""
-input DeleteUserByIdInput {
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
