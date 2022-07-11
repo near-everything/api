@@ -7,8 +7,10 @@ const pg = require('pg');
 const fs = require('fs');
 const config = require('./config.ts');
 
+// Load .env variables
 require('dotenv').config()
 
+// Describe postgraphile connection and configurations
 const middleware = postgraphile(
   {
     user: process.env.SQL_USERNAME,
@@ -23,7 +25,8 @@ const middleware = postgraphile(
   },
   process.env.SQL_DATABASE,
   {
-    ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev), appendPlugins: [
+    ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
+    appendPlugins: [
       // require("@graphile-contrib/pg-simplify-inflector"), TODO
       require('./plugins/mutations/CreateItemMutationPlugin'),
       require('./plugins/mutations/DeleteItemMutationPlugin'),
@@ -35,8 +38,10 @@ const middleware = postgraphile(
   }
 );
 
+// Instantiate express app
 const app = express();
-var whitelist = process.env.CORS_WHITE_LIST || ['http://localhost:3000', 'http://localhost:3010', 'http://localhost:3020', 'http://localhost:3030', 'http://localhost:3040'];
+
+// Enable CORS from all origins 
 app.use(cors({
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -47,9 +52,10 @@ app.use(cors({
 // Postgraphile must be the last middleware used
 app.use(middleware);
 
-const server = app.listen(process.env.PORT || 3000, () => {
+// Start server
+const server = app.listen(process.env.PORT || 4050, () => {
   if (process.env.NODE_ENV === 'production') {
-    console.log("Nice")
+    console.log("everything api started and listening")
   } else {
     const address = server.address();
     if (typeof address !== 'string') {
