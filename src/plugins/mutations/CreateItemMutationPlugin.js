@@ -5,15 +5,18 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
   return {
     typeDefs: gql`
       input NewAttributeInput {
-        attribute_id: Int!
-        initial_value: String!
+        attributeId: Int!
+        initialValue: String!
       }
 
       input CreateItemInput {
-        category_id: Int!
-        subcategory_id: Int!
+        categoryId: Int!
+        subcategoryId: Int!
         attributes: [NewAttributeInput!]!
         media: [String!]!
+        ownerId: String!,
+        quantity: Int,
+        isRequest: Boolean
       }
 
       type CreateItemPayload {
@@ -36,11 +39,14 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [item],
             } = await pgClient.query(
-              `INSERT INTO everything.item(                category_id, subcategory_id, media              ) VALUES ($1, $2, $3)              RETURNING *`,
+              `INSERT INTO everything.item(                category_id, subcategory_id, owner_id, media, quantity, is_request              ) VALUES ($1, $2, $3, $4, $5, $6)              RETURNING *`,
               [
-                args.input.category_id,
-                args.input.subcategory_id,
+                args.input.categoryId,
+                args.input.subcategoryId,
+                args.input.ownerId,
                 args.input.media,
+                args.input.quantity || 1,
+                args.input.isRequest || false,
               ]
             );
             // create all the characteristics using the item id
@@ -51,15 +57,15 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
                   rows: [option],
                 } = await pgClient.query(
                   `INSERT INTO everything.option( value, type ) VALUES ($1, $2) RETURNING *`,
-                  [attribute.initial_value, 'text']
+                  [attribute.initialValue, 'text']
                 );
                 await pgClient.query(
-                  `INSERT INTO everything.item_characteristic(                item_id, attribute_id, option_id, initial_value              ) VALUES ($1, $2, $3, $4)              RETURNING *`,
+                  `INSERT INTO everything.characteristic(                item_id, attribute_id, option_id, initial_value              ) VALUES ($1, $2, $3, $4)              RETURNING *`,
                   [
                     item.id,
-                    attribute.attribute_id,
+                    attribute.attributeId,
                     option.id,
-                    attribute.initial_value,
+                    attribute.initialValue,
                   ]
                 );
               })
