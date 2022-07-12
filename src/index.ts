@@ -12,11 +12,10 @@ const path = require('path');
 // Load .env variables
 require('dotenv').config()
 
-
-const serviceAccount = require("../everything-dev-pk.json");
+const serviceAccount =
+  process.env.NODE_ENV === 'production' ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "") : require("../everything-dev-pk.json");
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://everything-57f05-default-rtdb.firebaseio.com"
+  credential: admin.credential.cert(serviceAccount)
 });
 
 // Describe postgraphile connection and configurations
@@ -36,7 +35,7 @@ const middleware = postgraphile(
   {
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
-      require("@graphile-contrib/pg-simplify-inflector"), 
+      require("@graphile-contrib/pg-simplify-inflector"),
       require('./plugins/mutations/CreateItemMutationPlugin'),
       require('./plugins/mutations/DeleteItemMutationPlugin'),
       require('./plugins/mutations/RequestItemMutationPlugin'),
@@ -45,7 +44,7 @@ const middleware = postgraphile(
       require('./plugins/mutations/CreateAttributeMutationPlugin')
     ],
     pgSettings: async (req) => {
-      if (req.headers.authorization === undefined ) {
+      if (req.headers.authorization === undefined) {
         return {
           role: 'everything_anon'
         }
