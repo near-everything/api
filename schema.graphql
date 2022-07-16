@@ -1702,14 +1702,6 @@ type Mutation {
     input: CreateSubcategoryInput!
   ): CreateSubcategoryPayload
 
-  """Creates a single `User`."""
-  createUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateUserInput!
-  ): CreateUserPayload
-
   """Updates a single `Attribute` using its globally unique id and a patch."""
   updateAttributeByNodeId(
     """
@@ -1834,6 +1826,54 @@ type Mutation {
     input: DeleteAssociationInput!
   ): DeleteAssociationPayload
 
+  """Deletes a single `Attribute` using its globally unique id."""
+  deleteAttributeByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeByNodeIdInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Attribute` using a unique key."""
+  deleteAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Attribute` using a unique key."""
+  deleteAttributeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeByNameInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Category` using its globally unique id."""
+  deleteCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNodeIdInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategoryByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNameInput!
+  ): DeleteCategoryPayload
+
   """Deletes a single `Characteristic` using its globally unique id."""
   deleteCharacteristicByNodeId(
     """
@@ -1850,6 +1890,54 @@ type Mutation {
     input: DeleteCharacteristicInput!
   ): DeleteCharacteristicPayload
 
+  """Deletes a single `Invite` using its globally unique id."""
+  deleteInviteByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteInviteByNodeIdInput!
+  ): DeleteInvitePayload
+
+  """Deletes a single `Invite` using a unique key."""
+  deleteInvite(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteInviteInput!
+  ): DeleteInvitePayload
+
+  """Deletes a single `Item` using its globally unique id."""
+  deleteItemByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteItemByNodeIdInput!
+  ): DeleteItemPayload
+
+  """Deletes a single `Item` using a unique key."""
+  deleteItem(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteItemInput!
+  ): DeleteItemPayload
+
+  """Deletes a single `Option` using its globally unique id."""
+  deleteOptionByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOptionByNodeIdInput!
+  ): DeleteOptionPayload
+
+  """Deletes a single `Option` using a unique key."""
+  deleteOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOptionInput!
+  ): DeleteOptionPayload
+
   """Deletes a single `Relationship` using its globally unique id."""
   deleteRelationshipByNodeId(
     """
@@ -1865,6 +1953,30 @@ type Mutation {
     """
     input: DeleteRelationshipInput!
   ): DeleteRelationshipPayload
+
+  """Deletes a single `Subcategory` using its globally unique id."""
+  deleteSubcategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryByNodeIdInput!
+  ): DeleteSubcategoryPayload
+
+  """Deletes a single `Subcategory` using a unique key."""
+  deleteSubcategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryInput!
+  ): DeleteSubcategoryPayload
+
+  """Deletes a single `Subcategory` using a unique key."""
+  deleteSubcategoryByCategoryIdAndName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryByCategoryIdAndNameInput!
+  ): DeleteSubcategoryPayload
 
   """Deletes a single `User` using its globally unique id."""
   deleteUserByNodeId(
@@ -1887,12 +1999,6 @@ type Mutation {
     """
     input: CreateItemInput!
   ): CreateItemPayload
-  deleteItem(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteItemInput!
-  ): DeleteItemPayload
   approveInvite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1911,6 +2017,12 @@ type Mutation {
     """
     input: CreateAttributeInput!
   ): CreateAttributePayload
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload
 }
 
 """The output of our create `Association` mutation."""
@@ -2200,48 +2312,6 @@ input SubcategoryInput {
   categoryId: Int!
   name: String!
   description: String
-}
-
-"""The output of our create `User` mutation."""
-type CreateUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `User` that was created by this mutation."""
-  user: User
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-"""All input for the create `User` mutation."""
-input CreateUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `User` to be created by this mutation."""
-  user: UserInput!
-}
-
-"""An input for mutations affecting `User`"""
-input UserInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  id: String!
 }
 
 """The output of our update `Attribute` mutation."""
@@ -2704,6 +2774,122 @@ input DeleteAssociationInput {
   attributeId: Int!
 }
 
+"""The output of our delete `Attribute` mutation."""
+type DeleteAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Attribute` that was deleted by this mutation."""
+  attribute: Attribute
+  deletedAttributeNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Attribute`. May be used by Relay 1."""
+  attributeEdge(
+    """The method to use when ordering `Attribute`."""
+    orderBy: [AttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AttributesEdge
+}
+
+"""All input for the `deleteAttributeByNodeId` mutation."""
+input DeleteAttributeByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Attribute` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteAttribute` mutation."""
+input DeleteAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteAttributeByName` mutation."""
+input DeleteAttributeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""The output of our delete `Category` mutation."""
+type DeleteCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was deleted by this mutation."""
+  category: Category
+  deletedCategoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the `deleteCategoryByNodeId` mutation."""
+input DeleteCategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Category` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteCategory` mutation."""
+input DeleteCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteCategoryByName` mutation."""
+input DeleteCategoryByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
 """The output of our delete `Characteristic` mutation."""
 type DeleteCharacteristicPayload {
   """
@@ -2763,6 +2949,159 @@ input DeleteCharacteristicInput {
   optionId: Int!
 }
 
+"""The output of our delete `Invite` mutation."""
+type DeleteInvitePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Invite` that was deleted by this mutation."""
+  invite: Invite
+  deletedInviteNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Invite`. May be used by Relay 1."""
+  inviteEdge(
+    """The method to use when ordering `Invite`."""
+    orderBy: [InvitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): InvitesEdge
+}
+
+"""All input for the `deleteInviteByNodeId` mutation."""
+input DeleteInviteByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Invite` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteInvite` mutation."""
+input DeleteInviteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  phoneNumber: String!
+}
+
+"""The output of our delete `Item` mutation."""
+type DeleteItemPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Item` that was deleted by this mutation."""
+  item: Item
+  deletedItemNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Item`."""
+  category: Category
+
+  """Reads a single `Subcategory` that is related to this `Item`."""
+  subcategory: Subcategory
+
+  """Reads a single `User` that is related to this `Item`."""
+  owner: User
+
+  """An edge for our `Item`. May be used by Relay 1."""
+  itemEdge(
+    """The method to use when ordering `Item`."""
+    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ItemsEdge
+}
+
+"""All input for the `deleteItemByNodeId` mutation."""
+input DeleteItemByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Item` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteItem` mutation."""
+input DeleteItemInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Option` mutation."""
+type DeleteOptionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Option` that was deleted by this mutation."""
+  option: Option
+  deletedOptionNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Option`. May be used by Relay 1."""
+  optionEdge(
+    """The method to use when ordering `Option`."""
+    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OptionsEdge
+}
+
+"""All input for the `deleteOptionByNodeId` mutation."""
+input DeleteOptionByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Option` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteOption` mutation."""
+input DeleteOptionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
 """The output of our delete `Relationship` mutation."""
 type DeleteRelationshipPayload {
   """
@@ -2816,6 +3155,68 @@ input DeleteRelationshipInput {
   clientMutationId: String
   attributeId: Int!
   optionId: Int!
+}
+
+"""The output of our delete `Subcategory` mutation."""
+type DeleteSubcategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Subcategory` that was deleted by this mutation."""
+  subcategory: Subcategory
+  deletedSubcategoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Subcategory`."""
+  category: Category
+
+  """An edge for our `Subcategory`. May be used by Relay 1."""
+  subcategoryEdge(
+    """The method to use when ordering `Subcategory`."""
+    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SubcategoriesEdge
+}
+
+"""All input for the `deleteSubcategoryByNodeId` mutation."""
+input DeleteSubcategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Subcategory` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteSubcategory` mutation."""
+input DeleteSubcategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteSubcategoryByCategoryIdAndName` mutation."""
+input DeleteSubcategoryByCategoryIdAndNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  categoryId: Int!
+  name: String!
 }
 
 """The output of our delete `User` mutation."""
@@ -2886,15 +3287,6 @@ input NewAttributeInput {
   initialValue: String!
 }
 
-type DeleteItemPayload {
-  deletedItemId: Int
-  query: Query
-}
-
-input DeleteItemInput {
-  itemId: Int!
-}
-
 type ApproveInvitePayload {
   invite: Invite
   query: Query
@@ -2935,4 +3327,13 @@ input CreateAttributeInput {
 
 input CreateAssociationForAttributeInput {
   subcategoryId: Int!
+}
+
+type CreateUserPayload {
+  user: User
+  query: Query
+}
+
+input CreateUserInput {
+  uid: String!
 }

@@ -37,10 +37,10 @@ const middleware = postgraphile(
     appendPlugins: [
       require("@graphile-contrib/pg-simplify-inflector"),
       require('./plugins/mutations/CreateItemMutationPlugin'),
-      require('./plugins/mutations/DeleteItemMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin'),
       require('./plugins/mutations/CreateCategoryMutationPlugin'),
-      require('./plugins/mutations/CreateAttributeMutationPlugin')
+      require('./plugins/mutations/CreateAttributeMutationPlugin'),
+      require('./plugins/mutations/CreateUserMutationPlugin')
     ],
     pgSettings: async (req) => {
       if (process.env.NODE_ENV === 'production') {

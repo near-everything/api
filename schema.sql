@@ -17,7 +17,7 @@ create table everything.user (
   id text not null,
   primary key (id)
 ) inherits (everything.base);
-comment on table everything.user is E'@omit update';
+comment on table everything.user is E'@omit create,update';
 
 create table everything.invite (
   phone_number text not null,
