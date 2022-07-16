@@ -13,7 +13,7 @@ const path = require('path');
 require('dotenv').config()
 
 const serviceAccount =
-  process.env.NODE_ENV === 'production' ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "") : require("../everything-dev-pk.json");
+  process.env.NODE_ENV === 'production' ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "") : require("../everything-dev-pk.json") || "";
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
