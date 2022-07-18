@@ -6,7 +6,7 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
     typeDefs: gql`
       input NewAttributeInput {
         attributeId: Int!
-        initialValue: String!
+        optionId: Int!
       }
 
       input CreateItemInput {
@@ -53,19 +53,12 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
             await Promise.all(
               args.input.attributes.map(async (attribute) => {
                 // create the option (regular text)
-                const {
-                  rows: [option],
-                } = await pgClient.query(
-                  `INSERT INTO everything.option( value, type ) VALUES ($1, $2) RETURNING *`,
-                  [attribute.initialValue, 'text']
-                );
                 await pgClient.query(
-                  `INSERT INTO everything.characteristic(                item_id, attribute_id, option_id, initial_value              ) VALUES ($1, $2, $3, $4)              RETURNING *`,
+                  `INSERT INTO everything.characteristic(                item_id, attribute_id, option_id              ) VALUES ($1, $2, $3)              RETURNING *`,
                   [
                     item.id,
                     attribute.attributeId,
-                    option.id,
-                    attribute.initialValue,
+                    attribute.optionId,
                   ]
                 );
               })

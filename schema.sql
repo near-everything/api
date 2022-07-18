@@ -8,9 +8,10 @@ create type everything.option_type as enum ('text', 'company', 'size');
 -- create base type
 create table everything.base (
   created_at timestamp default now(),
-  updated_at timestamp default now()
+  updated_at timestamp default now(),
+  created_by text references everything.user(id)
 );
-comment on table everything.base is E'@omit create,update,delete';
+comment on table everything.base is E'@omit read';
 
 -- create user + auth types
 create table everything.user (
@@ -31,9 +32,9 @@ comment on table everything.invite is E'@omit update';
 create table everything.category (
   id serial primary key,
   name text not null check (char_length(name) < 80) unique,
-  description text
+  description text,
+  is_proposal boolean default false
 ) inherits (everything.base);
-comment on table everything.category is E'@omit create';
 
 -- create subcategory, attribute, and option
 create table everything.subcategory (
@@ -41,6 +42,7 @@ create table everything.subcategory (
   category_id int not null references everything.category(id) on delete cascade,
   name text not null check (char_length(name) < 80),
   description text,
+  is_proposal boolean default false,
   unique(category_id, name)
 ) inherits (everything.base);
 create index on everything.subcategory (category_id);
@@ -49,14 +51,16 @@ create table everything.attribute (
   id serial primary key,
   name text not null check (char_length(name) < 80) unique,
   description text,
-  type everything.option_type
+  type everything.option_type,
+  is_proposal boolean default false,
 ) inherits (everything.base);
 comment on table everything.attribute is E'@omit create';
 
 create table everything.option (
   id serial primary key,
   value text not null check (char_length(value) < 80),
-  type everything.option_type
+  type everything.option_type,
+  is_proposal boolean default false,
 ) inherits (everything.base);
 
 -- create associations and relationships
@@ -81,9 +85,9 @@ create index on everything.relationship (option_id);
 -- create item
 create table everything.item (
   id serial primary key,
-  category_id int not null references everything.category(id) on delete cascade,
-  subcategory_id int not null references everything.subcategory(id) on delete cascade,
-  owner_id text not null references everything.user(id) on delete cascade,
+  category_id int not null references everything.category(id),
+  subcategory_id int not null references everything.subcategory(id),
+  owner_id text not null references everything.user(id),
   media text [],
   quantity int not null default 1,
   is_request boolean not null default false,
@@ -101,7 +105,6 @@ create table everything.characteristic (
   option_id int references everything.option(id) on delete cascade,
   num_approvals int not null default 0,
   is_validated bool not null default false,
-  initial_value text not null,
   primary key (item_id, attribute_id, option_id)
 ) inherits (everything.base);
 create index on everything.characteristic (item_id);
@@ -167,8 +170,21 @@ begin
 end;
 $$ language plpgsql;
 
+-- created_by
+create function everything_private.set_created_by() returns trigger as $$
+begin
+  new.created_by := current_setting('jwt.claims.firebase.id', true);
+  return new;
+end;
+$$ language plpgsql;
+
 -- create triggers
 create trigger base_updated_at before update
   on everything.base
   for each row
   execute procedure everything_private.set_updated_at();
+
+create trigger base_created_by before update
+  on everything.base
+  for each row
+  execute procedure everything_private.set_created_by();

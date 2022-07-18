@@ -477,6 +477,7 @@ type Subcategory implements Node {
   categoryId: Int!
   name: String!
   description: String
+  isProposal: Boolean
 
   """Reads a single `Category` that is related to this `Subcategory`."""
   category: Category
@@ -550,6 +551,7 @@ type Category implements Node {
   id: Int!
   name: String!
   description: String
+  isProposal: Boolean
 
   """Reads and enables pagination through a set of `Subcategory`."""
   subcategories(
@@ -669,6 +671,8 @@ enum SubcategoriesOrderBy {
   NAME_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  IS_PROPOSAL_ASC
+  IS_PROPOSAL_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -695,6 +699,9 @@ input SubcategoryCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `isProposal` field."""
+  isProposal: Boolean
 }
 
 """A connection to a list of `Item` values."""
@@ -904,7 +911,6 @@ type Characteristic implements Node {
   optionId: Int!
   numApprovals: Int!
   isValidated: Boolean!
-  initialValue: String!
 
   """Reads a single `Item` that is related to this `Characteristic`."""
   item: Item
@@ -927,6 +933,7 @@ type Attribute implements Node {
   name: String!
   description: String
   type: OptionType
+  isProposal: Boolean
 
   """Reads and enables pagination through a set of `Association`."""
   associations(
@@ -1099,6 +1106,7 @@ type Option implements Node {
   id: Int!
   value: String!
   type: OptionType
+  isProposal: Boolean
 
   """Reads and enables pagination through a set of `Relationship`."""
   relationships(
@@ -1209,8 +1217,6 @@ enum CharacteristicsOrderBy {
   NUM_APPROVALS_DESC
   IS_VALIDATED_ASC
   IS_VALIDATED_DESC
-  INITIAL_VALUE_ASC
-  INITIAL_VALUE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1240,9 +1246,6 @@ input CharacteristicCondition {
 
   """Checks for equality with the object’s `isValidated` field."""
   isValidated: Boolean
-
-  """Checks for equality with the object’s `initialValue` field."""
-  initialValue: String
 }
 
 """A `Relationship` edge in the connection."""
@@ -1322,6 +1325,8 @@ enum AttributesOrderBy {
   DESCRIPTION_DESC
   TYPE_ASC
   TYPE_DESC
+  IS_PROPOSAL_ASC
+  IS_PROPOSAL_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1348,6 +1353,9 @@ input AttributeCondition {
 
   """Checks for equality with the object’s `type` field."""
   type: OptionType
+
+  """Checks for equality with the object’s `isProposal` field."""
+  isProposal: Boolean
 }
 
 """A connection to a list of `Base` values."""
@@ -1440,6 +1448,8 @@ enum CategoriesOrderBy {
   NAME_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  IS_PROPOSAL_ASC
+  IS_PROPOSAL_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1463,6 +1473,9 @@ input CategoryCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `isProposal` field."""
+  isProposal: Boolean
 }
 
 """A connection to a list of `Invite` values."""
@@ -1573,6 +1586,8 @@ enum OptionsOrderBy {
   VALUE_DESC
   TYPE_ASC
   TYPE_DESC
+  IS_PROPOSAL_ASC
+  IS_PROPOSAL_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1595,6 +1610,9 @@ input OptionCondition {
 
   """Checks for equality with the object’s `type` field."""
   type: OptionType
+
+  """Checks for equality with the object’s `isProposal` field."""
+  isProposal: Boolean
 }
 
 """A connection to a list of `User` values."""
@@ -1661,6 +1679,14 @@ type Mutation {
     """
     input: CreateAssociationInput!
   ): CreateAssociationPayload
+
+  """Creates a single `Category`."""
+  createCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCategoryInput!
+  ): CreateCategoryPayload
 
   """Creates a single `Characteristic`."""
   createCharacteristic(
@@ -2005,18 +2031,24 @@ type Mutation {
     """
     input: ApproveInviteInput!
   ): ApproveInvitePayload
-  createCategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateCategoryInput!
-  ): CreateCategoryPayload
   createAttribute(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: CreateAttributeInput!
   ): CreateAttributePayload
+  proposeAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ProposeAttributeInput!
+  ): ProposeAttributePayload
+  proposeOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ProposeOptionInput!
+  ): ProposeOptionPayload
   createUser(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2074,6 +2106,51 @@ input AssociationInput {
   attributeId: Int!
 }
 
+"""The output of our create `Category` mutation."""
+type CreateCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was created by this mutation."""
+  category: Category
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the create `Category` mutation."""
+input CreateCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Category` to be created by this mutation."""
+  category: CategoryInput!
+}
+
+"""An input for mutations affecting `Category`"""
+input CategoryInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  id: Int
+  name: String!
+  description: String
+  isProposal: Boolean
+}
+
 """The output of our create `Characteristic` mutation."""
 type CreateCharacteristicPayload {
   """
@@ -2127,7 +2204,6 @@ input CharacteristicInput {
   optionId: Int!
   numApprovals: Int
   isValidated: Boolean
-  initialValue: String!
 }
 
 """The output of our create `Invite` mutation."""
@@ -2215,6 +2291,7 @@ input OptionInput {
   id: Int
   value: String!
   type: OptionType
+  isProposal: Boolean
 }
 
 """The output of our create `Relationship` mutation."""
@@ -2312,6 +2389,7 @@ input SubcategoryInput {
   categoryId: Int!
   name: String!
   description: String
+  isProposal: Boolean
 }
 
 """The output of our update `Attribute` mutation."""
@@ -2366,6 +2444,7 @@ input AttributePatch {
   name: String
   description: String
   type: OptionType
+  isProposal: Boolean
 }
 
 """All input for the `updateAttribute` mutation."""
@@ -2449,6 +2528,7 @@ input CategoryPatch {
   id: Int
   name: String
   description: String
+  isProposal: Boolean
 }
 
 """All input for the `updateCategory` mutation."""
@@ -2543,7 +2623,6 @@ input CharacteristicPatch {
   optionId: Int
   numApprovals: Int
   isValidated: Boolean
-  initialValue: String
 }
 
 """All input for the `updateCharacteristic` mutation."""
@@ -2614,6 +2693,7 @@ input OptionPatch {
   id: Int
   value: String
   type: OptionType
+  isProposal: Boolean
 }
 
 """All input for the `updateOption` mutation."""
@@ -2686,6 +2766,7 @@ input SubcategoryPatch {
   categoryId: Int
   name: String
   description: String
+  isProposal: Boolean
 }
 
 """All input for the `updateSubcategory` mutation."""
@@ -3284,7 +3365,7 @@ input CreateItemInput {
 
 input NewAttributeInput {
   attributeId: Int!
-  initialValue: String!
+  optionId: Int!
 }
 
 type ApproveInvitePayload {
@@ -3294,22 +3375,6 @@ type ApproveInvitePayload {
 
 input ApproveInviteInput {
   phoneNumber: String!
-}
-
-type CreateCategoryPayload {
-  category: Category
-  query: Query
-}
-
-input CreateCategoryInput {
-  name: String!
-  description: String
-  subcategories: [AddSubcategoryInput!]!
-}
-
-input AddSubcategoryInput {
-  name: String!
-  description: String
 }
 
 type CreateAttributePayload {
@@ -3327,6 +3392,25 @@ input CreateAttributeInput {
 
 input CreateAssociationForAttributeInput {
   subcategoryId: Int!
+}
+
+type ProposeAttributePayload {
+  attribute: Attribute
+  query: Query
+}
+
+input ProposeAttributeInput {
+  name: String!
+}
+
+type ProposeOptionPayload {
+  option: Option
+  query: Query
+}
+
+input ProposeOptionInput {
+  value: String!
+  attributeId: Int!
 }
 
 type CreateUserPayload {

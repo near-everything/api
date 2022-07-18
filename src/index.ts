@@ -38,8 +38,10 @@ const middleware = postgraphile(
       require("@graphile-contrib/pg-simplify-inflector"),
       require('./plugins/mutations/CreateItemMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin'),
-      require('./plugins/mutations/CreateCategoryMutationPlugin'),
+      // require('./plugins/mutations/CreateCategoryMutationPlugin'),
       require('./plugins/mutations/CreateAttributeMutationPlugin'),
+      require('./plugins/mutations/ProposeAttributeMutationPlugin'),
+      require('./plugins/mutations/ProposeOptionMutationPlugin'),
       require('./plugins/mutations/CreateUserMutationPlugin')
     ],
     pgSettings: async (req) => {

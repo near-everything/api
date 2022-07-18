@@ -24,6 +24,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
+            // check if invited
             // check if User exsists
             const [row] =
               await resolveInfo.graphile.selectGraphQLResultFromTable(
