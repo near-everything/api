@@ -36,7 +36,7 @@ const middleware = postgraphile(
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
       require("@graphile-contrib/pg-simplify-inflector"),
-      require('./plugins/mutations/CreateItemMutationPlugin'),
+      require('./plugins/mutations/CreateThingMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin'),
       // require('./plugins/mutations/CreateCategoryMutationPlugin'),
       require('./plugins/mutations/CreateAttributeMutationPlugin'),
@@ -45,7 +45,7 @@ const middleware = postgraphile(
       require('./plugins/mutations/CreateUserMutationPlugin')
     ],
     pgSettings: async (req) => {
-      if (process.env.NODE_ENV === 'production') {
+      // if (process.env.NODE_ENV === 'production') {
         if (req.headers.authorization === undefined) {
           return {
             role: 'everything_anon'
@@ -59,7 +59,7 @@ const middleware = postgraphile(
             'jwt.claims.firebase.id': decodedToken.uid
           };
         }
-      }
+      // }
     }
   }
 );

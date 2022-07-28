@@ -1,6 +1,6 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 
-const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
+const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
@@ -9,67 +9,65 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
         optionId: Int!
       }
 
-      input CreateItemInput {
+      input CreateThingInput {
         categoryId: Int!
         subcategoryId: Int!
         attributes: [NewAttributeInput!]!
         media: [String!]!
         ownerId: String!,
-        quantity: Int,
-        isRequest: Boolean
+        quantity: Int
       }
 
-      type CreateItemPayload {
-        item: Item @pgField
+      type CreateThingPayload {
+        thing: Thing @pgField
         query: Query
       }
 
       extend type Mutation {
-        createItem(input: CreateItemInput!): CreateItemPayload
+        createThing(input: CreateThingInput!): CreateThingPayload
       }
     `,
     resolvers: {
       Mutation: {
-        createItem: async (_query, args, context, resolveInfo) => {
+        createThing: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
-            // create the item
+            // create the thing
             const {
-              rows: [item],
+              rows: [thing],
             } = await pgClient.query(
-              `INSERT INTO everything.item(                category_id, subcategory_id, owner_id, media, quantity, is_request              ) VALUES ($1, $2, $3, $4, $5, $6)              RETURNING *`,
+              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity              ) VALUES ($1, $2, $3, $4, $5)              RETURNING *`,
               [
                 args.input.categoryId,
                 args.input.subcategoryId,
                 args.input.ownerId,
                 args.input.media,
-                args.input.quantity || 1,
-                args.input.isRequest || false,
+                args.input.quantity || 1
               ]
             );
-            // create all the characteristics using the item id
+            // create all the characteristics using the thing id
             await Promise.all(
               args.input.attributes.map(async (attribute) => {
                 // create the option (regular text)
                 await pgClient.query(
-                  `INSERT INTO everything.characteristic(                item_id, attribute_id, option_id              ) VALUES ($1, $2, $3)              RETURNING *`,
+                  `INSERT INTO everything.characteristic(                thing_id, attribute_id, option_id              ) VALUES ($1, $2, $3)              RETURNING *`,
                   [
-                    item.id,
+                    thing.id,
                     attribute.attributeId,
                     attribute.optionId,
                   ]
                 );
               })
             );
-            // get the item
+            // get the thing
             const [row] =
               await resolveInfo.graphile.selectGraphQLResultFromTable(
-                sql.fragment`everything.item`,
+                sql.fragment`everything.thing`,
                 (tableAlias, queryBuilder) => {
                   queryBuilder.where(
-                    sql.fragment`${tableAlias}.id = ${sql.value(item.id)}`
+                    sql.fragment`${tableAlias}.id = ${sql.value(thing.id)}`
                   );
                 }
               );
@@ -91,4 +89,4 @@ const CreateItemMutationPlugin = makeExtendSchemaPlugin((build) => {
   };
 });
 
-module.exports = CreateItemMutationPlugin;
+module.exports = CreateThingMutationPlugin;

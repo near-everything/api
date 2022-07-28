@@ -75,35 +75,6 @@ type Query implements Node {
     condition: AttributeCondition
   ): AttributesConnection
 
-  """Reads and enables pagination through a set of `Base`."""
-  bases(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Base`."""
-    orderBy: [BasesOrderBy!] = [NATURAL]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: BaseCondition
-  ): BasesConnection
-
   """Reads and enables pagination through a set of `Category`."""
   categories(
     """Only read the first `n` values of the set."""
@@ -162,6 +133,93 @@ type Query implements Node {
     condition: CharacteristicCondition
   ): CharacteristicsConnection
 
+  """Reads and enables pagination through a set of `Concern`."""
+  concerns(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Concern`."""
+    orderBy: [ConcernsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ConcernCondition
+  ): ConcernsConnection
+
+  """Reads and enables pagination through a set of `Help`."""
+  helps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Help`."""
+    orderBy: [HelpsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HelpCondition
+  ): HelpsConnection
+
+  """Reads and enables pagination through a set of `Idea`."""
+  ideas(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Idea`."""
+    orderBy: [IdeasOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: IdeaCondition
+  ): IdeasConnection
+
   """Reads and enables pagination through a set of `Invite`."""
   invites(
     """Only read the first `n` values of the set."""
@@ -190,35 +248,6 @@ type Query implements Node {
     """
     condition: InviteCondition
   ): InvitesConnection
-
-  """Reads and enables pagination through a set of `Item`."""
-  items(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Item`."""
-    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ItemCondition
-  ): ItemsConnection
 
   """Reads and enables pagination through a set of `Option`."""
   options(
@@ -278,6 +307,35 @@ type Query implements Node {
     condition: RelationshipCondition
   ): RelationshipsConnection
 
+  """Reads and enables pagination through a set of `Request`."""
+  requests(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RequestCondition
+  ): RequestsConnection
+
   """Reads and enables pagination through a set of `Subcategory`."""
   subcategories(
     """Only read the first `n` values of the set."""
@@ -306,6 +364,35 @@ type Query implements Node {
     """
     condition: SubcategoryCondition
   ): SubcategoriesConnection
+
+  """Reads and enables pagination through a set of `Thing`."""
+  things(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ThingCondition
+  ): ThingsConnection
 
   """Reads and enables pagination through a set of `User`."""
   users(
@@ -340,13 +427,14 @@ type Query implements Node {
   attributeByName(name: String!): Attribute
   category(id: Int!): Category
   categoryByName(name: String!): Category
-  characteristic(itemId: Int!, attributeId: Int!, optionId: Int!): Characteristic
+  characteristic(thingId: Int!, attributeId: Int!, optionId: Int!): Characteristic
   invite(phoneNumber: String!): Invite
-  item(id: Int!): Item
   option(id: Int!): Option
   relationship(attributeId: Int!, optionId: Int!): Relationship
+  request(id: Int!): Request
   subcategory(id: Int!): Subcategory
   subcategoryByCategoryIdAndName(categoryId: Int!, name: String!): Subcategory
+  thing(id: Int!): Thing
   user(id: String!): User
 
   """Reads a single `Association` using its globally unique `ID`."""
@@ -383,12 +471,6 @@ type Query implements Node {
     nodeId: ID!
   ): Invite
 
-  """Reads a single `Item` using its globally unique `ID`."""
-  itemByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Item`."""
-    nodeId: ID!
-  ): Item
-
   """Reads a single `Option` using its globally unique `ID`."""
   optionByNodeId(
     """The globally unique `ID` to be used in selecting a single `Option`."""
@@ -403,6 +485,12 @@ type Query implements Node {
     nodeId: ID!
   ): Relationship
 
+  """Reads a single `Request` using its globally unique `ID`."""
+  requestByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Request`."""
+    nodeId: ID!
+  ): Request
+
   """Reads a single `Subcategory` using its globally unique `ID`."""
   subcategoryByNodeId(
     """
@@ -410,6 +498,12 @@ type Query implements Node {
     """
     nodeId: ID!
   ): Subcategory
+
+  """Reads a single `Thing` using its globally unique `ID`."""
+  thingByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Thing`."""
+    nodeId: ID!
+  ): Thing
 
   """Reads a single `User` using its globally unique `ID`."""
   userByNodeId(
@@ -450,6 +544,7 @@ type Association implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   subcategoryId: Int!
   attributeId: Int!
 
@@ -473,11 +568,12 @@ type Subcategory implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int!
   categoryId: Int!
   name: String!
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 
   """Reads a single `Category` that is related to this `Subcategory`."""
   category: Category
@@ -511,8 +607,8 @@ type Subcategory implements Node {
     condition: AssociationCondition
   ): AssociationsConnection!
 
-  """Reads and enables pagination through a set of `Item`."""
-  items(
+  """Reads and enables pagination through a set of `Thing`."""
+  things(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -531,14 +627,14 @@ type Subcategory implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `Item`."""
-    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ItemCondition
-  ): ItemsConnection!
+    condition: ThingCondition
+  ): ThingsConnection!
 }
 
 type Category implements Node {
@@ -548,10 +644,11 @@ type Category implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int!
   name: String!
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 
   """Reads and enables pagination through a set of `Subcategory`."""
   subcategories(
@@ -582,8 +679,8 @@ type Category implements Node {
     condition: SubcategoryCondition
   ): SubcategoriesConnection!
 
-  """Reads and enables pagination through a set of `Item`."""
-  items(
+  """Reads and enables pagination through a set of `Thing`."""
+  things(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -602,14 +699,14 @@ type Category implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `Item`."""
-    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ItemCondition
-  ): ItemsConnection!
+    condition: ThingCondition
+  ): ThingsConnection!
 }
 
 """A connection to a list of `Subcategory` values."""
@@ -663,6 +760,8 @@ enum SubcategoriesOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ID_ASC
   ID_DESC
   CATEGORY_ID_ASC
@@ -671,8 +770,8 @@ enum SubcategoriesOrderBy {
   NAME_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
-  IS_PROPOSAL_ASC
-  IS_PROPOSAL_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -688,6 +787,9 @@ input SubcategoryCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
   """Checks for equality with the object’s `id` field."""
   id: Int
 
@@ -700,50 +802,50 @@ input SubcategoryCondition {
   """Checks for equality with the object’s `description` field."""
   description: String
 
-  """Checks for equality with the object’s `isProposal` field."""
-  isProposal: Boolean
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
 }
 
-"""A connection to a list of `Item` values."""
-type ItemsConnection {
-  """A list of `Item` objects."""
-  nodes: [Item!]!
+"""A connection to a list of `Thing` values."""
+type ThingsConnection {
+  """A list of `Thing` objects."""
+  nodes: [Thing!]!
 
   """
-  A list of edges which contains the `Item` and cursor to aid in pagination.
+  A list of edges which contains the `Thing` and cursor to aid in pagination.
   """
-  edges: [ItemsEdge!]!
+  edges: [ThingsEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `Item` you could get from the connection."""
+  """The count of *all* `Thing` you could get from the connection."""
   totalCount: Int!
 }
 
-type Item implements Node {
+type Thing implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int!
   categoryId: Int!
   subcategoryId: Int!
   ownerId: String!
   media: [String]
   quantity: Int!
-  isRequest: Boolean!
   metadata: JSON
 
-  """Reads a single `Category` that is related to this `Item`."""
+  """Reads a single `Category` that is related to this `Thing`."""
   category: Category
 
-  """Reads a single `Subcategory` that is related to this `Item`."""
+  """Reads a single `Subcategory` that is related to this `Thing`."""
   subcategory: Subcategory
 
-  """Reads a single `User` that is related to this `Item`."""
+  """Reads a single `User` that is related to this `Thing`."""
   owner: User
 
   """Reads and enables pagination through a set of `Characteristic`."""
@@ -789,9 +891,10 @@ type User implements Node {
   createdAt: Datetime
   updatedAt: Datetime
   id: String!
+  createdBy: String
 
-  """Reads and enables pagination through a set of `Item`."""
-  itemsByOwnerId(
+  """Reads and enables pagination through a set of `Thing`."""
+  thingsByOwnerId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -810,23 +913,54 @@ type User implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `Item`."""
-    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ItemCondition
-  ): ItemsConnection!
+    condition: ThingCondition
+  ): ThingsConnection!
+
+  """Reads and enables pagination through a set of `Request`."""
+  requestsByRequesterId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RequestCondition
+  ): RequestsConnection!
 }
 
-"""Methods to use when ordering `Item`."""
-enum ItemsOrderBy {
+"""Methods to use when ordering `Thing`."""
+enum ThingsOrderBy {
   NATURAL
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ID_ASC
   ID_DESC
   CATEGORY_ID_ASC
@@ -839,8 +973,6 @@ enum ItemsOrderBy {
   MEDIA_DESC
   QUANTITY_ASC
   QUANTITY_DESC
-  IS_REQUEST_ASC
-  IS_REQUEST_DESC
   METADATA_ASC
   METADATA_DESC
   PRIMARY_KEY_ASC
@@ -848,14 +980,17 @@ enum ItemsOrderBy {
 }
 
 """
-A condition to be used against `Item` object types. All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `Thing` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
-input ItemCondition {
+input ThingCondition {
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
 
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
 
   """Checks for equality with the object’s `id` field."""
   id: Int
@@ -875,8 +1010,113 @@ input ItemCondition {
   """Checks for equality with the object’s `quantity` field."""
   quantity: Int
 
-  """Checks for equality with the object’s `isRequest` field."""
-  isRequest: Boolean
+  """Checks for equality with the object’s `metadata` field."""
+  metadata: JSON
+}
+
+"""A connection to a list of `Request` values."""
+type RequestsConnection {
+  """A list of `Request` objects."""
+  nodes: [Request!]!
+
+  """
+  A list of edges which contains the `Request` and cursor to aid in pagination.
+  """
+  edges: [RequestsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Request` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Request implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  requesterId: String!
+  media: [String]
+  referenceLink: String
+  description: String
+  quantity: Int!
+  metadata: JSON
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+}
+
+"""A `Request` edge in the connection."""
+type RequestsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Request` at the end of the edge."""
+  node: Request!
+}
+
+"""Methods to use when ordering `Request`."""
+enum RequestsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  REQUESTER_ID_ASC
+  REQUESTER_ID_DESC
+  MEDIA_ASC
+  MEDIA_DESC
+  REFERENCE_LINK_ASC
+  REFERENCE_LINK_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  QUANTITY_ASC
+  QUANTITY_DESC
+  METADATA_ASC
+  METADATA_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Request` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input RequestCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `requesterId` field."""
+  requesterId: String
+
+  """Checks for equality with the object’s `media` field."""
+  media: [String]
+
+  """Checks for equality with the object’s `referenceLink` field."""
+  referenceLink: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `quantity` field."""
+  quantity: Int
 
   """Checks for equality with the object’s `metadata` field."""
   metadata: JSON
@@ -906,14 +1146,13 @@ type Characteristic implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
-  itemId: Int!
+  createdBy: String
+  thingId: Int!
   attributeId: Int!
   optionId: Int!
-  numApprovals: Int!
-  isValidated: Boolean!
 
-  """Reads a single `Item` that is related to this `Characteristic`."""
-  item: Item
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
 
   """Reads a single `Attribute` that is related to this `Characteristic`."""
   attribute: Attribute
@@ -929,11 +1168,12 @@ type Attribute implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int!
   name: String!
   description: String
   type: OptionType
-  isProposal: Boolean
+  isApproved: Boolean
 
   """Reads and enables pagination through a set of `Association`."""
   associations(
@@ -1036,6 +1276,8 @@ enum AssociationsOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   SUBCATEGORY_ID_ASC
   SUBCATEGORY_ID_DESC
   ATTRIBUTE_ID_ASC
@@ -1054,6 +1296,9 @@ input AssociationCondition {
 
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
 
   """Checks for equality with the object’s `subcategoryId` field."""
   subcategoryId: Int
@@ -1086,6 +1331,7 @@ type Relationship implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   attributeId: Int!
   optionId: Int!
 
@@ -1103,10 +1349,11 @@ type Option implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int!
   value: String!
   type: OptionType
-  isProposal: Boolean
+  isApproved: Boolean
 
   """Reads and enables pagination through a set of `Relationship`."""
   relationships(
@@ -1174,6 +1421,8 @@ enum RelationshipsOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ATTRIBUTE_ID_ASC
   ATTRIBUTE_ID_DESC
   OPTION_ID_ASC
@@ -1193,6 +1442,9 @@ input RelationshipCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
   """Checks for equality with the object’s `attributeId` field."""
   attributeId: Int
 
@@ -1207,16 +1459,14 @@ enum CharacteristicsOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
-  ITEM_ID_ASC
-  ITEM_ID_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  THING_ID_ASC
+  THING_ID_DESC
   ATTRIBUTE_ID_ASC
   ATTRIBUTE_ID_DESC
   OPTION_ID_ASC
   OPTION_ID_DESC
-  NUM_APPROVALS_ASC
-  NUM_APPROVALS_DESC
-  IS_VALIDATED_ASC
-  IS_VALIDATED_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1232,20 +1482,17 @@ input CharacteristicCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
-  """Checks for equality with the object’s `itemId` field."""
-  itemId: Int
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `thingId` field."""
+  thingId: Int
 
   """Checks for equality with the object’s `attributeId` field."""
   attributeId: Int
 
   """Checks for equality with the object’s `optionId` field."""
   optionId: Int
-
-  """Checks for equality with the object’s `numApprovals` field."""
-  numApprovals: Int
-
-  """Checks for equality with the object’s `isValidated` field."""
-  isValidated: Boolean
 }
 
 """A `Relationship` edge in the connection."""
@@ -1266,13 +1513,13 @@ type CharacteristicsEdge {
   node: Characteristic!
 }
 
-"""A `Item` edge in the connection."""
-type ItemsEdge {
+"""A `Thing` edge in the connection."""
+type ThingsEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `Item` at the end of the edge."""
-  node: Item!
+  """The `Thing` at the end of the edge."""
+  node: Thing!
 }
 
 """A `Association` edge in the connection."""
@@ -1317,6 +1564,8 @@ enum AttributesOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ID_ASC
   ID_DESC
   NAME_ASC
@@ -1325,8 +1574,8 @@ enum AttributesOrderBy {
   DESCRIPTION_DESC
   TYPE_ASC
   TYPE_DESC
-  IS_PROPOSAL_ASC
-  IS_PROPOSAL_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1342,6 +1591,9 @@ input AttributeCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
   """Checks for equality with the object’s `id` field."""
   id: Int
 
@@ -1354,59 +1606,8 @@ input AttributeCondition {
   """Checks for equality with the object’s `type` field."""
   type: OptionType
 
-  """Checks for equality with the object’s `isProposal` field."""
-  isProposal: Boolean
-}
-
-"""A connection to a list of `Base` values."""
-type BasesConnection {
-  """A list of `Base` objects."""
-  nodes: [Base!]!
-
-  """
-  A list of edges which contains the `Base` and cursor to aid in pagination.
-  """
-  edges: [BasesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Base` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Base {
-  createdAt: Datetime
-  updatedAt: Datetime
-}
-
-"""A `Base` edge in the connection."""
-type BasesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Base` at the end of the edge."""
-  node: Base!
-}
-
-"""Methods to use when ordering `Base`."""
-enum BasesOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-}
-
-"""
-A condition to be used against `Base` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input BaseCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
 }
 
 """A connection to a list of `Category` values."""
@@ -1442,14 +1643,16 @@ enum CategoriesOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ID_ASC
   ID_DESC
   NAME_ASC
   NAME_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
-  IS_PROPOSAL_ASC
-  IS_PROPOSAL_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1465,6 +1668,9 @@ input CategoryCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
   """Checks for equality with the object’s `id` field."""
   id: Int
 
@@ -1474,8 +1680,197 @@ input CategoryCondition {
   """Checks for equality with the object’s `description` field."""
   description: String
 
-  """Checks for equality with the object’s `isProposal` field."""
-  isProposal: Boolean
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
+}
+
+"""A connection to a list of `Concern` values."""
+type ConcernsConnection {
+  """A list of `Concern` objects."""
+  nodes: [Concern!]!
+
+  """
+  A list of edges which contains the `Concern` and cursor to aid in pagination.
+  """
+  edges: [ConcernsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Concern` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Concern {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A `Concern` edge in the connection."""
+type ConcernsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Concern` at the end of the edge."""
+  node: Concern!
+}
+
+"""Methods to use when ordering `Concern`."""
+enum ConcernsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+"""
+A condition to be used against `Concern` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ConcernCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""A connection to a list of `Help` values."""
+type HelpsConnection {
+  """A list of `Help` objects."""
+  nodes: [Help!]!
+
+  """
+  A list of edges which contains the `Help` and cursor to aid in pagination.
+  """
+  edges: [HelpsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Help` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Help {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A `Help` edge in the connection."""
+type HelpsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Help` at the end of the edge."""
+  node: Help!
+}
+
+"""Methods to use when ordering `Help`."""
+enum HelpsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+"""
+A condition to be used against `Help` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input HelpCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""A connection to a list of `Idea` values."""
+type IdeasConnection {
+  """A list of `Idea` objects."""
+  nodes: [Idea!]!
+
+  """
+  A list of edges which contains the `Idea` and cursor to aid in pagination.
+  """
+  edges: [IdeasEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Idea` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Idea {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A `Idea` edge in the connection."""
+type IdeasEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Idea` at the end of the edge."""
+  node: Idea!
+}
+
+"""Methods to use when ordering `Idea`."""
+enum IdeasOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+"""
+A condition to be used against `Idea` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input IdeaCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
 }
 
 """A connection to a list of `Invite` values."""
@@ -1502,6 +1897,7 @@ type Invite implements Node {
   nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   phoneNumber: String!
   isApproved: Boolean
 }
@@ -1522,6 +1918,8 @@ enum InvitesOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   PHONE_NUMBER_ASC
   PHONE_NUMBER_DESC
   IS_APPROVED_ASC
@@ -1539,6 +1937,9 @@ input InviteCondition {
 
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
 
   """Checks for equality with the object’s `phoneNumber` field."""
   phoneNumber: String
@@ -1580,14 +1981,16 @@ enum OptionsOrderBy {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   ID_ASC
   ID_DESC
   VALUE_ASC
   VALUE_DESC
   TYPE_ASC
   TYPE_DESC
-  IS_PROPOSAL_ASC
-  IS_PROPOSAL_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1602,6 +2005,9 @@ input OptionCondition {
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
 
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
   """Checks for equality with the object’s `id` field."""
   id: Int
 
@@ -1611,8 +2017,8 @@ input OptionCondition {
   """Checks for equality with the object’s `type` field."""
   type: OptionType
 
-  """Checks for equality with the object’s `isProposal` field."""
-  isProposal: Boolean
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
 }
 
 """A connection to a list of `User` values."""
@@ -1650,6 +2056,8 @@ enum UsersOrderBy {
   UPDATED_AT_DESC
   ID_ASC
   ID_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1666,6 +2074,9 @@ input UserCondition {
 
   """Checks for equality with the object’s `id` field."""
   id: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
 }
 
 """
@@ -1696,6 +2107,30 @@ type Mutation {
     input: CreateCharacteristicInput!
   ): CreateCharacteristicPayload
 
+  """Creates a single `Concern`."""
+  createConcern(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateConcernInput!
+  ): CreateConcernPayload
+
+  """Creates a single `Help`."""
+  createHelp(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateHelpInput!
+  ): CreateHelpPayload
+
+  """Creates a single `Idea`."""
+  createIdea(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateIdeaInput!
+  ): CreateIdeaPayload
+
   """Creates a single `Invite`."""
   createInvite(
     """
@@ -1719,6 +2154,14 @@ type Mutation {
     """
     input: CreateRelationshipInput!
   ): CreateRelationshipPayload
+
+  """Creates a single `Request`."""
+  createRequest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRequestInput!
+  ): CreateRequestPayload
 
   """Creates a single `Subcategory`."""
   createSubcategory(
@@ -1932,22 +2375,6 @@ type Mutation {
     input: DeleteInviteInput!
   ): DeleteInvitePayload
 
-  """Deletes a single `Item` using its globally unique id."""
-  deleteItemByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteItemByNodeIdInput!
-  ): DeleteItemPayload
-
-  """Deletes a single `Item` using a unique key."""
-  deleteItem(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteItemInput!
-  ): DeleteItemPayload
-
   """Deletes a single `Option` using its globally unique id."""
   deleteOptionByNodeId(
     """
@@ -1980,6 +2407,22 @@ type Mutation {
     input: DeleteRelationshipInput!
   ): DeleteRelationshipPayload
 
+  """Deletes a single `Request` using its globally unique id."""
+  deleteRequestByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRequestByNodeIdInput!
+  ): DeleteRequestPayload
+
+  """Deletes a single `Request` using a unique key."""
+  deleteRequest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRequestInput!
+  ): DeleteRequestPayload
+
   """Deletes a single `Subcategory` using its globally unique id."""
   deleteSubcategoryByNodeId(
     """
@@ -2004,6 +2447,22 @@ type Mutation {
     input: DeleteSubcategoryByCategoryIdAndNameInput!
   ): DeleteSubcategoryPayload
 
+  """Deletes a single `Thing` using its globally unique id."""
+  deleteThingByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThingByNodeIdInput!
+  ): DeleteThingPayload
+
+  """Deletes a single `Thing` using a unique key."""
+  deleteThing(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThingInput!
+  ): DeleteThingPayload
+
   """Deletes a single `User` using its globally unique id."""
   deleteUserByNodeId(
     """
@@ -2019,12 +2478,12 @@ type Mutation {
     """
     input: DeleteUserInput!
   ): DeleteUserPayload
-  createItem(
+  createThing(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateItemInput!
-  ): CreateItemPayload
+    input: CreateThingInput!
+  ): CreateThingPayload
   approveInvite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2102,6 +2561,7 @@ input CreateAssociationInput {
 input AssociationInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   subcategoryId: Int!
   attributeId: Int!
 }
@@ -2145,10 +2605,11 @@ input CreateCategoryInput {
 input CategoryInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   name: String!
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """The output of our create `Characteristic` mutation."""
@@ -2167,8 +2628,8 @@ type CreateCharacteristicPayload {
   """
   query: Query
 
-  """Reads a single `Item` that is related to this `Characteristic`."""
-  item: Item
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
 
   """Reads a single `Attribute` that is related to this `Characteristic`."""
   attribute: Attribute
@@ -2199,11 +2660,139 @@ input CreateCharacteristicInput {
 input CharacteristicInput {
   createdAt: Datetime
   updatedAt: Datetime
-  itemId: Int!
+  createdBy: String
+  thingId: Int!
   attributeId: Int!
   optionId: Int!
-  numApprovals: Int
-  isValidated: Boolean
+}
+
+"""The output of our create `Concern` mutation."""
+type CreateConcernPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Concern` that was created by this mutation."""
+  concern: Concern
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Concern`. May be used by Relay 1."""
+  concernEdge(
+    """The method to use when ordering `Concern`."""
+    orderBy: [ConcernsOrderBy!] = [NATURAL]
+  ): ConcernsEdge
+}
+
+"""All input for the create `Concern` mutation."""
+input CreateConcernInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Concern` to be created by this mutation."""
+  concern: ConcernInput!
+}
+
+"""An input for mutations affecting `Concern`"""
+input ConcernInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""The output of our create `Help` mutation."""
+type CreateHelpPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Help` that was created by this mutation."""
+  help: Help
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Help`. May be used by Relay 1."""
+  helpEdge(
+    """The method to use when ordering `Help`."""
+    orderBy: [HelpsOrderBy!] = [NATURAL]
+  ): HelpsEdge
+}
+
+"""All input for the create `Help` mutation."""
+input CreateHelpInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Help` to be created by this mutation."""
+  help: HelpInput!
+}
+
+"""An input for mutations affecting `Help`"""
+input HelpInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""The output of our create `Idea` mutation."""
+type CreateIdeaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Idea` that was created by this mutation."""
+  idea: Idea
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Idea`. May be used by Relay 1."""
+  ideaEdge(
+    """The method to use when ordering `Idea`."""
+    orderBy: [IdeasOrderBy!] = [NATURAL]
+  ): IdeasEdge
+}
+
+"""All input for the create `Idea` mutation."""
+input CreateIdeaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Idea` to be created by this mutation."""
+  idea: IdeaInput!
+}
+
+"""An input for mutations affecting `Idea`"""
+input IdeaInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
 }
 
 """The output of our create `Invite` mutation."""
@@ -2245,6 +2834,7 @@ input CreateInviteInput {
 input InviteInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   phoneNumber: String!
   isApproved: Boolean
 }
@@ -2288,10 +2878,11 @@ input CreateOptionInput {
 input OptionInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   value: String!
   type: OptionType
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """The output of our create `Relationship` mutation."""
@@ -2339,8 +2930,61 @@ input CreateRelationshipInput {
 input RelationshipInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   attributeId: Int!
   optionId: Int!
+}
+
+"""The output of our create `Request` mutation."""
+type CreateRequestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Request` that was created by this mutation."""
+  request: Request
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+
+  """An edge for our `Request`. May be used by Relay 1."""
+  requestEdge(
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RequestsEdge
+}
+
+"""All input for the create `Request` mutation."""
+input CreateRequestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Request` to be created by this mutation."""
+  request: RequestInput!
+}
+
+"""An input for mutations affecting `Request`"""
+input RequestInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  requesterId: String!
+  media: [String]
+  referenceLink: String
+  description: String
+  quantity: Int
+  metadata: JSON
 }
 
 """The output of our create `Subcategory` mutation."""
@@ -2385,11 +3029,12 @@ input CreateSubcategoryInput {
 input SubcategoryInput {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   categoryId: Int!
   name: String!
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """The output of our update `Attribute` mutation."""
@@ -2440,11 +3085,12 @@ Represents an update to a `Attribute`. Fields that are set will be updated.
 input AttributePatch {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   name: String
   description: String
   type: OptionType
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """All input for the `updateAttribute` mutation."""
@@ -2525,10 +3171,11 @@ Represents an update to a `Category`. Fields that are set will be updated.
 input CategoryPatch {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   name: String
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """All input for the `updateCategory` mutation."""
@@ -2577,8 +3224,8 @@ type UpdateCharacteristicPayload {
   """
   query: Query
 
-  """Reads a single `Item` that is related to this `Characteristic`."""
-  item: Item
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
 
   """Reads a single `Attribute` that is related to this `Characteristic`."""
   attribute: Attribute
@@ -2618,11 +3265,10 @@ Represents an update to a `Characteristic`. Fields that are set will be updated.
 input CharacteristicPatch {
   createdAt: Datetime
   updatedAt: Datetime
-  itemId: Int
+  createdBy: String
+  thingId: Int
   attributeId: Int
   optionId: Int
-  numApprovals: Int
-  isValidated: Boolean
 }
 
 """All input for the `updateCharacteristic` mutation."""
@@ -2637,7 +3283,7 @@ input UpdateCharacteristicInput {
   An object where the defined keys will be set on the `Characteristic` being updated.
   """
   patch: CharacteristicPatch!
-  itemId: Int!
+  thingId: Int!
   attributeId: Int!
   optionId: Int!
 }
@@ -2690,10 +3336,11 @@ Represents an update to a `Option`. Fields that are set will be updated.
 input OptionPatch {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   value: String
   type: OptionType
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """All input for the `updateOption` mutation."""
@@ -2762,11 +3409,12 @@ Represents an update to a `Subcategory`. Fields that are set will be updated.
 input SubcategoryPatch {
   createdAt: Datetime
   updatedAt: Datetime
+  createdBy: String
   id: Int
   categoryId: Int
   name: String
   description: String
-  isProposal: Boolean
+  isApproved: Boolean
 }
 
 """All input for the `updateSubcategory` mutation."""
@@ -2988,8 +3636,8 @@ type DeleteCharacteristicPayload {
   """
   query: Query
 
-  """Reads a single `Item` that is related to this `Characteristic`."""
-  item: Item
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
 
   """Reads a single `Attribute` that is related to this `Characteristic`."""
   attribute: Attribute
@@ -3025,7 +3673,7 @@ input DeleteCharacteristicInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  itemId: Int!
+  thingId: Int!
   attributeId: Int!
   optionId: Int!
 }
@@ -3076,63 +3724,6 @@ input DeleteInviteInput {
   """
   clientMutationId: String
   phoneNumber: String!
-}
-
-"""The output of our delete `Item` mutation."""
-type DeleteItemPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Item` that was deleted by this mutation."""
-  item: Item
-  deletedItemNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Category` that is related to this `Item`."""
-  category: Category
-
-  """Reads a single `Subcategory` that is related to this `Item`."""
-  subcategory: Subcategory
-
-  """Reads a single `User` that is related to this `Item`."""
-  owner: User
-
-  """An edge for our `Item`. May be used by Relay 1."""
-  itemEdge(
-    """The method to use when ordering `Item`."""
-    orderBy: [ItemsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ItemsEdge
-}
-
-"""All input for the `deleteItemByNodeId` mutation."""
-input DeleteItemByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Item` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteItem` mutation."""
-input DeleteItemInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
 }
 
 """The output of our delete `Option` mutation."""
@@ -3238,6 +3829,57 @@ input DeleteRelationshipInput {
   optionId: Int!
 }
 
+"""The output of our delete `Request` mutation."""
+type DeleteRequestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Request` that was deleted by this mutation."""
+  request: Request
+  deletedRequestNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+
+  """An edge for our `Request`. May be used by Relay 1."""
+  requestEdge(
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RequestsEdge
+}
+
+"""All input for the `deleteRequestByNodeId` mutation."""
+input DeleteRequestByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Request` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteRequest` mutation."""
+input DeleteRequestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
 """The output of our delete `Subcategory` mutation."""
 type DeleteSubcategoryPayload {
   """
@@ -3300,6 +3942,63 @@ input DeleteSubcategoryByCategoryIdAndNameInput {
   name: String!
 }
 
+"""The output of our delete `Thing` mutation."""
+type DeleteThingPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Thing` that was deleted by this mutation."""
+  thing: Thing
+  deletedThingNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Thing`."""
+  category: Category
+
+  """Reads a single `Subcategory` that is related to this `Thing`."""
+  subcategory: Subcategory
+
+  """Reads a single `User` that is related to this `Thing`."""
+  owner: User
+
+  """An edge for our `Thing`. May be used by Relay 1."""
+  thingEdge(
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ThingsEdge
+}
+
+"""All input for the `deleteThingByNodeId` mutation."""
+input DeleteThingByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Thing` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteThing` mutation."""
+input DeleteThingInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
 """The output of our delete `User` mutation."""
 type DeleteUserPayload {
   """
@@ -3348,19 +4047,18 @@ input DeleteUserInput {
   id: String!
 }
 
-type CreateItemPayload {
-  item: Item
+type CreateThingPayload {
+  thing: Thing
   query: Query
 }
 
-input CreateItemInput {
+input CreateThingInput {
   categoryId: Int!
   subcategoryId: Int!
   attributes: [NewAttributeInput!]!
   media: [String!]!
   ownerId: String!
   quantity: Int
-  isRequest: Boolean
 }
 
 input NewAttributeInput {
