@@ -1,3 +1,2829 @@
+input ApproveInviteInput {
+  phoneNumber: String!
+}
+
+type ApproveInvitePayload {
+  invite: Invite
+  query: Query
+}
+
+type Association implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  subcategoryId: Int!
+  attributeId: Int!
+
+  """Reads a single `Subcategory` that is related to this `Association`."""
+  subcategory: Subcategory
+
+  """Reads a single `Attribute` that is related to this `Association`."""
+  attribute: Attribute
+}
+
+"""
+A condition to be used against `Association` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input AssociationCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `subcategoryId` field."""
+  subcategoryId: Int
+
+  """Checks for equality with the object’s `attributeId` field."""
+  attributeId: Int
+}
+
+"""An input for mutations affecting `Association`"""
+input AssociationInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  subcategoryId: Int!
+  attributeId: Int!
+}
+
+"""A connection to a list of `Association` values."""
+type AssociationsConnection {
+  """A list of `Association` objects."""
+  nodes: [Association!]!
+
+  """
+  A list of edges which contains the `Association` and cursor to aid in pagination.
+  """
+  edges: [AssociationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Association` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Association` edge in the connection."""
+type AssociationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Association` at the end of the edge."""
+  node: Association!
+}
+
+"""Methods to use when ordering `Association`."""
+enum AssociationsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  SUBCATEGORY_ID_ASC
+  SUBCATEGORY_ID_DESC
+  ATTRIBUTE_ID_ASC
+  ATTRIBUTE_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type Attribute implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  name: String!
+  description: String
+  type: OptionType
+  isApproved: Boolean
+
+  """Reads and enables pagination through a set of `Association`."""
+  associations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Association`."""
+    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssociationCondition
+  ): AssociationsConnection!
+
+  """Reads and enables pagination through a set of `Relationship`."""
+  relationships(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Relationship`."""
+    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationshipCondition
+  ): RelationshipsConnection!
+
+  """Reads and enables pagination through a set of `Characteristic`."""
+  characteristics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Characteristic`."""
+    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CharacteristicCondition
+  ): CharacteristicsConnection!
+}
+
+"""
+A condition to be used against `Attribute` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input AttributeCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `type` field."""
+  type: OptionType
+
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
+}
+
+"""
+Represents an update to a `Attribute`. Fields that are set will be updated.
+"""
+input AttributePatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  name: String
+  description: String
+  type: OptionType
+  isApproved: Boolean
+}
+
+"""A connection to a list of `Attribute` values."""
+type AttributesConnection {
+  """A list of `Attribute` objects."""
+  nodes: [Attribute!]!
+
+  """
+  A list of edges which contains the `Attribute` and cursor to aid in pagination.
+  """
+  edges: [AttributesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Attribute` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Attribute` edge in the connection."""
+type AttributesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Attribute` at the end of the edge."""
+  node: Attribute!
+}
+
+"""Methods to use when ordering `Attribute`."""
+enum AttributesOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  TYPE_ASC
+  TYPE_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""A connection to a list of `Category` values."""
+type CategoriesConnection {
+  """A list of `Category` objects."""
+  nodes: [Category!]!
+
+  """
+  A list of edges which contains the `Category` and cursor to aid in pagination.
+  """
+  edges: [CategoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Category` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Category` edge in the connection."""
+type CategoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Category` at the end of the edge."""
+  node: Category!
+}
+
+"""Methods to use when ordering `Category`."""
+enum CategoriesOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type Category implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  name: String!
+  description: String
+  isApproved: Boolean
+
+  """Reads and enables pagination through a set of `Subcategory`."""
+  subcategories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Subcategory`."""
+    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SubcategoryCondition
+  ): SubcategoriesConnection!
+
+  """Reads and enables pagination through a set of `Thing`."""
+  things(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ThingCondition
+  ): ThingsConnection!
+}
+
+"""
+A condition to be used against `Category` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input CategoryCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
+}
+
+"""An input for mutations affecting `Category`"""
+input CategoryInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  name: String!
+  description: String
+  isApproved: Boolean
+}
+
+"""
+Represents an update to a `Category`. Fields that are set will be updated.
+"""
+input CategoryPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  name: String
+  description: String
+  isApproved: Boolean
+}
+
+type Characteristic implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  thingId: Int!
+  attributeId: Int!
+  optionId: Int!
+
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
+
+  """Reads a single `Attribute` that is related to this `Characteristic`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Characteristic`."""
+  option: Option
+}
+
+"""
+A condition to be used against `Characteristic` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input CharacteristicCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `thingId` field."""
+  thingId: Int
+
+  """Checks for equality with the object’s `attributeId` field."""
+  attributeId: Int
+
+  """Checks for equality with the object’s `optionId` field."""
+  optionId: Int
+}
+
+"""An input for mutations affecting `Characteristic`"""
+input CharacteristicInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  thingId: Int!
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""
+Represents an update to a `Characteristic`. Fields that are set will be updated.
+"""
+input CharacteristicPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  thingId: Int
+  attributeId: Int
+  optionId: Int
+}
+
+"""A connection to a list of `Characteristic` values."""
+type CharacteristicsConnection {
+  """A list of `Characteristic` objects."""
+  nodes: [Characteristic!]!
+
+  """
+  A list of edges which contains the `Characteristic` and cursor to aid in pagination.
+  """
+  edges: [CharacteristicsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Characteristic` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Characteristic` edge in the connection."""
+type CharacteristicsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Characteristic` at the end of the edge."""
+  node: Characteristic!
+}
+
+"""Methods to use when ordering `Characteristic`."""
+enum CharacteristicsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  THING_ID_ASC
+  THING_ID_DESC
+  ATTRIBUTE_ID_ASC
+  ATTRIBUTE_ID_DESC
+  OPTION_ID_ASC
+  OPTION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type Concern {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""
+A condition to be used against `Concern` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ConcernCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""An input for mutations affecting `Concern`"""
+input ConcernInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A connection to a list of `Concern` values."""
+type ConcernsConnection {
+  """A list of `Concern` objects."""
+  nodes: [Concern!]!
+
+  """
+  A list of edges which contains the `Concern` and cursor to aid in pagination.
+  """
+  edges: [ConcernsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Concern` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Concern` edge in the connection."""
+type ConcernsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Concern` at the end of the edge."""
+  node: Concern!
+}
+
+"""Methods to use when ordering `Concern`."""
+enum ConcernsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+input CreateAssociationForAttributeInput {
+  subcategoryId: Int!
+}
+
+"""All input for the create `Association` mutation."""
+input CreateAssociationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Association` to be created by this mutation."""
+  association: AssociationInput!
+}
+
+"""The output of our create `Association` mutation."""
+type CreateAssociationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Association` that was created by this mutation."""
+  association: Association
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Subcategory` that is related to this `Association`."""
+  subcategory: Subcategory
+
+  """Reads a single `Attribute` that is related to this `Association`."""
+  attribute: Attribute
+
+  """An edge for our `Association`. May be used by Relay 1."""
+  associationEdge(
+    """The method to use when ordering `Association`."""
+    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssociationsEdge
+}
+
+input CreateAttributeInput {
+  name: String!
+  type: String!
+  description: String
+  associations: [CreateAssociationForAttributeInput!]!
+  options: [CreateOptionInput!]!
+}
+
+type CreateAttributePayload {
+  attribute: Attribute
+  query: Query
+}
+
+"""All input for the create `Category` mutation."""
+input CreateCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Category` to be created by this mutation."""
+  category: CategoryInput!
+}
+
+"""The output of our create `Category` mutation."""
+type CreateCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was created by this mutation."""
+  category: Category
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the create `Characteristic` mutation."""
+input CreateCharacteristicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Characteristic` to be created by this mutation."""
+  characteristic: CharacteristicInput!
+}
+
+"""The output of our create `Characteristic` mutation."""
+type CreateCharacteristicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Characteristic` that was created by this mutation."""
+  characteristic: Characteristic
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
+
+  """Reads a single `Attribute` that is related to this `Characteristic`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Characteristic`."""
+  option: Option
+
+  """An edge for our `Characteristic`. May be used by Relay 1."""
+  characteristicEdge(
+    """The method to use when ordering `Characteristic`."""
+    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CharacteristicsEdge
+}
+
+"""All input for the create `Concern` mutation."""
+input CreateConcernInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Concern` to be created by this mutation."""
+  concern: ConcernInput!
+}
+
+"""The output of our create `Concern` mutation."""
+type CreateConcernPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Concern` that was created by this mutation."""
+  concern: Concern
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Concern`. May be used by Relay 1."""
+  concernEdge(
+    """The method to use when ordering `Concern`."""
+    orderBy: [ConcernsOrderBy!] = [NATURAL]
+  ): ConcernsEdge
+}
+
+"""All input for the create `Help` mutation."""
+input CreateHelpInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Help` to be created by this mutation."""
+  help: HelpInput!
+}
+
+"""The output of our create `Help` mutation."""
+type CreateHelpPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Help` that was created by this mutation."""
+  help: Help
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Help`. May be used by Relay 1."""
+  helpEdge(
+    """The method to use when ordering `Help`."""
+    orderBy: [HelpsOrderBy!] = [NATURAL]
+  ): HelpsEdge
+}
+
+"""All input for the create `Idea` mutation."""
+input CreateIdeaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Idea` to be created by this mutation."""
+  idea: IdeaInput!
+}
+
+"""The output of our create `Idea` mutation."""
+type CreateIdeaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Idea` that was created by this mutation."""
+  idea: Idea
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Idea`. May be used by Relay 1."""
+  ideaEdge(
+    """The method to use when ordering `Idea`."""
+    orderBy: [IdeasOrderBy!] = [NATURAL]
+  ): IdeasEdge
+}
+
+"""All input for the create `Invite` mutation."""
+input CreateInviteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Invite` to be created by this mutation."""
+  invite: InviteInput!
+}
+
+"""The output of our create `Invite` mutation."""
+type CreateInvitePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Invite` that was created by this mutation."""
+  invite: Invite
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Invite`. May be used by Relay 1."""
+  inviteEdge(
+    """The method to use when ordering `Invite`."""
+    orderBy: [InvitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): InvitesEdge
+}
+
+"""All input for the create `Option` mutation."""
+input CreateOptionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Option` to be created by this mutation."""
+  option: OptionInput!
+}
+
+"""The output of our create `Option` mutation."""
+type CreateOptionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Option` that was created by this mutation."""
+  option: Option
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Option`. May be used by Relay 1."""
+  optionEdge(
+    """The method to use when ordering `Option`."""
+    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OptionsEdge
+}
+
+"""All input for the create `Relationship` mutation."""
+input CreateRelationshipInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Relationship` to be created by this mutation."""
+  relationship: RelationshipInput!
+}
+
+"""The output of our create `Relationship` mutation."""
+type CreateRelationshipPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Relationship` that was created by this mutation."""
+  relationship: Relationship
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Attribute` that is related to this `Relationship`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Relationship`."""
+  option: Option
+
+  """An edge for our `Relationship`. May be used by Relay 1."""
+  relationshipEdge(
+    """The method to use when ordering `Relationship`."""
+    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationshipsEdge
+}
+
+"""All input for the create `Request` mutation."""
+input CreateRequestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Request` to be created by this mutation."""
+  request: RequestInput!
+}
+
+"""The output of our create `Request` mutation."""
+type CreateRequestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Request` that was created by this mutation."""
+  request: Request
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+
+  """An edge for our `Request`. May be used by Relay 1."""
+  requestEdge(
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RequestsEdge
+}
+
+"""All input for the create `Subcategory` mutation."""
+input CreateSubcategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Subcategory` to be created by this mutation."""
+  subcategory: SubcategoryInput!
+}
+
+"""The output of our create `Subcategory` mutation."""
+type CreateSubcategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Subcategory` that was created by this mutation."""
+  subcategory: Subcategory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Subcategory`."""
+  category: Category
+
+  """An edge for our `Subcategory`. May be used by Relay 1."""
+  subcategoryEdge(
+    """The method to use when ordering `Subcategory`."""
+    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SubcategoriesEdge
+}
+
+input CreateThingInput {
+  categoryId: Int!
+  subcategoryId: Int!
+  attributes: [NewAttributeInput!]!
+  media: [String!]!
+  ownerId: String!
+  quantity: Int
+  geomPoint: GeoJSON
+}
+
+type CreateThingPayload {
+  thing: Thing
+  query: Query
+}
+
+input CreateUserInput {
+  uid: String!
+}
+
+type CreateUserPayload {
+  user: User
+  query: Query
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""All input for the `deleteAssociationByNodeId` mutation."""
+input DeleteAssociationByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Association` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteAssociation` mutation."""
+input DeleteAssociationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  subcategoryId: Int!
+  attributeId: Int!
+}
+
+"""The output of our delete `Association` mutation."""
+type DeleteAssociationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Association` that was deleted by this mutation."""
+  association: Association
+  deletedAssociationNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Subcategory` that is related to this `Association`."""
+  subcategory: Subcategory
+
+  """Reads a single `Attribute` that is related to this `Association`."""
+  attribute: Attribute
+
+  """An edge for our `Association`. May be used by Relay 1."""
+  associationEdge(
+    """The method to use when ordering `Association`."""
+    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssociationsEdge
+}
+
+"""All input for the `deleteAttributeByName` mutation."""
+input DeleteAttributeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""All input for the `deleteAttributeByNodeId` mutation."""
+input DeleteAttributeByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Attribute` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteAttribute` mutation."""
+input DeleteAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Attribute` mutation."""
+type DeleteAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Attribute` that was deleted by this mutation."""
+  attribute: Attribute
+  deletedAttributeNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Attribute`. May be used by Relay 1."""
+  attributeEdge(
+    """The method to use when ordering `Attribute`."""
+    orderBy: [AttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AttributesEdge
+}
+
+"""All input for the `deleteCategoryByName` mutation."""
+input DeleteCategoryByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""All input for the `deleteCategoryByNodeId` mutation."""
+input DeleteCategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Category` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteCategory` mutation."""
+input DeleteCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Category` mutation."""
+type DeleteCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was deleted by this mutation."""
+  category: Category
+  deletedCategoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the `deleteCharacteristicByNodeId` mutation."""
+input DeleteCharacteristicByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Characteristic` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteCharacteristic` mutation."""
+input DeleteCharacteristicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  thingId: Int!
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""The output of our delete `Characteristic` mutation."""
+type DeleteCharacteristicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Characteristic` that was deleted by this mutation."""
+  characteristic: Characteristic
+  deletedCharacteristicNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
+
+  """Reads a single `Attribute` that is related to this `Characteristic`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Characteristic`."""
+  option: Option
+
+  """An edge for our `Characteristic`. May be used by Relay 1."""
+  characteristicEdge(
+    """The method to use when ordering `Characteristic`."""
+    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CharacteristicsEdge
+}
+
+"""All input for the `deleteInviteByNodeId` mutation."""
+input DeleteInviteByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Invite` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteInvite` mutation."""
+input DeleteInviteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  phoneNumber: String!
+}
+
+"""The output of our delete `Invite` mutation."""
+type DeleteInvitePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Invite` that was deleted by this mutation."""
+  invite: Invite
+  deletedInviteNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Invite`. May be used by Relay 1."""
+  inviteEdge(
+    """The method to use when ordering `Invite`."""
+    orderBy: [InvitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): InvitesEdge
+}
+
+"""All input for the `deleteOptionByNodeId` mutation."""
+input DeleteOptionByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Option` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteOption` mutation."""
+input DeleteOptionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Option` mutation."""
+type DeleteOptionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Option` that was deleted by this mutation."""
+  option: Option
+  deletedOptionNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Option`. May be used by Relay 1."""
+  optionEdge(
+    """The method to use when ordering `Option`."""
+    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OptionsEdge
+}
+
+"""All input for the `deleteRelationshipByNodeId` mutation."""
+input DeleteRelationshipByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Relationship` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteRelationship` mutation."""
+input DeleteRelationshipInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""The output of our delete `Relationship` mutation."""
+type DeleteRelationshipPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Relationship` that was deleted by this mutation."""
+  relationship: Relationship
+  deletedRelationshipNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Attribute` that is related to this `Relationship`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Relationship`."""
+  option: Option
+
+  """An edge for our `Relationship`. May be used by Relay 1."""
+  relationshipEdge(
+    """The method to use when ordering `Relationship`."""
+    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationshipsEdge
+}
+
+"""All input for the `deleteRequestByNodeId` mutation."""
+input DeleteRequestByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Request` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteRequest` mutation."""
+input DeleteRequestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Request` mutation."""
+type DeleteRequestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Request` that was deleted by this mutation."""
+  request: Request
+  deletedRequestNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+
+  """An edge for our `Request`. May be used by Relay 1."""
+  requestEdge(
+    """The method to use when ordering `Request`."""
+    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RequestsEdge
+}
+
+"""All input for the `deleteSubcategoryByCategoryIdAndName` mutation."""
+input DeleteSubcategoryByCategoryIdAndNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  categoryId: Int!
+  name: String!
+}
+
+"""All input for the `deleteSubcategoryByNodeId` mutation."""
+input DeleteSubcategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Subcategory` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteSubcategory` mutation."""
+input DeleteSubcategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Subcategory` mutation."""
+type DeleteSubcategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Subcategory` that was deleted by this mutation."""
+  subcategory: Subcategory
+  deletedSubcategoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Subcategory`."""
+  category: Category
+
+  """An edge for our `Subcategory`. May be used by Relay 1."""
+  subcategoryEdge(
+    """The method to use when ordering `Subcategory`."""
+    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SubcategoriesEdge
+}
+
+"""All input for the `deleteThingByNodeId` mutation."""
+input DeleteThingByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Thing` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteThing` mutation."""
+input DeleteThingInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Thing` mutation."""
+type DeleteThingPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Thing` that was deleted by this mutation."""
+  thing: Thing
+  deletedThingNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Thing`."""
+  category: Category
+
+  """Reads a single `Subcategory` that is related to this `Thing`."""
+  subcategory: Subcategory
+
+  """Reads a single `User` that is related to this `Thing`."""
+  owner: User
+
+  """An edge for our `Thing`. May be used by Relay 1."""
+  thingEdge(
+    """The method to use when ordering `Thing`."""
+    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ThingsEdge
+}
+
+"""All input for the `deleteUserByNodeId` mutation."""
+input DeleteUserByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: String!
+}
+
+"""The output of our delete `User` mutation."""
+type DeleteUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was deleted by this mutation."""
+  user: User
+  deletedUserNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""
+The `GeoJSON` scalar type represents GeoJSON values as specified by[RFC 7946](https://tools.ietf.org/html/rfc7946).
+"""
+scalar GeoJSON
+
+"""All geometry XY types implement this interface"""
+interface GeometryGeometry {
+  """Converts the object to GeoJSON"""
+  geojson: GeoJSON
+
+  """Spatial reference identifier (SRID)"""
+  srid: Int!
+}
+
+type GeometryGeometryCollection implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  geometries: [GeometryGeometry]
+}
+
+type GeometryGeometryCollectionM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  geometries: [GeometryGeometryM]
+}
+
+type GeometryGeometryCollectionZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  geometries: [GeometryGeometryZ]
+}
+
+type GeometryGeometryCollectionZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  geometries: [GeometryGeometryZM]
+}
+
+"""All geometry XYM types implement this interface"""
+interface GeometryGeometryM {
+  """Converts the object to GeoJSON"""
+  geojson: GeoJSON
+
+  """Spatial reference identifier (SRID)"""
+  srid: Int!
+}
+
+"""All geometry XYZ types implement this interface"""
+interface GeometryGeometryZ {
+  """Converts the object to GeoJSON"""
+  geojson: GeoJSON
+
+  """Spatial reference identifier (SRID)"""
+  srid: Int!
+}
+
+"""All geometry XYZM types implement this interface"""
+interface GeometryGeometryZM {
+  """Converts the object to GeoJSON"""
+  geojson: GeoJSON
+
+  """Spatial reference identifier (SRID)"""
+  srid: Int!
+}
+
+"""All geometry types implement this interface"""
+interface GeometryInterface {
+  """Converts the object to GeoJSON"""
+  geojson: GeoJSON
+
+  """Spatial reference identifier (SRID)"""
+  srid: Int!
+}
+
+type GeometryLineString implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPoint]
+}
+
+type GeometryLineStringM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointM]
+}
+
+type GeometryLineStringZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointZ]
+}
+
+type GeometryLineStringZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointZM]
+}
+
+type GeometryMultiLineString implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  lines: [GeometryLineString]
+}
+
+type GeometryMultiLineStringM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  lines: [GeometryLineStringM]
+}
+
+type GeometryMultiLineStringZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  lines: [GeometryLineStringZ]
+}
+
+type GeometryMultiLineStringZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  lines: [GeometryLineStringZM]
+}
+
+type GeometryMultiPoint implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPoint]
+}
+
+type GeometryMultiPointM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointM]
+}
+
+type GeometryMultiPointZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointZ]
+}
+
+type GeometryMultiPointZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  points: [GeometryPointZM]
+}
+
+type GeometryMultiPolygon implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  polygons: [GeometryPolygon]
+}
+
+type GeometryMultiPolygonM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  polygons: [GeometryPolygonM]
+}
+
+type GeometryMultiPolygonZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  polygons: [GeometryPolygonZ]
+}
+
+type GeometryMultiPolygonZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  polygons: [GeometryPolygonZM]
+}
+
+type GeometryPoint implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  x: Float!
+  y: Float!
+}
+
+type GeometryPointM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  x: Float!
+  y: Float!
+}
+
+type GeometryPointZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  x: Float!
+  y: Float!
+}
+
+type GeometryPointZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  x: Float!
+  y: Float!
+}
+
+type GeometryPolygon implements GeometryInterface & GeometryGeometry {
+  geojson: GeoJSON
+  srid: Int!
+  exterior: GeometryLineString
+  interiors: [GeometryLineString]
+}
+
+type GeometryPolygonM implements GeometryInterface & GeometryGeometryM {
+  geojson: GeoJSON
+  srid: Int!
+  exterior: GeometryLineStringM
+  interiors: [GeometryLineStringM]
+}
+
+type GeometryPolygonZ implements GeometryInterface & GeometryGeometryZ {
+  geojson: GeoJSON
+  srid: Int!
+  exterior: GeometryLineStringZ
+  interiors: [GeometryLineStringZ]
+}
+
+type GeometryPolygonZM implements GeometryInterface & GeometryGeometryZM {
+  geojson: GeoJSON
+  srid: Int!
+  exterior: GeometryLineStringZM
+  interiors: [GeometryLineStringZM]
+}
+
+type Help {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""
+A condition to be used against `Help` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input HelpCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""An input for mutations affecting `Help`"""
+input HelpInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A connection to a list of `Help` values."""
+type HelpsConnection {
+  """A list of `Help` objects."""
+  nodes: [Help!]!
+
+  """
+  A list of edges which contains the `Help` and cursor to aid in pagination.
+  """
+  edges: [HelpsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Help` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Help` edge in the connection."""
+type HelpsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Help` at the end of the edge."""
+  node: Help!
+}
+
+"""Methods to use when ordering `Help`."""
+enum HelpsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+type Idea {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""
+A condition to be used against `Idea` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input IdeaCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""An input for mutations affecting `Idea`"""
+input IdeaInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String!
+}
+
+"""A connection to a list of `Idea` values."""
+type IdeasConnection {
+  """A list of `Idea` objects."""
+  nodes: [Idea!]!
+
+  """
+  A list of edges which contains the `Idea` and cursor to aid in pagination.
+  """
+  edges: [IdeasEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Idea` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Idea` edge in the connection."""
+type IdeasEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Idea` at the end of the edge."""
+  node: Idea!
+}
+
+"""Methods to use when ordering `Idea`."""
+enum IdeasOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+type Invite implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  phoneNumber: String!
+  isApproved: Boolean
+}
+
+"""
+A condition to be used against `Invite` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input InviteCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `phoneNumber` field."""
+  phoneNumber: String
+
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
+}
+
+"""An input for mutations affecting `Invite`"""
+input InviteInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  phoneNumber: String!
+  isApproved: Boolean
+}
+
+"""A connection to a list of `Invite` values."""
+type InvitesConnection {
+  """A list of `Invite` objects."""
+  nodes: [Invite!]!
+
+  """
+  A list of edges which contains the `Invite` and cursor to aid in pagination.
+  """
+  edges: [InvitesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Invite` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Invite` edge in the connection."""
+type InvitesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Invite` at the end of the edge."""
+  node: Invite!
+}
+
+"""Methods to use when ordering `Invite`."""
+enum InvitesOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  PHONE_NUMBER_ASC
+  PHONE_NUMBER_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Association`."""
+  createAssociation(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAssociationInput!
+  ): CreateAssociationPayload
+
+  """Creates a single `Category`."""
+  createCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCategoryInput!
+  ): CreateCategoryPayload
+
+  """Creates a single `Characteristic`."""
+  createCharacteristic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCharacteristicInput!
+  ): CreateCharacteristicPayload
+
+  """Creates a single `Concern`."""
+  createConcern(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateConcernInput!
+  ): CreateConcernPayload
+
+  """Creates a single `Help`."""
+  createHelp(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateHelpInput!
+  ): CreateHelpPayload
+
+  """Creates a single `Idea`."""
+  createIdea(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateIdeaInput!
+  ): CreateIdeaPayload
+
+  """Creates a single `Invite`."""
+  createInvite(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateInviteInput!
+  ): CreateInvitePayload
+
+  """Creates a single `Option`."""
+  createOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateOptionInput!
+  ): CreateOptionPayload
+
+  """Creates a single `Relationship`."""
+  createRelationship(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRelationshipInput!
+  ): CreateRelationshipPayload
+
+  """Creates a single `Request`."""
+  createRequest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRequestInput!
+  ): CreateRequestPayload
+
+  """Creates a single `Subcategory`."""
+  createSubcategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateSubcategoryInput!
+  ): CreateSubcategoryPayload
+
+  """Updates a single `Attribute` using its globally unique id and a patch."""
+  updateAttributeByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAttributeByNodeIdInput!
+  ): UpdateAttributePayload
+
+  """Updates a single `Attribute` using a unique key and a patch."""
+  updateAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAttributeInput!
+  ): UpdateAttributePayload
+
+  """Updates a single `Attribute` using a unique key and a patch."""
+  updateAttributeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAttributeByNameInput!
+  ): UpdateAttributePayload
+
+  """Updates a single `Category` using its globally unique id and a patch."""
+  updateCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryByNodeIdInput!
+  ): UpdateCategoryPayload
+
+  """Updates a single `Category` using a unique key and a patch."""
+  updateCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryInput!
+  ): UpdateCategoryPayload
+
+  """Updates a single `Category` using a unique key and a patch."""
+  updateCategoryByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryByNameInput!
+  ): UpdateCategoryPayload
+
+  """
+  Updates a single `Characteristic` using its globally unique id and a patch.
+  """
+  updateCharacteristicByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCharacteristicByNodeIdInput!
+  ): UpdateCharacteristicPayload
+
+  """Updates a single `Characteristic` using a unique key and a patch."""
+  updateCharacteristic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCharacteristicInput!
+  ): UpdateCharacteristicPayload
+
+  """Updates a single `Option` using its globally unique id and a patch."""
+  updateOptionByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateOptionByNodeIdInput!
+  ): UpdateOptionPayload
+
+  """Updates a single `Option` using a unique key and a patch."""
+  updateOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateOptionInput!
+  ): UpdateOptionPayload
+
+  """
+  Updates a single `Subcategory` using its globally unique id and a patch.
+  """
+  updateSubcategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSubcategoryByNodeIdInput!
+  ): UpdateSubcategoryPayload
+
+  """Updates a single `Subcategory` using a unique key and a patch."""
+  updateSubcategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSubcategoryInput!
+  ): UpdateSubcategoryPayload
+
+  """Updates a single `Subcategory` using a unique key and a patch."""
+  updateSubcategoryByCategoryIdAndName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSubcategoryByCategoryIdAndNameInput!
+  ): UpdateSubcategoryPayload
+
+  """Deletes a single `Association` using its globally unique id."""
+  deleteAssociationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssociationByNodeIdInput!
+  ): DeleteAssociationPayload
+
+  """Deletes a single `Association` using a unique key."""
+  deleteAssociation(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssociationInput!
+  ): DeleteAssociationPayload
+
+  """Deletes a single `Attribute` using its globally unique id."""
+  deleteAttributeByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeByNodeIdInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Attribute` using a unique key."""
+  deleteAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Attribute` using a unique key."""
+  deleteAttributeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAttributeByNameInput!
+  ): DeleteAttributePayload
+
+  """Deletes a single `Category` using its globally unique id."""
+  deleteCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNodeIdInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategoryByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNameInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Characteristic` using its globally unique id."""
+  deleteCharacteristicByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCharacteristicByNodeIdInput!
+  ): DeleteCharacteristicPayload
+
+  """Deletes a single `Characteristic` using a unique key."""
+  deleteCharacteristic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCharacteristicInput!
+  ): DeleteCharacteristicPayload
+
+  """Deletes a single `Invite` using its globally unique id."""
+  deleteInviteByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteInviteByNodeIdInput!
+  ): DeleteInvitePayload
+
+  """Deletes a single `Invite` using a unique key."""
+  deleteInvite(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteInviteInput!
+  ): DeleteInvitePayload
+
+  """Deletes a single `Option` using its globally unique id."""
+  deleteOptionByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOptionByNodeIdInput!
+  ): DeleteOptionPayload
+
+  """Deletes a single `Option` using a unique key."""
+  deleteOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOptionInput!
+  ): DeleteOptionPayload
+
+  """Deletes a single `Relationship` using its globally unique id."""
+  deleteRelationshipByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRelationshipByNodeIdInput!
+  ): DeleteRelationshipPayload
+
+  """Deletes a single `Relationship` using a unique key."""
+  deleteRelationship(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRelationshipInput!
+  ): DeleteRelationshipPayload
+
+  """Deletes a single `Request` using its globally unique id."""
+  deleteRequestByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRequestByNodeIdInput!
+  ): DeleteRequestPayload
+
+  """Deletes a single `Request` using a unique key."""
+  deleteRequest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRequestInput!
+  ): DeleteRequestPayload
+
+  """Deletes a single `Subcategory` using its globally unique id."""
+  deleteSubcategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryByNodeIdInput!
+  ): DeleteSubcategoryPayload
+
+  """Deletes a single `Subcategory` using a unique key."""
+  deleteSubcategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryInput!
+  ): DeleteSubcategoryPayload
+
+  """Deletes a single `Subcategory` using a unique key."""
+  deleteSubcategoryByCategoryIdAndName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSubcategoryByCategoryIdAndNameInput!
+  ): DeleteSubcategoryPayload
+
+  """Deletes a single `Thing` using its globally unique id."""
+  deleteThingByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThingByNodeIdInput!
+  ): DeleteThingPayload
+
+  """Deletes a single `Thing` using a unique key."""
+  deleteThing(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThingInput!
+  ): DeleteThingPayload
+
+  """Deletes a single `User` using its globally unique id."""
+  deleteUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByNodeIdInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
+  deleteUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+  createThing(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateThingInput!
+  ): CreateThingPayload
+  approveInvite(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ApproveInviteInput!
+  ): ApproveInvitePayload
+  createAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAttributeInput!
+  ): CreateAttributePayload
+  proposeAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ProposeAttributeInput!
+  ): ProposeAttributePayload
+  proposeOption(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ProposeOptionInput!
+  ): ProposeOptionPayload
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload
+}
+
+input NewAttributeInput {
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+type Option implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  value: String!
+  type: OptionType
+  isApproved: Boolean
+
+  """Reads and enables pagination through a set of `Relationship`."""
+  relationships(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Relationship`."""
+    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationshipCondition
+  ): RelationshipsConnection!
+
+  """Reads and enables pagination through a set of `Characteristic`."""
+  characteristics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Characteristic`."""
+    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CharacteristicCondition
+  ): CharacteristicsConnection!
+}
+
+"""
+A condition to be used against `Option` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input OptionCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `value` field."""
+  value: String
+
+  """Checks for equality with the object’s `type` field."""
+  type: OptionType
+
+  """Checks for equality with the object’s `isApproved` field."""
+  isApproved: Boolean
+}
+
+"""An input for mutations affecting `Option`"""
+input OptionInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  value: String!
+  type: OptionType
+  isApproved: Boolean
+}
+
+"""
+Represents an update to a `Option`. Fields that are set will be updated.
+"""
+input OptionPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  value: String
+  type: OptionType
+  isApproved: Boolean
+}
+
+"""A connection to a list of `Option` values."""
+type OptionsConnection {
+  """A list of `Option` objects."""
+  nodes: [Option!]!
+
+  """
+  A list of edges which contains the `Option` and cursor to aid in pagination.
+  """
+  edges: [OptionsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Option` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Option` edge in the connection."""
+type OptionsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Option` at the end of the edge."""
+  node: Option!
+}
+
+"""Methods to use when ordering `Option`."""
+enum OptionsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  VALUE_ASC
+  VALUE_DESC
+  TYPE_ASC
+  TYPE_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+enum OptionType {
+  TEXT
+  COMPANY
+  SIZE
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+input ProposeAttributeInput {
+  name: String!
+}
+
+type ProposeAttributePayload {
+  attribute: Attribute
+  query: Query
+}
+
+input ProposeOptionInput {
+  value: String!
+  attributeId: Int!
+}
+
+type ProposeOptionPayload {
+  option: Option
+  query: Query
+}
+
 """The root query type which gives access points into the data universe."""
 type Query implements Node {
   """
@@ -512,32 +3338,7 @@ type Query implements Node {
   ): User
 }
 
-"""An object with a globally unique `ID`."""
-interface Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-}
-
-"""A connection to a list of `Association` values."""
-type AssociationsConnection {
-  """A list of `Association` objects."""
-  nodes: [Association!]!
-
-  """
-  A list of edges which contains the `Association` and cursor to aid in pagination.
-  """
-  edges: [AssociationsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Association` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Association implements Node {
+type Relationship implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
@@ -545,21 +3346,259 @@ type Association implements Node {
   createdAt: Datetime
   updatedAt: Datetime
   createdBy: String
-  subcategoryId: Int!
   attributeId: Int!
+  optionId: Int!
 
-  """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategory: Subcategory
-
-  """Reads a single `Attribute` that is related to this `Association`."""
+  """Reads a single `Attribute` that is related to this `Relationship`."""
   attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Relationship`."""
+  option: Option
 }
 
 """
-A point in time as described by the [ISO
-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+A condition to be used against `Relationship` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-scalar Datetime
+input RelationshipCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `attributeId` field."""
+  attributeId: Int
+
+  """Checks for equality with the object’s `optionId` field."""
+  optionId: Int
+}
+
+"""An input for mutations affecting `Relationship`"""
+input RelationshipInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""A connection to a list of `Relationship` values."""
+type RelationshipsConnection {
+  """A list of `Relationship` objects."""
+  nodes: [Relationship!]!
+
+  """
+  A list of edges which contains the `Relationship` and cursor to aid in pagination.
+  """
+  edges: [RelationshipsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Relationship` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Relationship` edge in the connection."""
+type RelationshipsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Relationship` at the end of the edge."""
+  node: Relationship!
+}
+
+"""Methods to use when ordering `Relationship`."""
+enum RelationshipsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ATTRIBUTE_ID_ASC
+  ATTRIBUTE_ID_DESC
+  OPTION_ID_ASC
+  OPTION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type Request implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  requesterId: String!
+  media: [String]
+  referenceLink: String
+  description: String
+  quantity: Int!
+  metadata: JSON
+
+  """Reads a single `User` that is related to this `Request`."""
+  requester: User
+}
+
+"""
+A condition to be used against `Request` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input RequestCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `requesterId` field."""
+  requesterId: String
+
+  """Checks for equality with the object’s `media` field."""
+  media: [String]
+
+  """Checks for equality with the object’s `referenceLink` field."""
+  referenceLink: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `quantity` field."""
+  quantity: Int
+
+  """Checks for equality with the object’s `metadata` field."""
+  metadata: JSON
+}
+
+"""An input for mutations affecting `Request`"""
+input RequestInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  requesterId: String!
+  media: [String]
+  referenceLink: String
+  description: String
+  quantity: Int
+  metadata: JSON
+}
+
+"""A connection to a list of `Request` values."""
+type RequestsConnection {
+  """A list of `Request` objects."""
+  nodes: [Request!]!
+
+  """
+  A list of edges which contains the `Request` and cursor to aid in pagination.
+  """
+  edges: [RequestsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Request` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Request` edge in the connection."""
+type RequestsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Request` at the end of the edge."""
+  node: Request!
+}
+
+"""Methods to use when ordering `Request`."""
+enum RequestsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  REQUESTER_ID_ASC
+  REQUESTER_ID_DESC
+  MEDIA_ASC
+  MEDIA_DESC
+  REFERENCE_LINK_ASC
+  REFERENCE_LINK_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  QUANTITY_ASC
+  QUANTITY_DESC
+  METADATA_ASC
+  METADATA_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""A connection to a list of `Subcategory` values."""
+type SubcategoriesConnection {
+  """A list of `Subcategory` objects."""
+  nodes: [Subcategory!]!
+
+  """
+  A list of edges which contains the `Subcategory` and cursor to aid in pagination.
+  """
+  edges: [SubcategoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Subcategory` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Subcategory` edge in the connection."""
+type SubcategoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Subcategory` at the end of the edge."""
+  node: Subcategory!
+}
+
+"""Methods to use when ordering `Subcategory`."""
+enum SubcategoriesOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  CATEGORY_ID_ASC
+  CATEGORY_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  IS_APPROVED_ASC
+  IS_APPROVED_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
 
 type Subcategory implements Node {
   """
@@ -637,145 +3676,6 @@ type Subcategory implements Node {
   ): ThingsConnection!
 }
 
-type Category implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int!
-  name: String!
-  description: String
-  isApproved: Boolean
-
-  """Reads and enables pagination through a set of `Subcategory`."""
-  subcategories(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Subcategory`."""
-    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: SubcategoryCondition
-  ): SubcategoriesConnection!
-
-  """Reads and enables pagination through a set of `Thing`."""
-  things(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ThingCondition
-  ): ThingsConnection!
-}
-
-"""A connection to a list of `Subcategory` values."""
-type SubcategoriesConnection {
-  """A list of `Subcategory` objects."""
-  nodes: [Subcategory!]!
-
-  """
-  A list of edges which contains the `Subcategory` and cursor to aid in pagination.
-  """
-  edges: [SubcategoriesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Subcategory` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Subcategory` edge in the connection."""
-type SubcategoriesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Subcategory` at the end of the edge."""
-  node: Subcategory!
-}
-
-"""A location in a connection that can be used for resuming pagination."""
-scalar Cursor
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: Cursor
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: Cursor
-}
-
-"""Methods to use when ordering `Subcategory`."""
-enum SubcategoriesOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  CATEGORY_ID_ASC
-  CATEGORY_ID_DESC
-  NAME_ASC
-  NAME_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  IS_APPROVED_ASC
-  IS_APPROVED_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
 """
 A condition to be used against `Subcategory` object types. All fields are tested
 for equality and combined with a logical ‘and.’
@@ -806,21 +3706,30 @@ input SubcategoryCondition {
   isApproved: Boolean
 }
 
-"""A connection to a list of `Thing` values."""
-type ThingsConnection {
-  """A list of `Thing` objects."""
-  nodes: [Thing!]!
+"""An input for mutations affecting `Subcategory`"""
+input SubcategoryInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  categoryId: Int!
+  name: String!
+  description: String
+  isApproved: Boolean
+}
 
-  """
-  A list of edges which contains the `Thing` and cursor to aid in pagination.
-  """
-  edges: [ThingsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Thing` you could get from the connection."""
-  totalCount: Int!
+"""
+Represents an update to a `Subcategory`. Fields that are set will be updated.
+"""
+input SubcategoryPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  categoryId: Int
+  name: String
+  description: String
+  isApproved: Boolean
 }
 
 type Thing implements Node {
@@ -838,6 +3747,7 @@ type Thing implements Node {
   media: [String]
   quantity: Int!
   metadata: JSON
+  geomPoint: GeometryPoint
 
   """Reads a single `Category` that is related to this `Thing`."""
   category: Category
@@ -879,9 +3789,442 @@ type Thing implements Node {
 }
 
 """
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+A condition to be used against `Thing` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
-scalar JSON
+input ThingCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `categoryId` field."""
+  categoryId: Int
+
+  """Checks for equality with the object’s `subcategoryId` field."""
+  subcategoryId: Int
+
+  """Checks for equality with the object’s `ownerId` field."""
+  ownerId: String
+
+  """Checks for equality with the object’s `media` field."""
+  media: [String]
+
+  """Checks for equality with the object’s `quantity` field."""
+  quantity: Int
+
+  """Checks for equality with the object’s `metadata` field."""
+  metadata: JSON
+
+  """Checks for equality with the object’s `geomPoint` field."""
+  geomPoint: GeoJSON
+}
+
+"""A connection to a list of `Thing` values."""
+type ThingsConnection {
+  """A list of `Thing` objects."""
+  nodes: [Thing!]!
+
+  """
+  A list of edges which contains the `Thing` and cursor to aid in pagination.
+  """
+  edges: [ThingsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Thing` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Thing` edge in the connection."""
+type ThingsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Thing` at the end of the edge."""
+  node: Thing!
+}
+
+"""Methods to use when ordering `Thing`."""
+enum ThingsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  CATEGORY_ID_ASC
+  CATEGORY_ID_DESC
+  SUBCATEGORY_ID_ASC
+  SUBCATEGORY_ID_DESC
+  OWNER_ID_ASC
+  OWNER_ID_DESC
+  MEDIA_ASC
+  MEDIA_DESC
+  QUANTITY_ASC
+  QUANTITY_DESC
+  METADATA_ASC
+  METADATA_DESC
+  GEOM_POINT_ASC
+  GEOM_POINT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the `updateAttributeByName` mutation."""
+input UpdateAttributeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Attribute` being updated.
+  """
+  patch: AttributePatch!
+  name: String!
+}
+
+"""All input for the `updateAttributeByNodeId` mutation."""
+input UpdateAttributeByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Attribute` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Attribute` being updated.
+  """
+  patch: AttributePatch!
+}
+
+"""All input for the `updateAttribute` mutation."""
+input UpdateAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Attribute` being updated.
+  """
+  patch: AttributePatch!
+  id: Int!
+}
+
+"""The output of our update `Attribute` mutation."""
+type UpdateAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Attribute` that was updated by this mutation."""
+  attribute: Attribute
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Attribute`. May be used by Relay 1."""
+  attributeEdge(
+    """The method to use when ordering `Attribute`."""
+    orderBy: [AttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AttributesEdge
+}
+
+"""All input for the `updateCategoryByName` mutation."""
+input UpdateCategoryByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+  name: String!
+}
+
+"""All input for the `updateCategoryByNodeId` mutation."""
+input UpdateCategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Category` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+}
+
+"""All input for the `updateCategory` mutation."""
+input UpdateCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+  id: Int!
+}
+
+"""The output of our update `Category` mutation."""
+type UpdateCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was updated by this mutation."""
+  category: Category
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the `updateCharacteristicByNodeId` mutation."""
+input UpdateCharacteristicByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Characteristic` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Characteristic` being updated.
+  """
+  patch: CharacteristicPatch!
+}
+
+"""All input for the `updateCharacteristic` mutation."""
+input UpdateCharacteristicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Characteristic` being updated.
+  """
+  patch: CharacteristicPatch!
+  thingId: Int!
+  attributeId: Int!
+  optionId: Int!
+}
+
+"""The output of our update `Characteristic` mutation."""
+type UpdateCharacteristicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Characteristic` that was updated by this mutation."""
+  characteristic: Characteristic
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Thing` that is related to this `Characteristic`."""
+  thing: Thing
+
+  """Reads a single `Attribute` that is related to this `Characteristic`."""
+  attribute: Attribute
+
+  """Reads a single `Option` that is related to this `Characteristic`."""
+  option: Option
+
+  """An edge for our `Characteristic`. May be used by Relay 1."""
+  characteristicEdge(
+    """The method to use when ordering `Characteristic`."""
+    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CharacteristicsEdge
+}
+
+"""All input for the `updateOptionByNodeId` mutation."""
+input UpdateOptionByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Option` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Option` being updated.
+  """
+  patch: OptionPatch!
+}
+
+"""All input for the `updateOption` mutation."""
+input UpdateOptionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Option` being updated.
+  """
+  patch: OptionPatch!
+  id: Int!
+}
+
+"""The output of our update `Option` mutation."""
+type UpdateOptionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Option` that was updated by this mutation."""
+  option: Option
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Option`. May be used by Relay 1."""
+  optionEdge(
+    """The method to use when ordering `Option`."""
+    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OptionsEdge
+}
+
+"""All input for the `updateSubcategoryByCategoryIdAndName` mutation."""
+input UpdateSubcategoryByCategoryIdAndNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Subcategory` being updated.
+  """
+  patch: SubcategoryPatch!
+  categoryId: Int!
+  name: String!
+}
+
+"""All input for the `updateSubcategoryByNodeId` mutation."""
+input UpdateSubcategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Subcategory` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Subcategory` being updated.
+  """
+  patch: SubcategoryPatch!
+}
+
+"""All input for the `updateSubcategory` mutation."""
+input UpdateSubcategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Subcategory` being updated.
+  """
+  patch: SubcategoryPatch!
+  id: Int!
+}
+
+"""The output of our update `Subcategory` mutation."""
+type UpdateSubcategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Subcategory` that was updated by this mutation."""
+  subcategory: Subcategory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `Subcategory`."""
+  category: Category
+
+  """An edge for our `Subcategory`. May be used by Relay 1."""
+  subcategoryEdge(
+    """The method to use when ordering `Subcategory`."""
+    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SubcategoriesEdge
+}
 
 type User implements Node {
   """
@@ -952,1073 +4295,21 @@ type User implements Node {
   ): RequestsConnection!
 }
 
-"""Methods to use when ordering `Thing`."""
-enum ThingsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  CATEGORY_ID_ASC
-  CATEGORY_ID_DESC
-  SUBCATEGORY_ID_ASC
-  SUBCATEGORY_ID_DESC
-  OWNER_ID_ASC
-  OWNER_ID_DESC
-  MEDIA_ASC
-  MEDIA_DESC
-  QUANTITY_ASC
-  QUANTITY_DESC
-  METADATA_ASC
-  METADATA_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
 """
-A condition to be used against `Thing` object types. All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
-input ThingCondition {
+input UserCondition {
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
 
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
 
   """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `categoryId` field."""
-  categoryId: Int
-
-  """Checks for equality with the object’s `subcategoryId` field."""
-  subcategoryId: Int
-
-  """Checks for equality with the object’s `ownerId` field."""
-  ownerId: String
-
-  """Checks for equality with the object’s `media` field."""
-  media: [String]
-
-  """Checks for equality with the object’s `quantity` field."""
-  quantity: Int
-
-  """Checks for equality with the object’s `metadata` field."""
-  metadata: JSON
-}
-
-"""A connection to a list of `Request` values."""
-type RequestsConnection {
-  """A list of `Request` objects."""
-  nodes: [Request!]!
-
-  """
-  A list of edges which contains the `Request` and cursor to aid in pagination.
-  """
-  edges: [RequestsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Request` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Request implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int!
-  requesterId: String!
-  media: [String]
-  referenceLink: String
-  description: String
-  quantity: Int!
-  metadata: JSON
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
-}
-
-"""A `Request` edge in the connection."""
-type RequestsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Request` at the end of the edge."""
-  node: Request!
-}
-
-"""Methods to use when ordering `Request`."""
-enum RequestsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  REQUESTER_ID_ASC
-  REQUESTER_ID_DESC
-  MEDIA_ASC
-  MEDIA_DESC
-  REFERENCE_LINK_ASC
-  REFERENCE_LINK_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  QUANTITY_ASC
-  QUANTITY_DESC
-  METADATA_ASC
-  METADATA_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Request` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input RequestCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
+  id: String
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `requesterId` field."""
-  requesterId: String
-
-  """Checks for equality with the object’s `media` field."""
-  media: [String]
-
-  """Checks for equality with the object’s `referenceLink` field."""
-  referenceLink: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `quantity` field."""
-  quantity: Int
-
-  """Checks for equality with the object’s `metadata` field."""
-  metadata: JSON
-}
-
-"""A connection to a list of `Characteristic` values."""
-type CharacteristicsConnection {
-  """A list of `Characteristic` objects."""
-  nodes: [Characteristic!]!
-
-  """
-  A list of edges which contains the `Characteristic` and cursor to aid in pagination.
-  """
-  edges: [CharacteristicsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Characteristic` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Characteristic implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  thingId: Int!
-  attributeId: Int!
-  optionId: Int!
-
-  """Reads a single `Thing` that is related to this `Characteristic`."""
-  thing: Thing
-
-  """Reads a single `Attribute` that is related to this `Characteristic`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Characteristic`."""
-  option: Option
-}
-
-type Attribute implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int!
-  name: String!
-  description: String
-  type: OptionType
-  isApproved: Boolean
-
-  """Reads and enables pagination through a set of `Association`."""
-  associations(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Association`."""
-    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: AssociationCondition
-  ): AssociationsConnection!
-
-  """Reads and enables pagination through a set of `Relationship`."""
-  relationships(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Relationship`."""
-    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: RelationshipCondition
-  ): RelationshipsConnection!
-
-  """Reads and enables pagination through a set of `Characteristic`."""
-  characteristics(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Characteristic`."""
-    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CharacteristicCondition
-  ): CharacteristicsConnection!
-}
-
-enum OptionType {
-  TEXT
-  COMPANY
-  SIZE
-}
-
-"""Methods to use when ordering `Association`."""
-enum AssociationsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  SUBCATEGORY_ID_ASC
-  SUBCATEGORY_ID_DESC
-  ATTRIBUTE_ID_ASC
-  ATTRIBUTE_ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Association` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input AssociationCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `subcategoryId` field."""
-  subcategoryId: Int
-
-  """Checks for equality with the object’s `attributeId` field."""
-  attributeId: Int
-}
-
-"""A connection to a list of `Relationship` values."""
-type RelationshipsConnection {
-  """A list of `Relationship` objects."""
-  nodes: [Relationship!]!
-
-  """
-  A list of edges which contains the `Relationship` and cursor to aid in pagination.
-  """
-  edges: [RelationshipsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Relationship` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Relationship implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  attributeId: Int!
-  optionId: Int!
-
-  """Reads a single `Attribute` that is related to this `Relationship`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Relationship`."""
-  option: Option
-}
-
-type Option implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int!
-  value: String!
-  type: OptionType
-  isApproved: Boolean
-
-  """Reads and enables pagination through a set of `Relationship`."""
-  relationships(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Relationship`."""
-    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: RelationshipCondition
-  ): RelationshipsConnection!
-
-  """Reads and enables pagination through a set of `Characteristic`."""
-  characteristics(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Characteristic`."""
-    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CharacteristicCondition
-  ): CharacteristicsConnection!
-}
-
-"""Methods to use when ordering `Relationship`."""
-enum RelationshipsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ATTRIBUTE_ID_ASC
-  ATTRIBUTE_ID_DESC
-  OPTION_ID_ASC
-  OPTION_ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Relationship` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input RelationshipCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `attributeId` field."""
-  attributeId: Int
-
-  """Checks for equality with the object’s `optionId` field."""
-  optionId: Int
-}
-
-"""Methods to use when ordering `Characteristic`."""
-enum CharacteristicsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  THING_ID_ASC
-  THING_ID_DESC
-  ATTRIBUTE_ID_ASC
-  ATTRIBUTE_ID_DESC
-  OPTION_ID_ASC
-  OPTION_ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Characteristic` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input CharacteristicCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `thingId` field."""
-  thingId: Int
-
-  """Checks for equality with the object’s `attributeId` field."""
-  attributeId: Int
-
-  """Checks for equality with the object’s `optionId` field."""
-  optionId: Int
-}
-
-"""A `Relationship` edge in the connection."""
-type RelationshipsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Relationship` at the end of the edge."""
-  node: Relationship!
-}
-
-"""A `Characteristic` edge in the connection."""
-type CharacteristicsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Characteristic` at the end of the edge."""
-  node: Characteristic!
-}
-
-"""A `Thing` edge in the connection."""
-type ThingsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Thing` at the end of the edge."""
-  node: Thing!
-}
-
-"""A `Association` edge in the connection."""
-type AssociationsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Association` at the end of the edge."""
-  node: Association!
-}
-
-"""A connection to a list of `Attribute` values."""
-type AttributesConnection {
-  """A list of `Attribute` objects."""
-  nodes: [Attribute!]!
-
-  """
-  A list of edges which contains the `Attribute` and cursor to aid in pagination.
-  """
-  edges: [AttributesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Attribute` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Attribute` edge in the connection."""
-type AttributesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Attribute` at the end of the edge."""
-  node: Attribute!
-}
-
-"""Methods to use when ordering `Attribute`."""
-enum AttributesOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  NAME_ASC
-  NAME_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  TYPE_ASC
-  TYPE_DESC
-  IS_APPROVED_ASC
-  IS_APPROVED_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Attribute` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input AttributeCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `name` field."""
-  name: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `type` field."""
-  type: OptionType
-
-  """Checks for equality with the object’s `isApproved` field."""
-  isApproved: Boolean
-}
-
-"""A connection to a list of `Category` values."""
-type CategoriesConnection {
-  """A list of `Category` objects."""
-  nodes: [Category!]!
-
-  """
-  A list of edges which contains the `Category` and cursor to aid in pagination.
-  """
-  edges: [CategoriesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Category` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Category` edge in the connection."""
-type CategoriesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Category` at the end of the edge."""
-  node: Category!
-}
-
-"""Methods to use when ordering `Category`."""
-enum CategoriesOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  NAME_ASC
-  NAME_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  IS_APPROVED_ASC
-  IS_APPROVED_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Category` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input CategoryCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `name` field."""
-  name: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `isApproved` field."""
-  isApproved: Boolean
-}
-
-"""A connection to a list of `Concern` values."""
-type ConcernsConnection {
-  """A list of `Concern` objects."""
-  nodes: [Concern!]!
-
-  """
-  A list of edges which contains the `Concern` and cursor to aid in pagination.
-  """
-  edges: [ConcernsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Concern` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Concern {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""A `Concern` edge in the connection."""
-type ConcernsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Concern` at the end of the edge."""
-  node: Concern!
-}
-
-"""Methods to use when ordering `Concern`."""
-enum ConcernsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-}
-
-"""
-A condition to be used against `Concern` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input ConcernCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-}
-
-"""A connection to a list of `Help` values."""
-type HelpsConnection {
-  """A list of `Help` objects."""
-  nodes: [Help!]!
-
-  """
-  A list of edges which contains the `Help` and cursor to aid in pagination.
-  """
-  edges: [HelpsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Help` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Help {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""A `Help` edge in the connection."""
-type HelpsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Help` at the end of the edge."""
-  node: Help!
-}
-
-"""Methods to use when ordering `Help`."""
-enum HelpsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-}
-
-"""
-A condition to be used against `Help` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input HelpCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-}
-
-"""A connection to a list of `Idea` values."""
-type IdeasConnection {
-  """A list of `Idea` objects."""
-  nodes: [Idea!]!
-
-  """
-  A list of edges which contains the `Idea` and cursor to aid in pagination.
-  """
-  edges: [IdeasEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Idea` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Idea {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""A `Idea` edge in the connection."""
-type IdeasEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Idea` at the end of the edge."""
-  node: Idea!
-}
-
-"""Methods to use when ordering `Idea`."""
-enum IdeasOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-}
-
-"""
-A condition to be used against `Idea` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input IdeaCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-}
-
-"""A connection to a list of `Invite` values."""
-type InvitesConnection {
-  """A list of `Invite` objects."""
-  nodes: [Invite!]!
-
-  """
-  A list of edges which contains the `Invite` and cursor to aid in pagination.
-  """
-  edges: [InvitesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Invite` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Invite implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  phoneNumber: String!
-  isApproved: Boolean
-}
-
-"""A `Invite` edge in the connection."""
-type InvitesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Invite` at the end of the edge."""
-  node: Invite!
-}
-
-"""Methods to use when ordering `Invite`."""
-enum InvitesOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  PHONE_NUMBER_ASC
-  PHONE_NUMBER_DESC
-  IS_APPROVED_ASC
-  IS_APPROVED_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Invite` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input InviteCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `phoneNumber` field."""
-  phoneNumber: String
-
-  """Checks for equality with the object’s `isApproved` field."""
-  isApproved: Boolean
-}
-
-"""A connection to a list of `Option` values."""
-type OptionsConnection {
-  """A list of `Option` objects."""
-  nodes: [Option!]!
-
-  """
-  A list of edges which contains the `Option` and cursor to aid in pagination.
-  """
-  edges: [OptionsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Option` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Option` edge in the connection."""
-type OptionsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Option` at the end of the edge."""
-  node: Option!
-}
-
-"""Methods to use when ordering `Option`."""
-enum OptionsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  VALUE_ASC
-  VALUE_DESC
-  TYPE_ASC
-  TYPE_DESC
-  IS_APPROVED_ASC
-  IS_APPROVED_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Option` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input OptionCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `value` field."""
-  value: String
-
-  """Checks for equality with the object’s `type` field."""
-  type: OptionType
-
-  """Checks for equality with the object’s `isApproved` field."""
-  isApproved: Boolean
 }
 
 """A connection to a list of `User` values."""
@@ -2060,2062 +4351,4 @@ enum UsersOrderBy {
   CREATED_BY_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input UserCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `id` field."""
-  id: String
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-}
-
-"""
-The root mutation type which contains root level fields which mutate data.
-"""
-type Mutation {
-  """Creates a single `Association`."""
-  createAssociation(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAssociationInput!
-  ): CreateAssociationPayload
-
-  """Creates a single `Category`."""
-  createCategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateCategoryInput!
-  ): CreateCategoryPayload
-
-  """Creates a single `Characteristic`."""
-  createCharacteristic(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateCharacteristicInput!
-  ): CreateCharacteristicPayload
-
-  """Creates a single `Concern`."""
-  createConcern(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateConcernInput!
-  ): CreateConcernPayload
-
-  """Creates a single `Help`."""
-  createHelp(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateHelpInput!
-  ): CreateHelpPayload
-
-  """Creates a single `Idea`."""
-  createIdea(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateIdeaInput!
-  ): CreateIdeaPayload
-
-  """Creates a single `Invite`."""
-  createInvite(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateInviteInput!
-  ): CreateInvitePayload
-
-  """Creates a single `Option`."""
-  createOption(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateOptionInput!
-  ): CreateOptionPayload
-
-  """Creates a single `Relationship`."""
-  createRelationship(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateRelationshipInput!
-  ): CreateRelationshipPayload
-
-  """Creates a single `Request`."""
-  createRequest(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateRequestInput!
-  ): CreateRequestPayload
-
-  """Creates a single `Subcategory`."""
-  createSubcategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateSubcategoryInput!
-  ): CreateSubcategoryPayload
-
-  """Updates a single `Attribute` using its globally unique id and a patch."""
-  updateAttributeByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAttributeByNodeIdInput!
-  ): UpdateAttributePayload
-
-  """Updates a single `Attribute` using a unique key and a patch."""
-  updateAttribute(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAttributeInput!
-  ): UpdateAttributePayload
-
-  """Updates a single `Attribute` using a unique key and a patch."""
-  updateAttributeByName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAttributeByNameInput!
-  ): UpdateAttributePayload
-
-  """Updates a single `Category` using its globally unique id and a patch."""
-  updateCategoryByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCategoryByNodeIdInput!
-  ): UpdateCategoryPayload
-
-  """Updates a single `Category` using a unique key and a patch."""
-  updateCategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCategoryInput!
-  ): UpdateCategoryPayload
-
-  """Updates a single `Category` using a unique key and a patch."""
-  updateCategoryByName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCategoryByNameInput!
-  ): UpdateCategoryPayload
-
-  """
-  Updates a single `Characteristic` using its globally unique id and a patch.
-  """
-  updateCharacteristicByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCharacteristicByNodeIdInput!
-  ): UpdateCharacteristicPayload
-
-  """Updates a single `Characteristic` using a unique key and a patch."""
-  updateCharacteristic(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCharacteristicInput!
-  ): UpdateCharacteristicPayload
-
-  """Updates a single `Option` using its globally unique id and a patch."""
-  updateOptionByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateOptionByNodeIdInput!
-  ): UpdateOptionPayload
-
-  """Updates a single `Option` using a unique key and a patch."""
-  updateOption(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateOptionInput!
-  ): UpdateOptionPayload
-
-  """
-  Updates a single `Subcategory` using its globally unique id and a patch.
-  """
-  updateSubcategoryByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSubcategoryByNodeIdInput!
-  ): UpdateSubcategoryPayload
-
-  """Updates a single `Subcategory` using a unique key and a patch."""
-  updateSubcategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSubcategoryInput!
-  ): UpdateSubcategoryPayload
-
-  """Updates a single `Subcategory` using a unique key and a patch."""
-  updateSubcategoryByCategoryIdAndName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSubcategoryByCategoryIdAndNameInput!
-  ): UpdateSubcategoryPayload
-
-  """Deletes a single `Association` using its globally unique id."""
-  deleteAssociationByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAssociationByNodeIdInput!
-  ): DeleteAssociationPayload
-
-  """Deletes a single `Association` using a unique key."""
-  deleteAssociation(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAssociationInput!
-  ): DeleteAssociationPayload
-
-  """Deletes a single `Attribute` using its globally unique id."""
-  deleteAttributeByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAttributeByNodeIdInput!
-  ): DeleteAttributePayload
-
-  """Deletes a single `Attribute` using a unique key."""
-  deleteAttribute(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAttributeInput!
-  ): DeleteAttributePayload
-
-  """Deletes a single `Attribute` using a unique key."""
-  deleteAttributeByName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAttributeByNameInput!
-  ): DeleteAttributePayload
-
-  """Deletes a single `Category` using its globally unique id."""
-  deleteCategoryByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCategoryByNodeIdInput!
-  ): DeleteCategoryPayload
-
-  """Deletes a single `Category` using a unique key."""
-  deleteCategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCategoryInput!
-  ): DeleteCategoryPayload
-
-  """Deletes a single `Category` using a unique key."""
-  deleteCategoryByName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCategoryByNameInput!
-  ): DeleteCategoryPayload
-
-  """Deletes a single `Characteristic` using its globally unique id."""
-  deleteCharacteristicByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCharacteristicByNodeIdInput!
-  ): DeleteCharacteristicPayload
-
-  """Deletes a single `Characteristic` using a unique key."""
-  deleteCharacteristic(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCharacteristicInput!
-  ): DeleteCharacteristicPayload
-
-  """Deletes a single `Invite` using its globally unique id."""
-  deleteInviteByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteInviteByNodeIdInput!
-  ): DeleteInvitePayload
-
-  """Deletes a single `Invite` using a unique key."""
-  deleteInvite(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteInviteInput!
-  ): DeleteInvitePayload
-
-  """Deletes a single `Option` using its globally unique id."""
-  deleteOptionByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteOptionByNodeIdInput!
-  ): DeleteOptionPayload
-
-  """Deletes a single `Option` using a unique key."""
-  deleteOption(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteOptionInput!
-  ): DeleteOptionPayload
-
-  """Deletes a single `Relationship` using its globally unique id."""
-  deleteRelationshipByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRelationshipByNodeIdInput!
-  ): DeleteRelationshipPayload
-
-  """Deletes a single `Relationship` using a unique key."""
-  deleteRelationship(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRelationshipInput!
-  ): DeleteRelationshipPayload
-
-  """Deletes a single `Request` using its globally unique id."""
-  deleteRequestByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRequestByNodeIdInput!
-  ): DeleteRequestPayload
-
-  """Deletes a single `Request` using a unique key."""
-  deleteRequest(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRequestInput!
-  ): DeleteRequestPayload
-
-  """Deletes a single `Subcategory` using its globally unique id."""
-  deleteSubcategoryByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSubcategoryByNodeIdInput!
-  ): DeleteSubcategoryPayload
-
-  """Deletes a single `Subcategory` using a unique key."""
-  deleteSubcategory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSubcategoryInput!
-  ): DeleteSubcategoryPayload
-
-  """Deletes a single `Subcategory` using a unique key."""
-  deleteSubcategoryByCategoryIdAndName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSubcategoryByCategoryIdAndNameInput!
-  ): DeleteSubcategoryPayload
-
-  """Deletes a single `Thing` using its globally unique id."""
-  deleteThingByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteThingByNodeIdInput!
-  ): DeleteThingPayload
-
-  """Deletes a single `Thing` using a unique key."""
-  deleteThing(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteThingInput!
-  ): DeleteThingPayload
-
-  """Deletes a single `User` using its globally unique id."""
-  deleteUserByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUserByNodeIdInput!
-  ): DeleteUserPayload
-
-  """Deletes a single `User` using a unique key."""
-  deleteUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUserInput!
-  ): DeleteUserPayload
-  createThing(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateThingInput!
-  ): CreateThingPayload
-  approveInvite(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: ApproveInviteInput!
-  ): ApproveInvitePayload
-  createAttribute(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAttributeInput!
-  ): CreateAttributePayload
-  proposeAttribute(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: ProposeAttributeInput!
-  ): ProposeAttributePayload
-  proposeOption(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: ProposeOptionInput!
-  ): ProposeOptionPayload
-  createUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateUserInput!
-  ): CreateUserPayload
-}
-
-"""The output of our create `Association` mutation."""
-type CreateAssociationPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Association` that was created by this mutation."""
-  association: Association
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategory: Subcategory
-
-  """Reads a single `Attribute` that is related to this `Association`."""
-  attribute: Attribute
-
-  """An edge for our `Association`. May be used by Relay 1."""
-  associationEdge(
-    """The method to use when ordering `Association`."""
-    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AssociationsEdge
-}
-
-"""All input for the create `Association` mutation."""
-input CreateAssociationInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Association` to be created by this mutation."""
-  association: AssociationInput!
-}
-
-"""An input for mutations affecting `Association`"""
-input AssociationInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  subcategoryId: Int!
-  attributeId: Int!
-}
-
-"""The output of our create `Category` mutation."""
-type CreateCategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Category` that was created by this mutation."""
-  category: Category
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Category`. May be used by Relay 1."""
-  categoryEdge(
-    """The method to use when ordering `Category`."""
-    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CategoriesEdge
-}
-
-"""All input for the create `Category` mutation."""
-input CreateCategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Category` to be created by this mutation."""
-  category: CategoryInput!
-}
-
-"""An input for mutations affecting `Category`"""
-input CategoryInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  name: String!
-  description: String
-  isApproved: Boolean
-}
-
-"""The output of our create `Characteristic` mutation."""
-type CreateCharacteristicPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Characteristic` that was created by this mutation."""
-  characteristic: Characteristic
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Thing` that is related to this `Characteristic`."""
-  thing: Thing
-
-  """Reads a single `Attribute` that is related to this `Characteristic`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Characteristic`."""
-  option: Option
-
-  """An edge for our `Characteristic`. May be used by Relay 1."""
-  characteristicEdge(
-    """The method to use when ordering `Characteristic`."""
-    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CharacteristicsEdge
-}
-
-"""All input for the create `Characteristic` mutation."""
-input CreateCharacteristicInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Characteristic` to be created by this mutation."""
-  characteristic: CharacteristicInput!
-}
-
-"""An input for mutations affecting `Characteristic`"""
-input CharacteristicInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  thingId: Int!
-  attributeId: Int!
-  optionId: Int!
-}
-
-"""The output of our create `Concern` mutation."""
-type CreateConcernPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Concern` that was created by this mutation."""
-  concern: Concern
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Concern`. May be used by Relay 1."""
-  concernEdge(
-    """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [NATURAL]
-  ): ConcernsEdge
-}
-
-"""All input for the create `Concern` mutation."""
-input CreateConcernInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Concern` to be created by this mutation."""
-  concern: ConcernInput!
-}
-
-"""An input for mutations affecting `Concern`"""
-input ConcernInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""The output of our create `Help` mutation."""
-type CreateHelpPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Help` that was created by this mutation."""
-  help: Help
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Help`. May be used by Relay 1."""
-  helpEdge(
-    """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [NATURAL]
-  ): HelpsEdge
-}
-
-"""All input for the create `Help` mutation."""
-input CreateHelpInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Help` to be created by this mutation."""
-  help: HelpInput!
-}
-
-"""An input for mutations affecting `Help`"""
-input HelpInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""The output of our create `Idea` mutation."""
-type CreateIdeaPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Idea` that was created by this mutation."""
-  idea: Idea
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Idea`. May be used by Relay 1."""
-  ideaEdge(
-    """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [NATURAL]
-  ): IdeasEdge
-}
-
-"""All input for the create `Idea` mutation."""
-input CreateIdeaInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Idea` to be created by this mutation."""
-  idea: IdeaInput!
-}
-
-"""An input for mutations affecting `Idea`"""
-input IdeaInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-}
-
-"""The output of our create `Invite` mutation."""
-type CreateInvitePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Invite` that was created by this mutation."""
-  invite: Invite
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Invite`. May be used by Relay 1."""
-  inviteEdge(
-    """The method to use when ordering `Invite`."""
-    orderBy: [InvitesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): InvitesEdge
-}
-
-"""All input for the create `Invite` mutation."""
-input CreateInviteInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Invite` to be created by this mutation."""
-  invite: InviteInput!
-}
-
-"""An input for mutations affecting `Invite`"""
-input InviteInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  phoneNumber: String!
-  isApproved: Boolean
-}
-
-"""The output of our create `Option` mutation."""
-type CreateOptionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Option` that was created by this mutation."""
-  option: Option
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Option`. May be used by Relay 1."""
-  optionEdge(
-    """The method to use when ordering `Option`."""
-    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): OptionsEdge
-}
-
-"""All input for the create `Option` mutation."""
-input CreateOptionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Option` to be created by this mutation."""
-  option: OptionInput!
-}
-
-"""An input for mutations affecting `Option`"""
-input OptionInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  value: String!
-  type: OptionType
-  isApproved: Boolean
-}
-
-"""The output of our create `Relationship` mutation."""
-type CreateRelationshipPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Relationship` that was created by this mutation."""
-  relationship: Relationship
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Attribute` that is related to this `Relationship`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Relationship`."""
-  option: Option
-
-  """An edge for our `Relationship`. May be used by Relay 1."""
-  relationshipEdge(
-    """The method to use when ordering `Relationship`."""
-    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RelationshipsEdge
-}
-
-"""All input for the create `Relationship` mutation."""
-input CreateRelationshipInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Relationship` to be created by this mutation."""
-  relationship: RelationshipInput!
-}
-
-"""An input for mutations affecting `Relationship`"""
-input RelationshipInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  attributeId: Int!
-  optionId: Int!
-}
-
-"""The output of our create `Request` mutation."""
-type CreateRequestPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Request` that was created by this mutation."""
-  request: Request
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
-
-  """An edge for our `Request`. May be used by Relay 1."""
-  requestEdge(
-    """The method to use when ordering `Request`."""
-    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RequestsEdge
-}
-
-"""All input for the create `Request` mutation."""
-input CreateRequestInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Request` to be created by this mutation."""
-  request: RequestInput!
-}
-
-"""An input for mutations affecting `Request`"""
-input RequestInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  requesterId: String!
-  media: [String]
-  referenceLink: String
-  description: String
-  quantity: Int
-  metadata: JSON
-}
-
-"""The output of our create `Subcategory` mutation."""
-type CreateSubcategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Subcategory` that was created by this mutation."""
-  subcategory: Subcategory
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Category` that is related to this `Subcategory`."""
-  category: Category
-
-  """An edge for our `Subcategory`. May be used by Relay 1."""
-  subcategoryEdge(
-    """The method to use when ordering `Subcategory`."""
-    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SubcategoriesEdge
-}
-
-"""All input for the create `Subcategory` mutation."""
-input CreateSubcategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Subcategory` to be created by this mutation."""
-  subcategory: SubcategoryInput!
-}
-
-"""An input for mutations affecting `Subcategory`"""
-input SubcategoryInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  categoryId: Int!
-  name: String!
-  description: String
-  isApproved: Boolean
-}
-
-"""The output of our update `Attribute` mutation."""
-type UpdateAttributePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Attribute` that was updated by this mutation."""
-  attribute: Attribute
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Attribute`. May be used by Relay 1."""
-  attributeEdge(
-    """The method to use when ordering `Attribute`."""
-    orderBy: [AttributesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AttributesEdge
-}
-
-"""All input for the `updateAttributeByNodeId` mutation."""
-input UpdateAttributeByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Attribute` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Attribute` being updated.
-  """
-  patch: AttributePatch!
-}
-
-"""
-Represents an update to a `Attribute`. Fields that are set will be updated.
-"""
-input AttributePatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  name: String
-  description: String
-  type: OptionType
-  isApproved: Boolean
-}
-
-"""All input for the `updateAttribute` mutation."""
-input UpdateAttributeInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Attribute` being updated.
-  """
-  patch: AttributePatch!
-  id: Int!
-}
-
-"""All input for the `updateAttributeByName` mutation."""
-input UpdateAttributeByNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Attribute` being updated.
-  """
-  patch: AttributePatch!
-  name: String!
-}
-
-"""The output of our update `Category` mutation."""
-type UpdateCategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Category` that was updated by this mutation."""
-  category: Category
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Category`. May be used by Relay 1."""
-  categoryEdge(
-    """The method to use when ordering `Category`."""
-    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CategoriesEdge
-}
-
-"""All input for the `updateCategoryByNodeId` mutation."""
-input UpdateCategoryByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Category` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Category` being updated.
-  """
-  patch: CategoryPatch!
-}
-
-"""
-Represents an update to a `Category`. Fields that are set will be updated.
-"""
-input CategoryPatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  name: String
-  description: String
-  isApproved: Boolean
-}
-
-"""All input for the `updateCategory` mutation."""
-input UpdateCategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Category` being updated.
-  """
-  patch: CategoryPatch!
-  id: Int!
-}
-
-"""All input for the `updateCategoryByName` mutation."""
-input UpdateCategoryByNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Category` being updated.
-  """
-  patch: CategoryPatch!
-  name: String!
-}
-
-"""The output of our update `Characteristic` mutation."""
-type UpdateCharacteristicPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Characteristic` that was updated by this mutation."""
-  characteristic: Characteristic
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Thing` that is related to this `Characteristic`."""
-  thing: Thing
-
-  """Reads a single `Attribute` that is related to this `Characteristic`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Characteristic`."""
-  option: Option
-
-  """An edge for our `Characteristic`. May be used by Relay 1."""
-  characteristicEdge(
-    """The method to use when ordering `Characteristic`."""
-    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CharacteristicsEdge
-}
-
-"""All input for the `updateCharacteristicByNodeId` mutation."""
-input UpdateCharacteristicByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Characteristic` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Characteristic` being updated.
-  """
-  patch: CharacteristicPatch!
-}
-
-"""
-Represents an update to a `Characteristic`. Fields that are set will be updated.
-"""
-input CharacteristicPatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  thingId: Int
-  attributeId: Int
-  optionId: Int
-}
-
-"""All input for the `updateCharacteristic` mutation."""
-input UpdateCharacteristicInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Characteristic` being updated.
-  """
-  patch: CharacteristicPatch!
-  thingId: Int!
-  attributeId: Int!
-  optionId: Int!
-}
-
-"""The output of our update `Option` mutation."""
-type UpdateOptionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Option` that was updated by this mutation."""
-  option: Option
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Option`. May be used by Relay 1."""
-  optionEdge(
-    """The method to use when ordering `Option`."""
-    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): OptionsEdge
-}
-
-"""All input for the `updateOptionByNodeId` mutation."""
-input UpdateOptionByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Option` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Option` being updated.
-  """
-  patch: OptionPatch!
-}
-
-"""
-Represents an update to a `Option`. Fields that are set will be updated.
-"""
-input OptionPatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  value: String
-  type: OptionType
-  isApproved: Boolean
-}
-
-"""All input for the `updateOption` mutation."""
-input UpdateOptionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Option` being updated.
-  """
-  patch: OptionPatch!
-  id: Int!
-}
-
-"""The output of our update `Subcategory` mutation."""
-type UpdateSubcategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Subcategory` that was updated by this mutation."""
-  subcategory: Subcategory
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Category` that is related to this `Subcategory`."""
-  category: Category
-
-  """An edge for our `Subcategory`. May be used by Relay 1."""
-  subcategoryEdge(
-    """The method to use when ordering `Subcategory`."""
-    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SubcategoriesEdge
-}
-
-"""All input for the `updateSubcategoryByNodeId` mutation."""
-input UpdateSubcategoryByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Subcategory` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Subcategory` being updated.
-  """
-  patch: SubcategoryPatch!
-}
-
-"""
-Represents an update to a `Subcategory`. Fields that are set will be updated.
-"""
-input SubcategoryPatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  categoryId: Int
-  name: String
-  description: String
-  isApproved: Boolean
-}
-
-"""All input for the `updateSubcategory` mutation."""
-input UpdateSubcategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Subcategory` being updated.
-  """
-  patch: SubcategoryPatch!
-  id: Int!
-}
-
-"""All input for the `updateSubcategoryByCategoryIdAndName` mutation."""
-input UpdateSubcategoryByCategoryIdAndNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Subcategory` being updated.
-  """
-  patch: SubcategoryPatch!
-  categoryId: Int!
-  name: String!
-}
-
-"""The output of our delete `Association` mutation."""
-type DeleteAssociationPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Association` that was deleted by this mutation."""
-  association: Association
-  deletedAssociationNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Subcategory` that is related to this `Association`."""
-  subcategory: Subcategory
-
-  """Reads a single `Attribute` that is related to this `Association`."""
-  attribute: Attribute
-
-  """An edge for our `Association`. May be used by Relay 1."""
-  associationEdge(
-    """The method to use when ordering `Association`."""
-    orderBy: [AssociationsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AssociationsEdge
-}
-
-"""All input for the `deleteAssociationByNodeId` mutation."""
-input DeleteAssociationByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Association` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteAssociation` mutation."""
-input DeleteAssociationInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  subcategoryId: Int!
-  attributeId: Int!
-}
-
-"""The output of our delete `Attribute` mutation."""
-type DeleteAttributePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Attribute` that was deleted by this mutation."""
-  attribute: Attribute
-  deletedAttributeNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Attribute`. May be used by Relay 1."""
-  attributeEdge(
-    """The method to use when ordering `Attribute`."""
-    orderBy: [AttributesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AttributesEdge
-}
-
-"""All input for the `deleteAttributeByNodeId` mutation."""
-input DeleteAttributeByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Attribute` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteAttribute` mutation."""
-input DeleteAttributeInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""All input for the `deleteAttributeByName` mutation."""
-input DeleteAttributeByNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  name: String!
-}
-
-"""The output of our delete `Category` mutation."""
-type DeleteCategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Category` that was deleted by this mutation."""
-  category: Category
-  deletedCategoryNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Category`. May be used by Relay 1."""
-  categoryEdge(
-    """The method to use when ordering `Category`."""
-    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CategoriesEdge
-}
-
-"""All input for the `deleteCategoryByNodeId` mutation."""
-input DeleteCategoryByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Category` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteCategory` mutation."""
-input DeleteCategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""All input for the `deleteCategoryByName` mutation."""
-input DeleteCategoryByNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  name: String!
-}
-
-"""The output of our delete `Characteristic` mutation."""
-type DeleteCharacteristicPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Characteristic` that was deleted by this mutation."""
-  characteristic: Characteristic
-  deletedCharacteristicNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Thing` that is related to this `Characteristic`."""
-  thing: Thing
-
-  """Reads a single `Attribute` that is related to this `Characteristic`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Characteristic`."""
-  option: Option
-
-  """An edge for our `Characteristic`. May be used by Relay 1."""
-  characteristicEdge(
-    """The method to use when ordering `Characteristic`."""
-    orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CharacteristicsEdge
-}
-
-"""All input for the `deleteCharacteristicByNodeId` mutation."""
-input DeleteCharacteristicByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Characteristic` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteCharacteristic` mutation."""
-input DeleteCharacteristicInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  thingId: Int!
-  attributeId: Int!
-  optionId: Int!
-}
-
-"""The output of our delete `Invite` mutation."""
-type DeleteInvitePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Invite` that was deleted by this mutation."""
-  invite: Invite
-  deletedInviteNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Invite`. May be used by Relay 1."""
-  inviteEdge(
-    """The method to use when ordering `Invite`."""
-    orderBy: [InvitesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): InvitesEdge
-}
-
-"""All input for the `deleteInviteByNodeId` mutation."""
-input DeleteInviteByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Invite` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteInvite` mutation."""
-input DeleteInviteInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  phoneNumber: String!
-}
-
-"""The output of our delete `Option` mutation."""
-type DeleteOptionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Option` that was deleted by this mutation."""
-  option: Option
-  deletedOptionNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Option`. May be used by Relay 1."""
-  optionEdge(
-    """The method to use when ordering `Option`."""
-    orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): OptionsEdge
-}
-
-"""All input for the `deleteOptionByNodeId` mutation."""
-input DeleteOptionByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Option` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteOption` mutation."""
-input DeleteOptionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `Relationship` mutation."""
-type DeleteRelationshipPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Relationship` that was deleted by this mutation."""
-  relationship: Relationship
-  deletedRelationshipNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Attribute` that is related to this `Relationship`."""
-  attribute: Attribute
-
-  """Reads a single `Option` that is related to this `Relationship`."""
-  option: Option
-
-  """An edge for our `Relationship`. May be used by Relay 1."""
-  relationshipEdge(
-    """The method to use when ordering `Relationship`."""
-    orderBy: [RelationshipsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RelationshipsEdge
-}
-
-"""All input for the `deleteRelationshipByNodeId` mutation."""
-input DeleteRelationshipByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Relationship` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteRelationship` mutation."""
-input DeleteRelationshipInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  attributeId: Int!
-  optionId: Int!
-}
-
-"""The output of our delete `Request` mutation."""
-type DeleteRequestPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Request` that was deleted by this mutation."""
-  request: Request
-  deletedRequestNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
-
-  """An edge for our `Request`. May be used by Relay 1."""
-  requestEdge(
-    """The method to use when ordering `Request`."""
-    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RequestsEdge
-}
-
-"""All input for the `deleteRequestByNodeId` mutation."""
-input DeleteRequestByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Request` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteRequest` mutation."""
-input DeleteRequestInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `Subcategory` mutation."""
-type DeleteSubcategoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Subcategory` that was deleted by this mutation."""
-  subcategory: Subcategory
-  deletedSubcategoryNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Category` that is related to this `Subcategory`."""
-  category: Category
-
-  """An edge for our `Subcategory`. May be used by Relay 1."""
-  subcategoryEdge(
-    """The method to use when ordering `Subcategory`."""
-    orderBy: [SubcategoriesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SubcategoriesEdge
-}
-
-"""All input for the `deleteSubcategoryByNodeId` mutation."""
-input DeleteSubcategoryByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Subcategory` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteSubcategory` mutation."""
-input DeleteSubcategoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""All input for the `deleteSubcategoryByCategoryIdAndName` mutation."""
-input DeleteSubcategoryByCategoryIdAndNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  categoryId: Int!
-  name: String!
-}
-
-"""The output of our delete `Thing` mutation."""
-type DeleteThingPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Thing` that was deleted by this mutation."""
-  thing: Thing
-  deletedThingNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Category` that is related to this `Thing`."""
-  category: Category
-
-  """Reads a single `Subcategory` that is related to this `Thing`."""
-  subcategory: Subcategory
-
-  """Reads a single `User` that is related to this `Thing`."""
-  owner: User
-
-  """An edge for our `Thing`. May be used by Relay 1."""
-  thingEdge(
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ThingsEdge
-}
-
-"""All input for the `deleteThingByNodeId` mutation."""
-input DeleteThingByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Thing` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteThing` mutation."""
-input DeleteThingInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `User` mutation."""
-type DeleteUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `User` that was deleted by this mutation."""
-  user: User
-  deletedUserNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-"""All input for the `deleteUserByNodeId` mutation."""
-input DeleteUserByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `User` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteUser` mutation."""
-input DeleteUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: String!
-}
-
-type CreateThingPayload {
-  thing: Thing
-  query: Query
-}
-
-input CreateThingInput {
-  categoryId: Int!
-  subcategoryId: Int!
-  attributes: [NewAttributeInput!]!
-  media: [String!]!
-  ownerId: String!
-  quantity: Int
-}
-
-input NewAttributeInput {
-  attributeId: Int!
-  optionId: Int!
-}
-
-type ApproveInvitePayload {
-  invite: Invite
-  query: Query
-}
-
-input ApproveInviteInput {
-  phoneNumber: String!
-}
-
-type CreateAttributePayload {
-  attribute: Attribute
-  query: Query
-}
-
-input CreateAttributeInput {
-  name: String!
-  type: String!
-  description: String
-  associations: [CreateAssociationForAttributeInput!]!
-  options: [CreateOptionInput!]!
-}
-
-input CreateAssociationForAttributeInput {
-  subcategoryId: Int!
-}
-
-type ProposeAttributePayload {
-  attribute: Attribute
-  query: Query
-}
-
-input ProposeAttributeInput {
-  name: String!
-}
-
-type ProposeOptionPayload {
-  option: Option
-  query: Query
-}
-
-input ProposeOptionInput {
-  value: String!
-  attributeId: Int!
-}
-
-type CreateUserPayload {
-  user: User
-  query: Query
-}
-
-input CreateUserInput {
-  uid: String!
 }

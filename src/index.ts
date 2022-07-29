@@ -3,11 +3,11 @@
 const express = require('express');
 const { postgraphile } = require('postgraphile');
 const cors = require('cors');
-const pg = require('pg');
 const fs = require('fs');
 const config = require('./config.ts');
 const admin = require('firebase-admin');
 const path = require('path');
+const postgis = require("@graphile/postgis");
 
 // Load .env variables
 require('dotenv').config()
@@ -36,6 +36,7 @@ const middleware = postgraphile(
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
       require("@graphile-contrib/pg-simplify-inflector"),
+      postgis.default || postgis,
       require('./plugins/mutations/CreateThingMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin'),
       // require('./plugins/mutations/CreateCategoryMutationPlugin'),

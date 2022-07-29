@@ -2,6 +2,9 @@
 create schema everything;
 create schema everything_private;
 
+-- create extensions
+create extension if not exists postgis with schema everything;
+
 -- create types
 create type everything.option_type as enum ('text', 'company', 'size');
 
@@ -93,7 +96,8 @@ create table everything.thing (
   owner_id text not null references everything.user(id),
   media text [],
   quantity int not null default 1,
-  metadata json
+  metadata json,
+  geom_point everything.geometry(Point, 4326) default null
 ) inherits (everything.base);
 comment on table everything.thing is E'@omit create,update';
 create index on everything.thing (category_id);
