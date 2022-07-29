@@ -15,7 +15,8 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
         attributes: [NewAttributeInput!]!
         media: [String!]!
         ownerId: String!,
-        quantity: Int
+        quantity: Int,
+        geomPoint: GeoJSON
       }
 
       type CreateThingPayload {
@@ -38,13 +39,14 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [thing],
             } = await pgClient.query(
-              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity              ) VALUES ($1, $2, $3, $4, $5)              RETURNING *`,
+              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity, geom_point              ) VALUES ($1, $2, $3, $4, $5, $6)              RETURNING *`,
               [
                 args.input.categoryId,
                 args.input.subcategoryId,
                 args.input.ownerId,
                 args.input.media,
-                args.input.quantity || 1
+                args.input.quantity || 1,
+                args.input.geomPoint
               ]
             );
             // create all the characteristics using the thing id
