@@ -45,7 +45,7 @@ const middleware = postgraphile(
       require('./plugins/mutations/CreateUserMutationPlugin')
     ],
     pgSettings: async (req) => {
-      // if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production') {
         if (req.headers.authorization === undefined) {
           return {
             role: 'everything_anon'
@@ -56,10 +56,10 @@ const middleware = postgraphile(
           // can check role, configure this role with database
           return {
             role: 'everything_user',
-            'jwt.claims.firebase.id': decodedToken.uid
+            'jwt.claims.firebase': decodedToken.uid
           };
         }
-      // }
+      }
     }
   }
 );

@@ -8,7 +8,8 @@ create type everything.option_type as enum ('text', 'company', 'size');
 -- create base type
 create table everything.base (
   created_at timestamp default now(),
-  updated_at timestamp default now()
+  updated_at timestamp default now(),
+  created_by text
 );
 comment on table everything.base is E'@omit';
 
@@ -127,7 +128,7 @@ create index on everything.characteristic (option_id);
 create table everything.help (
   description text not null
 ) inherits (everything.base);
-comment on table everything.help is E'@omit update';
+comment on table everything.help is E'@omit delete';
 
 create table everything.idea (
   description text not null
@@ -197,13 +198,13 @@ create policy select_user on everything.user for select to everything_user
   using (true);
 create policy insert_user on everything.user for insert to everything_anon
   with check (true);
-  using (id = nullif(current_setting('jwt.claims.firebase.id', true), '')::text);
+  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
 -- only the user themself can update their own record
 create policy update_user on everything.user for update to everything_user
-  using (id = nullif(current_setting('jwt.claims.firebase.id', true), '')::text);
+  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
 -- only the user themself can delete their own record
 create policy delete_user on everything.user for delete to everything_user
-  using (id = nullif(current_setting('jwt.claims.firebase.id', true), '')::text);
+  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
 
 -- create functions (functions are private)
 -- updated_at
@@ -217,7 +218,7 @@ $$ language plpgsql;
 -- created_by
 create function everything_private.set_created_by() returns trigger as $$
 begin
-  new.created_by := current_setting('jwt.claims.firebase.id', true);
+  new.created_by := current_setting('jwt.claims.firebase');
   return new;
 end;
 $$ language plpgsql;
@@ -228,7 +229,7 @@ create trigger base_updated_at before update
   for each row
   execute procedure everything_private.set_updated_at();
 
-create trigger base_created_by before insert
-  on everything.base
+create trigger category_created_by before insert
+  on everything.category
   for each row
   execute procedure everything_private.set_created_by();
