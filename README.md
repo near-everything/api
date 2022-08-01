@@ -19,7 +19,7 @@
 <h2 align="center">everything api</h3>
 
   <p align="center">
-    The API interface to the inventory of everything.
+    The GraphQL API to the inventory of everything.
     <br />
     <!-- <a href="https://documentation.everything.dev"><strong>Explore the docs »</strong></a> -->
     <!-- <br /> -->
