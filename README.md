@@ -24,7 +24,7 @@
     <!-- <a href="https://documentation.everything.dev"><strong>Explore the docs »</strong></a> -->
     <!-- <br /> -->
     <br />
-    <a href="https://collect.everything.dev">Use App</a>
+    <a href="https://everything.dev">Use App</a>
     ·
     <a href="https://github.com/near-everything/api/issues">Report Bug</a>
     ·
@@ -63,7 +63,7 @@
 ## About The Project
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
-The everything api is the interface of the [inventory of everything](https://everything.dev).
+The everything api is the interface of the [inventory of everything](https://everything.dev): a centralized database of real, tangible assets that can then be used as the foundation for decentralized marketplaces, services, tools-- in the effort to create a circular economy that makes sense for everyone.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -92,10 +92,11 @@ The everything api is the interface of the [inventory of everything](https://eve
    ```sh
    npm install
    ```
-3. Start docker
+3. Start docker (this will start PostgreSQL database, pgAdmin, and firebase emulators for authentication and storage)
     ```
       docker-compose up -d
       ```
+      
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
