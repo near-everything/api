@@ -28,11 +28,10 @@ const ProposeAttributeMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [attribute],
             } = await pgClient.query(
-              `INSERT INTO everything.attribute(                name, type, is_proposal              ) VALUES ($1, $2, $3)              RETURNING *`,
+              `INSERT INTO everything.attribute(                name, type              ) VALUES ($1, $2)              RETURNING *`,
               [
                 args.input.name,
-                'text',
-                true,
+                'text'
               ]
             );
             // get the attribute

@@ -3,20 +3,25 @@
 const express = require('express');
 const { postgraphile } = require('postgraphile');
 const cors = require('cors');
-const pg = require('pg');
 const fs = require('fs');
 const config = require('./config.ts');
 const admin = require('firebase-admin');
 const path = require('path');
+const postgis = require("@graphile/postgis");
 
 // Load .env variables
 require('dotenv').config()
 
-const serviceAccount =
-  process.env.NODE_ENV === 'production' ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "") : require("../everything-dev-pk.json") || "";
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// set up firebase admin for token verification
+if (process.env.NODE_ENV === 'production') {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "");
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+} else {
+  process.env['FIREBASE_AUTH_EMULATOR_HOST'] = "localhost:9099";
+  admin.initializeApp();
+}
 
 // Describe postgraphile connection and configurations
 const middleware = postgraphile(
@@ -36,7 +41,8 @@ const middleware = postgraphile(
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
       require("@graphile-contrib/pg-simplify-inflector"),
-      require('./plugins/mutations/CreateItemMutationPlugin'),
+      postgis.default || postgis,
+      require('./plugins/mutations/CreateThingMutationPlugin'),
       require('./plugins/mutations/ApproveInviteMutationPlugin'),
       // require('./plugins/mutations/CreateCategoryMutationPlugin'),
       require('./plugins/mutations/CreateAttributeMutationPlugin'),
@@ -56,7 +62,7 @@ const middleware = postgraphile(
           // can check role, configure this role with database
           return {
             role: 'everything_user',
-            'jwt.claims.firebase.id': decodedToken.uid
+            'jwt.claims.firebase': decodedToken.uid
           };
         }
       }

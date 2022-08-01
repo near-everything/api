@@ -29,8 +29,8 @@ const ProposeOptionMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [option],
             } = await pgClient.query(
-              `INSERT INTO everything.option(                value, type, is_proposal              ) VALUES ($1, $2, $3)              RETURNING *`,
-              [args.input.value, "text", true]
+              `INSERT INTO everything.option(                value, type              ) VALUES ($1, $2)              RETURNING *`,
+              [args.input.value, "text"]
             );
             // create the relationship
             const {

@@ -3,7 +3,7 @@ version: '3.5'
 services:
   postgres:
     container_name: postgres_container
-    image: postgres
+    image: postgis/postgis
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
@@ -25,12 +25,24 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
        - pgadmin:/var/lib/pgadmin
-
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
       - postgres
     restart: unless-stopped
+
+  firebase:
+    build: 
+      context: ./docker
+      dockerfile: firebase.Dockerfile
+    image: firebase-emulator:firebase-emulator
+    volumes:
+      - .:/src
+    ports:
+      - 8001:8001
+      - 9099:9099
+      - 9199:9199
+    command: firebase emulators:start --only 'auth','storage'
 
 networks:
   postgres:
@@ -39,3 +51,4 @@ networks:
 volumes:
     postgres:
     pgadmin:
+    firebase:
