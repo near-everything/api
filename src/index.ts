@@ -12,11 +12,16 @@ const postgis = require("@graphile/postgis");
 // Load .env variables
 require('dotenv').config()
 
-const serviceAccount =
-  process.env.NODE_ENV === 'production' ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "") : require("../everything-dev-pk.json") || "";
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// set up firebase admin for token verification
+if (process.env.NODE_ENV === 'production') {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "");
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+} else {
+  process.env['FIREBASE_AUTH_EMULATOR_HOST'] = "localhost:9099";
+  admin.initializeApp();
+}
 
 // Describe postgraphile connection and configurations
 const middleware = postgraphile(
