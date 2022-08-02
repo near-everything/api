@@ -68,19 +68,28 @@ The everything api is the interface of the [inventory of everything](https://eve
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### Built With
 
+- [![Node][node.js]][node-url]
+- [![Express][express.js]][express-url]
+- [![PostgreSQL][postgresql]][postgres-url]
+- [![Firebase][firebase]][firebase-url]
+- [![GraphQL][graphql]][graphql-url] through using [Postgraphile](postgraphile-url)
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
 ### Prerequisites
+Ensure you have these packages and tools installed on your machine before installing this project.
 
-* npm
+* [npm](https://www.npmjs.com)
   ```sh
   npm install npm@latest -g
   ```
-* docker >= 17.12.0+
-* docker-compose
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ### Installation
 
@@ -92,10 +101,6 @@ The everything api is the interface of the [inventory of everything](https://eve
    ```sh
    npm install
    ```
-3. Start docker (this will start PostgreSQL database, pgAdmin, and firebase emulators for authentication and storage)
-    ```
-      docker-compose up -d
-      ```
       
 
 
@@ -106,26 +111,36 @@ The everything api is the interface of the [inventory of everything](https://eve
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Run the app in development mode:
+1. Start docker - this will start and bootstrap the [PostgreSQL](https://www.postgresql.org) database, pgAdmin web, and firebase emulators for authentication and storage
+    ```sh
+    npm run docker:up
+    ```
+2. Run the server:
+    ```sh
+    npm start
+    ```
+3. Explore: 
 
-```sh
- npm start
- ```
-Access to graphiql:
+Access to GraphiQL:
 * `http://localhost:4050/graphiql`
 
-Access to postgres: 
+_TROUBLESHOOTING: Since GraphiQL authorization headers are not yet connected to firebase auth, you will need to comment out the token verification in index.ts pgSettings (comment out whole block) in order to successfully run queries_
+
+Access to PostgreSQL: 
 * `localhost:5432`
 * **Username:** postgres (as a default)
 * **Password:** changeme (as a default)
 
-Access to PgAdmin: 
+Access to pgAdmin: 
 * **URL:** `http://localhost:5050`
 * **Username:** pgadmin4@pgadmin.org (as a default)
 * **Password:** admin (as a default)
 
+_pgAdmin can also be accessed via the desktop app, which can be downloaded [here](https://www.pgadmin.org)._
+
 <br/>
-_For more examples, please refer to the [Documentation](https://example.com)_
+
+<!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -182,7 +197,7 @@ Elliot Braem - elliot@everything.dev
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* Postgres, PgAdmin, docker setup referenced from [compose-postgres](https://github.com/khezen/compose-postgres/pull/23/files).
+* Postgres, PgAdmin, docker setup referenced from [compose-postgres](https://github.com/khezen/compose-postgres).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -201,3 +216,14 @@ Elliot Braem - elliot@everything.dev
 [license-shield]: https://img.shields.io/github/license/near-everything/api.svg?style=for-the-badge
 [license-url]: https://github.com/near-everything/api/blob/main/LICENSE.txt
 [product-screenshot]: images/screenshot.png
+[node.js]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[node-url]: https://nodejs.org
+[express.js]: https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white
+[express-url]: https://expressjs.com
+[postgresql]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+[postgres-url]: https://www.postgresql.org
+[postgraphile-url]: https://www.graphile.org/postgraphile/
+[firebase]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black
+[firebase-url]: https://firebase.google.com
+[graphql]: https://img.shields.io/badge/GraphQl-E10098?style=for-the-badge&logo=graphql&logoColor=white
+[graphql-url]: https://graphql.org

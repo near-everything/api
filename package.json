@@ -1,6 +1,8 @@
 {
   "main": "src/index.ts",
   "scripts": {
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
     "start": "node ."
   },
   "dependencies": {
