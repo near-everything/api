@@ -5,11 +5,12 @@ services:
     container_name: postgres_container
     image: postgis/postgis
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-      PGDATA: /data/postgres
+       POSTGRES_USER: ${POSTGRES_USER:-postgres}
+       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     volumes:
        - postgres:/data/postgres
+      #  load sql schemas
+       - ./docker/sql:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
     networks:
@@ -32,6 +33,7 @@ services:
     restart: unless-stopped
 
   firebase:
+    container_name: firebase_container
     build: 
       context: ./docker
       dockerfile: firebase.Dockerfile

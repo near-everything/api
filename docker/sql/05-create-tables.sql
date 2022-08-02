@@ -1,18 +1,10 @@
--- create schemas
-create schema everything;
-create schema everything_private;
-
--- create extensions
-create extension if not exists postgis with schema everything;
-
+\c everything admin
 -- create types
 create type everything.option_type as enum ('text', 'company', 'size');
-
 -- create base type
 create table everything.base (
   created_at timestamp default now(),
-  updated_at timestamp default now(),
-  created_by text
+  updated_at timestamp default now()
 );
 comment on table everything.base is E'@omit';
 
@@ -143,97 +135,3 @@ create table everything.concern (
   description text not null
 ) inherits (everything.base);
 comment on table everything.concern is E'@omit update';
-
--- create roles
-create role everything_postgraphile login password 'anything-postgraphile'; -- change this in Production
-create role everything_anon; -- not logged in
-create role everything_user; -- logged in
-create role everything_admin;
-
--- grant relationships
-grant everything_anon to everything_user;
-grant everything_user to everything_admin;
-grant everything_admin to everything_postgraphile;
-
--- revoke execute permission for public user group on new functions
-alter default privileges revoke execute on functions from public;
--- grant privileges
--- to schema
-grant usage on schema everything to everything_anon;
--- to create sequence ids
-grant usage, select on all sequences in schema everything to everything_anon;
--- to users & auth types
-grant insert on table everything.user to everything_anon;
-grant select,update,delete on table everything.user to everything_user;
-grant select,insert on table everything.invite to everything_anon;
-grant delete on table everything.invite to everything_admin;
--- to labels
-grant select,insert on table everything.category to everything_user;
-grant update,delete on table everything.category to everything_admin;
-grant select,insert on table everything.subcategory to everything_user;
-grant update,delete on table everything.subcategory to everything_admin;
-grant select,insert on table everything.attribute to everything_user;
-grant update,delete on table everything.attribute to everything_admin;
-grant select,insert on table everything.option to everything_user;
-grant update,delete on table everything.option to everything_admin;
-grant select,insert on table everything.association to everything_user;
-grant update,delete on table everything.association to everything_admin;
-grant select,insert on table everything.relationship to everything_user;
-grant update,delete on table everything.relationship to everything_admin;
--- to things
-grant select,insert,update on table everything.thing to everything_user;
-grant delete on table everything.thing to everything_admin;
-grant select,insert,update on table everything.characteristic to everything_user;
--- to requests
-grant select,insert,update on table everything.request to everything_user;
-grant delete on table everything.request to everything_admin;
--- to help, idea, concern
-grant select,insert on table everything.help to everything_user;
-grant delete on table everything.help to everything_admin;
-grant select,insert on table everything.idea to everything_user;
-grant delete on table everything.idea to everything_admin;
-grant select,insert on table everything.concern to everything_user;
-grant delete on table everything.concern to everything_admin;
--- RLS 
--- users & auth types
-alter table everything.user enable row level security;
--- any user can see other users
-create policy select_user on everything.user for select to everything_user
-  using (true);
-create policy insert_user on everything.user for insert to everything_anon
-  with check (true);
-  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
--- only the user themself can update their own record
-create policy update_user on everything.user for update to everything_user
-  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
--- only the user themself can delete their own record
-create policy delete_user on everything.user for delete to everything_user
-  using (id = nullif(current_setting('jwt.claims.firebase', true), '')::text);
-
--- create functions (functions are private)
--- updated_at
-create function everything_private.set_updated_at() returns trigger as $$
-begin
-  new.updated_at := current_timestamp;
-  return new;
-end;
-$$ language plpgsql;
-
--- created_by
-create function everything_private.set_created_by() returns trigger as $$
-begin
-  new.created_by := current_setting('jwt.claims.firebase');
-  return new;
-end;
-$$ language plpgsql;
-
--- create triggers
-create trigger base_updated_at before update
-  on everything.base
-  for each row
-  execute procedure everything_private.set_updated_at();
-
-create trigger category_created_by before insert
-  on everything.category
-  for each row
-  execute procedure everything_private.set_created_by();

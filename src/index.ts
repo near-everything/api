@@ -20,23 +20,23 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   process.env['FIREBASE_AUTH_EMULATOR_HOST'] = "localhost:9099";
-  admin.initializeApp();
+  admin.initializeApp({ projectId: "demo-everything" });
 }
 
 // Describe postgraphile connection and configurations
 const middleware = postgraphile(
   {
-    user: process.env.SQL_USERNAME,
-    host: process.env.SQL_HOSTNAME,
-    database: process.env.SQL_DATABASE,
-    password: process.env.SQL_PASSWORD,
-    port: process.env.SQL_PORT,
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOSTNAME,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    port: process.env.POSTGRES_PORT,
     ssl: process.env.NODE_ENV === 'production' ? {
       rejectUnauthorized: false,
       ca: process.env.CA_CERT
     } : null
   },
-  process.env.SQL_DATABASE,
+  process.env.POSTGRES_DATABASE,
   {
     ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
     appendPlugins: [
@@ -51,20 +51,18 @@ const middleware = postgraphile(
       require('./plugins/mutations/CreateUserMutationPlugin')
     ],
     pgSettings: async (req) => {
-      if (process.env.NODE_ENV === 'production') {
-        if (req.headers.authorization === undefined) {
-          return {
-            role: 'everything_anon'
-          }
-        } else {
-          const token = req.headers.authorization.split('Bearer ')[1];
-          const decodedToken = await admin.auth().verifyIdToken(token);
-          // can check role, configure this role with database
-          return {
-            role: 'everything_user',
-            'jwt.claims.firebase': decodedToken.uid
-          };
+      if (req.headers.authorization === undefined) {
+        return {
+          role: 'everything_anon'
         }
+      } else {
+        const token = req.headers.authorization.split('Bearer ')[1];
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        // can check role, configure this role with database
+        return {
+          role: 'everything_user',
+          'jwt.claims.firebase': decodedToken.uid
+        };
       }
     }
   }
