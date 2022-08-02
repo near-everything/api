@@ -30,10 +30,12 @@ grant select,insert,update on table everything.characteristic to everything_user
 -- to requests
 grant select,insert,update on table everything.request to everything_user;
 grant delete on table everything.request to everything_admin;
--- to help, idea, concern
+-- to help, idea, concern, question
 grant select,insert on table everything.help to everything_user;
 grant delete on table everything.help to everything_admin;
 grant select,insert on table everything.idea to everything_user;
 grant delete on table everything.idea to everything_admin;
 grant select,insert on table everything.concern to everything_user;
 grant delete on table everything.concern to everything_admin;
+grant select,insert on table everything.question to everything_user;
+grant delete on table everything.question to everything_admin;

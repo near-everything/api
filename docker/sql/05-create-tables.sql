@@ -120,18 +120,27 @@ create index on everything.characteristic (thing_id);
 create index on everything.characteristic (attribute_id);
 create index on everything.characteristic (option_id);
 
--- create help, idea, concern
+-- create help, idea, concern, question
 create table everything.help (
+  id serial primary key,
   description text not null
 ) inherits (everything.base);
 comment on table everything.help is E'@omit delete';
 
 create table everything.idea (
+  id serial primary key,
   description text not null
 ) inherits (everything.base);
 comment on table everything.idea is E'@omit update';
 
 create table everything.concern (
+  id serial primary key,
   description text not null
 ) inherits (everything.base);
 comment on table everything.concern is E'@omit update';
+
+create table everything.question (
+  id serial primary key,
+  description text not null
+) inherits (everything.base);
+comment on table everything.question is E'@omit update';
