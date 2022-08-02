@@ -576,11 +576,16 @@ enum CharacteristicsOrderBy {
   PRIMARY_KEY_DESC
 }
 
-type Concern {
+type Concern implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int!
 }
 
 """
@@ -598,6 +603,9 @@ input ConcernCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
 }
 
 """An input for mutations affecting `Concern`"""
@@ -606,6 +614,7 @@ input ConcernInput {
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int
 }
 
 """A connection to a list of `Concern` values."""
@@ -645,6 +654,10 @@ enum ConcernsOrderBy {
   CREATED_BY_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  ID_ASC
+  ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 input CreateAssociationForAttributeInput {
@@ -815,7 +828,7 @@ type CreateConcernPayload {
   """An edge for our `Concern`. May be used by Relay 1."""
   concernEdge(
     """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [NATURAL]
+    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
   ): ConcernsEdge
 }
 
@@ -850,7 +863,7 @@ type CreateHelpPayload {
   """An edge for our `Help`. May be used by Relay 1."""
   helpEdge(
     """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [NATURAL]
+    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
   ): HelpsEdge
 }
 
@@ -885,7 +898,7 @@ type CreateIdeaPayload {
   """An edge for our `Idea`. May be used by Relay 1."""
   ideaEdge(
     """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [NATURAL]
+    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
   ): IdeasEdge
 }
 
@@ -957,6 +970,41 @@ type CreateOptionPayload {
     """The method to use when ordering `Option`."""
     orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
   ): OptionsEdge
+}
+
+"""All input for the create `Question` mutation."""
+input CreateQuestionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Question` to be created by this mutation."""
+  question: QuestionInput!
+}
+
+"""The output of our create `Question` mutation."""
+type CreateQuestionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Question` that was created by this mutation."""
+  question: Question
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Question`. May be used by Relay 1."""
+  questionEdge(
+    """The method to use when ordering `Question`."""
+    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): QuestionsEdge
 }
 
 """All input for the create `Relationship` mutation."""
@@ -1339,6 +1387,102 @@ type DeleteCharacteristicPayload {
   ): CharacteristicsEdge
 }
 
+"""All input for the `deleteConcernByNodeId` mutation."""
+input DeleteConcernByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Concern` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteConcern` mutation."""
+input DeleteConcernInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Concern` mutation."""
+type DeleteConcernPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Concern` that was deleted by this mutation."""
+  concern: Concern
+  deletedConcernNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Concern`. May be used by Relay 1."""
+  concernEdge(
+    """The method to use when ordering `Concern`."""
+    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ConcernsEdge
+}
+
+"""All input for the `deleteIdeaByNodeId` mutation."""
+input DeleteIdeaByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Idea` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteIdea` mutation."""
+input DeleteIdeaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Idea` mutation."""
+type DeleteIdeaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Idea` that was deleted by this mutation."""
+  idea: Idea
+  deletedIdeaNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Idea`. May be used by Relay 1."""
+  ideaEdge(
+    """The method to use when ordering `Idea`."""
+    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): IdeasEdge
+}
+
 """All input for the `deleteInviteByNodeId` mutation."""
 input DeleteInviteByNodeIdInput {
   """
@@ -1433,6 +1577,54 @@ type DeleteOptionPayload {
     """The method to use when ordering `Option`."""
     orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
   ): OptionsEdge
+}
+
+"""All input for the `deleteQuestionByNodeId` mutation."""
+input DeleteQuestionByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Question` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteQuestion` mutation."""
+input DeleteQuestionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Question` mutation."""
+type DeleteQuestionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Question` that was deleted by this mutation."""
+  question: Question
+  deletedQuestionNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Question`. May be used by Relay 1."""
+  questionEdge(
+    """The method to use when ordering `Question`."""
+    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): QuestionsEdge
 }
 
 """All input for the `deleteRelationshipByNodeId` mutation."""
@@ -1934,11 +2126,16 @@ type GeometryPolygonZM implements GeometryInterface & GeometryGeometryZM {
   interiors: [GeometryLineStringZM]
 }
 
-type Help {
+type Help implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int!
 }
 
 """
@@ -1956,6 +2153,9 @@ input HelpCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
 }
 
 """An input for mutations affecting `Help`"""
@@ -1964,6 +2164,16 @@ input HelpInput {
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int
+}
+
+"""Represents an update to a `Help`. Fields that are set will be updated."""
+input HelpPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  description: String
+  id: Int
 }
 
 """A connection to a list of `Help` values."""
@@ -2003,13 +2213,22 @@ enum HelpsOrderBy {
   CREATED_BY_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  ID_ASC
+  ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
-type Idea {
+type Idea implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
   createdAt: Datetime
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int!
 }
 
 """
@@ -2027,6 +2246,9 @@ input IdeaCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
 }
 
 """An input for mutations affecting `Idea`"""
@@ -2035,6 +2257,7 @@ input IdeaInput {
   updatedAt: Datetime
   createdBy: String
   description: String!
+  id: Int
 }
 
 """A connection to a list of `Idea` values."""
@@ -2074,6 +2297,10 @@ enum IdeasOrderBy {
   CREATED_BY_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  ID_ASC
+  ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 type Invite implements Node {
@@ -2233,6 +2460,14 @@ type Mutation {
     input: CreateOptionInput!
   ): CreateOptionPayload
 
+  """Creates a single `Question`."""
+  createQuestion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateQuestionInput!
+  ): CreateQuestionPayload
+
   """Creates a single `Relationship`."""
   createRelationship(
     """
@@ -2322,6 +2557,22 @@ type Mutation {
     """
     input: UpdateCharacteristicInput!
   ): UpdateCharacteristicPayload
+
+  """Updates a single `Help` using its globally unique id and a patch."""
+  updateHelpByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateHelpByNodeIdInput!
+  ): UpdateHelpPayload
+
+  """Updates a single `Help` using a unique key and a patch."""
+  updateHelp(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateHelpInput!
+  ): UpdateHelpPayload
 
   """Updates a single `Option` using its globally unique id and a patch."""
   updateOptionByNodeId(
@@ -2445,6 +2696,38 @@ type Mutation {
     input: DeleteCharacteristicInput!
   ): DeleteCharacteristicPayload
 
+  """Deletes a single `Concern` using its globally unique id."""
+  deleteConcernByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteConcernByNodeIdInput!
+  ): DeleteConcernPayload
+
+  """Deletes a single `Concern` using a unique key."""
+  deleteConcern(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteConcernInput!
+  ): DeleteConcernPayload
+
+  """Deletes a single `Idea` using its globally unique id."""
+  deleteIdeaByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteIdeaByNodeIdInput!
+  ): DeleteIdeaPayload
+
+  """Deletes a single `Idea` using a unique key."""
+  deleteIdea(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteIdeaInput!
+  ): DeleteIdeaPayload
+
   """Deletes a single `Invite` using its globally unique id."""
   deleteInviteByNodeId(
     """
@@ -2476,6 +2759,22 @@ type Mutation {
     """
     input: DeleteOptionInput!
   ): DeleteOptionPayload
+
+  """Deletes a single `Question` using its globally unique id."""
+  deleteQuestionByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteQuestionByNodeIdInput!
+  ): DeleteQuestionPayload
+
+  """Deletes a single `Question` using a unique key."""
+  deleteQuestion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteQuestionInput!
+  ): DeleteQuestionPayload
 
   """Deletes a single `Relationship` using its globally unique id."""
   deleteRelationshipByNodeId(
@@ -2980,7 +3279,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [NATURAL]
+    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -3009,7 +3308,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [NATURAL]
+    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -3038,7 +3337,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [NATURAL]
+    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -3103,6 +3402,35 @@ type Query implements Node {
     """
     condition: OptionCondition
   ): OptionsConnection
+
+  """Reads and enables pagination through a set of `Question`."""
+  questions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Question`."""
+    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: QuestionCondition
+  ): QuestionsConnection
 
   """Reads and enables pagination through a set of `Relationship`."""
   relationships(
@@ -3254,8 +3582,12 @@ type Query implements Node {
   category(id: Int!): Category
   categoryByName(name: String!): Category
   characteristic(thingId: Int!, attributeId: Int!, optionId: Int!): Characteristic
+  concern(id: Int!): Concern
+  help(id: Int!): Help
+  idea(id: Int!): Idea
   invite(phoneNumber: String!): Invite
   option(id: Int!): Option
+  question(id: Int!): Question
   relationship(attributeId: Int!, optionId: Int!): Relationship
   request(id: Int!): Request
   subcategory(id: Int!): Subcategory
@@ -3291,6 +3623,24 @@ type Query implements Node {
     nodeId: ID!
   ): Characteristic
 
+  """Reads a single `Concern` using its globally unique `ID`."""
+  concernByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Concern`."""
+    nodeId: ID!
+  ): Concern
+
+  """Reads a single `Help` using its globally unique `ID`."""
+  helpByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Help`."""
+    nodeId: ID!
+  ): Help
+
+  """Reads a single `Idea` using its globally unique `ID`."""
+  ideaByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Idea`."""
+    nodeId: ID!
+  ): Idea
+
   """Reads a single `Invite` using its globally unique `ID`."""
   inviteByNodeId(
     """The globally unique `ID` to be used in selecting a single `Invite`."""
@@ -3302,6 +3652,12 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Option`."""
     nodeId: ID!
   ): Option
+
+  """Reads a single `Question` using its globally unique `ID`."""
+  questionByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Question`."""
+    nodeId: ID!
+  ): Question
 
   """Reads a single `Relationship` using its globally unique `ID`."""
   relationshipByNodeId(
@@ -3336,6 +3692,91 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `User`."""
     nodeId: ID!
   ): User
+}
+
+type Question implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  description: String!
+}
+
+"""
+A condition to be used against `Question` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input QuestionCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""An input for mutations affecting `Question`"""
+input QuestionInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  description: String!
+}
+
+"""A connection to a list of `Question` values."""
+type QuestionsConnection {
+  """A list of `Question` objects."""
+  nodes: [Question!]!
+
+  """
+  A list of edges which contains the `Question` and cursor to aid in pagination.
+  """
+  edges: [QuestionsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Question` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Question` edge in the connection."""
+type QuestionsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Question` at the end of the edge."""
+  node: Question!
+}
+
+"""Methods to use when ordering `Question`."""
+enum QuestionsOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 type Relationship implements Node {
@@ -4091,6 +4532,63 @@ type UpdateCharacteristicPayload {
     """The method to use when ordering `Characteristic`."""
     orderBy: [CharacteristicsOrderBy!] = [PRIMARY_KEY_ASC]
   ): CharacteristicsEdge
+}
+
+"""All input for the `updateHelpByNodeId` mutation."""
+input UpdateHelpByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Help` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Help` being updated.
+  """
+  patch: HelpPatch!
+}
+
+"""All input for the `updateHelp` mutation."""
+input UpdateHelpInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Help` being updated.
+  """
+  patch: HelpPatch!
+  id: Int!
+}
+
+"""The output of our update `Help` mutation."""
+type UpdateHelpPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Help` that was updated by this mutation."""
+  help: Help
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Help`. May be used by Relay 1."""
+  helpEdge(
+    """The method to use when ordering `Help`."""
+    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): HelpsEdge
 }
 
 """All input for the `updateOptionByNodeId` mutation."""
