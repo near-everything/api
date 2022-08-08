@@ -1,6 +1,7 @@
 \c everything admin
 -- create types
 create type everything.option_type as enum ('text', 'company', 'size');
+create type everything.feedback_type as enum ('question', 'concern', 'help', 'idea', 'other');
 -- create base type
 create table everything.base (
   created_at timestamp default now(),
@@ -120,27 +121,12 @@ create index on everything.characteristic (thing_id);
 create index on everything.characteristic (attribute_id);
 create index on everything.characteristic (option_id);
 
--- create help, idea, concern, question
-create table everything.help (
+-- create feedback
+create table everything.feedback (
   id serial primary key,
-  description text not null
+  description text not null,
+  type everything.feedback_type not null,
+  user_id text not null references everything.user(id)
 ) inherits (everything.base);
-comment on table everything.help is E'@omit delete';
-
-create table everything.idea (
-  id serial primary key,
-  description text not null
-) inherits (everything.base);
-comment on table everything.idea is E'@omit update';
-
-create table everything.concern (
-  id serial primary key,
-  description text not null
-) inherits (everything.base);
-comment on table everything.concern is E'@omit update';
-
-create table everything.question (
-  id serial primary key,
-  description text not null
-) inherits (everything.base);
-comment on table everything.question is E'@omit update';
+comment on table everything.feedback is E'@omit delete';
+create index on everything.feedback (user_id);
