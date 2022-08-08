@@ -576,90 +576,6 @@ enum CharacteristicsOrderBy {
   PRIMARY_KEY_DESC
 }
 
-type Concern implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int!
-}
-
-"""
-A condition to be used against `Concern` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input ConcernCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-}
-
-"""An input for mutations affecting `Concern`"""
-input ConcernInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int
-}
-
-"""A connection to a list of `Concern` values."""
-type ConcernsConnection {
-  """A list of `Concern` objects."""
-  nodes: [Concern!]!
-
-  """
-  A list of edges which contains the `Concern` and cursor to aid in pagination.
-  """
-  edges: [ConcernsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Concern` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Concern` edge in the connection."""
-type ConcernsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Concern` at the end of the edge."""
-  node: Concern!
-}
-
-"""Methods to use when ordering `Concern`."""
-enum ConcernsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  ID_ASC
-  ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
 input CreateAssociationForAttributeInput {
   subcategoryId: Int!
 }
@@ -797,109 +713,42 @@ type CreateCharacteristicPayload {
   ): CharacteristicsEdge
 }
 
-"""All input for the create `Concern` mutation."""
-input CreateConcernInput {
+"""All input for the create `Feedback` mutation."""
+input CreateFeedbackInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `Concern` to be created by this mutation."""
-  concern: ConcernInput!
+  """The `Feedback` to be created by this mutation."""
+  feedback: FeedbackInput!
 }
 
-"""The output of our create `Concern` mutation."""
-type CreateConcernPayload {
+"""The output of our create `Feedback` mutation."""
+type CreateFeedbackPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Concern` that was created by this mutation."""
-  concern: Concern
+  """The `Feedback` that was created by this mutation."""
+  feedback: Feedback
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Concern`. May be used by Relay 1."""
-  concernEdge(
-    """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConcernsEdge
-}
+  """Reads a single `User` that is related to this `Feedback`."""
+  user: User
 
-"""All input for the create `Help` mutation."""
-input CreateHelpInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Help` to be created by this mutation."""
-  help: HelpInput!
-}
-
-"""The output of our create `Help` mutation."""
-type CreateHelpPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Help` that was created by this mutation."""
-  help: Help
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Help`. May be used by Relay 1."""
-  helpEdge(
-    """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): HelpsEdge
-}
-
-"""All input for the create `Idea` mutation."""
-input CreateIdeaInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Idea` to be created by this mutation."""
-  idea: IdeaInput!
-}
-
-"""The output of our create `Idea` mutation."""
-type CreateIdeaPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Idea` that was created by this mutation."""
-  idea: Idea
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Idea`. May be used by Relay 1."""
-  ideaEdge(
-    """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): IdeasEdge
+  """An edge for our `Feedback`. May be used by Relay 1."""
+  feedbackEdge(
+    """The method to use when ordering `Feedback`."""
+    orderBy: [FeedbacksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): FeedbacksEdge
 }
 
 """All input for the create `Invite` mutation."""
@@ -970,41 +819,6 @@ type CreateOptionPayload {
     """The method to use when ordering `Option`."""
     orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
   ): OptionsEdge
-}
-
-"""All input for the create `Question` mutation."""
-input CreateQuestionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Question` to be created by this mutation."""
-  question: QuestionInput!
-}
-
-"""The output of our create `Question` mutation."""
-type CreateQuestionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Question` that was created by this mutation."""
-  question: Question
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Question`. May be used by Relay 1."""
-  questionEdge(
-    """The method to use when ordering `Question`."""
-    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): QuestionsEdge
 }
 
 """All input for the create `Relationship` mutation."""
@@ -1387,102 +1201,6 @@ type DeleteCharacteristicPayload {
   ): CharacteristicsEdge
 }
 
-"""All input for the `deleteConcernByNodeId` mutation."""
-input DeleteConcernByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Concern` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteConcern` mutation."""
-input DeleteConcernInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `Concern` mutation."""
-type DeleteConcernPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Concern` that was deleted by this mutation."""
-  concern: Concern
-  deletedConcernNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Concern`. May be used by Relay 1."""
-  concernEdge(
-    """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConcernsEdge
-}
-
-"""All input for the `deleteIdeaByNodeId` mutation."""
-input DeleteIdeaByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Idea` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteIdea` mutation."""
-input DeleteIdeaInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `Idea` mutation."""
-type DeleteIdeaPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Idea` that was deleted by this mutation."""
-  idea: Idea
-  deletedIdeaNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Idea`. May be used by Relay 1."""
-  ideaEdge(
-    """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): IdeasEdge
-}
-
 """All input for the `deleteInviteByNodeId` mutation."""
 input DeleteInviteByNodeIdInput {
   """
@@ -1577,54 +1295,6 @@ type DeleteOptionPayload {
     """The method to use when ordering `Option`."""
     orderBy: [OptionsOrderBy!] = [PRIMARY_KEY_ASC]
   ): OptionsEdge
-}
-
-"""All input for the `deleteQuestionByNodeId` mutation."""
-input DeleteQuestionByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Question` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteQuestion` mutation."""
-input DeleteQuestionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: Int!
-}
-
-"""The output of our delete `Question` mutation."""
-type DeleteQuestionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Question` that was deleted by this mutation."""
-  question: Question
-  deletedQuestionNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Question`. May be used by Relay 1."""
-  questionEdge(
-    """The method to use when ordering `Question`."""
-    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): QuestionsEdge
 }
 
 """All input for the `deleteRelationshipByNodeId` mutation."""
@@ -1900,6 +1570,129 @@ type DeleteUserPayload {
   ): UsersEdge
 }
 
+type Feedback implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int!
+  description: String!
+  type: FeedbackType!
+  userId: String!
+
+  """Reads a single `User` that is related to this `Feedback`."""
+  user: User
+}
+
+"""
+A condition to be used against `Feedback` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input FeedbackCondition {
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
+
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `type` field."""
+  type: FeedbackType
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: String
+}
+
+"""An input for mutations affecting `Feedback`"""
+input FeedbackInput {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  description: String!
+  type: FeedbackType!
+  userId: String!
+}
+
+"""
+Represents an update to a `Feedback`. Fields that are set will be updated.
+"""
+input FeedbackPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  createdBy: String
+  id: Int
+  description: String
+  type: FeedbackType
+  userId: String
+}
+
+"""A connection to a list of `Feedback` values."""
+type FeedbacksConnection {
+  """A list of `Feedback` objects."""
+  nodes: [Feedback!]!
+
+  """
+  A list of edges which contains the `Feedback` and cursor to aid in pagination.
+  """
+  edges: [FeedbacksEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Feedback` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Feedback` edge in the connection."""
+type FeedbacksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Feedback` at the end of the edge."""
+  node: Feedback!
+}
+
+"""Methods to use when ordering `Feedback`."""
+enum FeedbacksOrderBy {
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  ID_ASC
+  ID_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  TYPE_ASC
+  TYPE_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+enum FeedbackType {
+  QUESTION
+  CONCERN
+  HELP
+  IDEA
+  OTHER
+}
+
 """
 The `GeoJSON` scalar type represents GeoJSON values as specified by[RFC 7946](https://tools.ietf.org/html/rfc7946).
 """
@@ -2126,183 +1919,6 @@ type GeometryPolygonZM implements GeometryInterface & GeometryGeometryZM {
   interiors: [GeometryLineStringZM]
 }
 
-type Help implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int!
-}
-
-"""
-A condition to be used against `Help` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input HelpCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-}
-
-"""An input for mutations affecting `Help`"""
-input HelpInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int
-}
-
-"""Represents an update to a `Help`. Fields that are set will be updated."""
-input HelpPatch {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String
-  id: Int
-}
-
-"""A connection to a list of `Help` values."""
-type HelpsConnection {
-  """A list of `Help` objects."""
-  nodes: [Help!]!
-
-  """
-  A list of edges which contains the `Help` and cursor to aid in pagination.
-  """
-  edges: [HelpsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Help` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Help` edge in the connection."""
-type HelpsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Help` at the end of the edge."""
-  node: Help!
-}
-
-"""Methods to use when ordering `Help`."""
-enum HelpsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  ID_ASC
-  ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-type Idea implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int!
-}
-
-"""
-A condition to be used against `Idea` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input IdeaCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-}
-
-"""An input for mutations affecting `Idea`"""
-input IdeaInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  description: String!
-  id: Int
-}
-
-"""A connection to a list of `Idea` values."""
-type IdeasConnection {
-  """A list of `Idea` objects."""
-  nodes: [Idea!]!
-
-  """
-  A list of edges which contains the `Idea` and cursor to aid in pagination.
-  """
-  edges: [IdeasEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Idea` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Idea` edge in the connection."""
-type IdeasEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Idea` at the end of the edge."""
-  node: Idea!
-}
-
-"""Methods to use when ordering `Idea`."""
-enum IdeasOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  ID_ASC
-  ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
 type Invite implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -2420,29 +2036,13 @@ type Mutation {
     input: CreateCharacteristicInput!
   ): CreateCharacteristicPayload
 
-  """Creates a single `Concern`."""
-  createConcern(
+  """Creates a single `Feedback`."""
+  createFeedback(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateConcernInput!
-  ): CreateConcernPayload
-
-  """Creates a single `Help`."""
-  createHelp(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateHelpInput!
-  ): CreateHelpPayload
-
-  """Creates a single `Idea`."""
-  createIdea(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateIdeaInput!
-  ): CreateIdeaPayload
+    input: CreateFeedbackInput!
+  ): CreateFeedbackPayload
 
   """Creates a single `Invite`."""
   createInvite(
@@ -2459,14 +2059,6 @@ type Mutation {
     """
     input: CreateOptionInput!
   ): CreateOptionPayload
-
-  """Creates a single `Question`."""
-  createQuestion(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateQuestionInput!
-  ): CreateQuestionPayload
 
   """Creates a single `Relationship`."""
   createRelationship(
@@ -2558,21 +2150,21 @@ type Mutation {
     input: UpdateCharacteristicInput!
   ): UpdateCharacteristicPayload
 
-  """Updates a single `Help` using its globally unique id and a patch."""
-  updateHelpByNodeId(
+  """Updates a single `Feedback` using its globally unique id and a patch."""
+  updateFeedbackByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateHelpByNodeIdInput!
-  ): UpdateHelpPayload
+    input: UpdateFeedbackByNodeIdInput!
+  ): UpdateFeedbackPayload
 
-  """Updates a single `Help` using a unique key and a patch."""
-  updateHelp(
+  """Updates a single `Feedback` using a unique key and a patch."""
+  updateFeedback(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateHelpInput!
-  ): UpdateHelpPayload
+    input: UpdateFeedbackInput!
+  ): UpdateFeedbackPayload
 
   """Updates a single `Option` using its globally unique id and a patch."""
   updateOptionByNodeId(
@@ -2696,38 +2288,6 @@ type Mutation {
     input: DeleteCharacteristicInput!
   ): DeleteCharacteristicPayload
 
-  """Deletes a single `Concern` using its globally unique id."""
-  deleteConcernByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteConcernByNodeIdInput!
-  ): DeleteConcernPayload
-
-  """Deletes a single `Concern` using a unique key."""
-  deleteConcern(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteConcernInput!
-  ): DeleteConcernPayload
-
-  """Deletes a single `Idea` using its globally unique id."""
-  deleteIdeaByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIdeaByNodeIdInput!
-  ): DeleteIdeaPayload
-
-  """Deletes a single `Idea` using a unique key."""
-  deleteIdea(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIdeaInput!
-  ): DeleteIdeaPayload
-
   """Deletes a single `Invite` using its globally unique id."""
   deleteInviteByNodeId(
     """
@@ -2759,22 +2319,6 @@ type Mutation {
     """
     input: DeleteOptionInput!
   ): DeleteOptionPayload
-
-  """Deletes a single `Question` using its globally unique id."""
-  deleteQuestionByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteQuestionByNodeIdInput!
-  ): DeleteQuestionPayload
-
-  """Deletes a single `Question` using a unique key."""
-  deleteQuestion(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteQuestionInput!
-  ): DeleteQuestionPayload
 
   """Deletes a single `Relationship` using its globally unique id."""
   deleteRelationshipByNodeId(
@@ -3258,8 +2802,8 @@ type Query implements Node {
     condition: CharacteristicCondition
   ): CharacteristicsConnection
 
-  """Reads and enables pagination through a set of `Concern`."""
-  concerns(
+  """Reads and enables pagination through a set of `Feedback`."""
+  feedbacks(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3278,72 +2822,14 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `Concern`."""
-    orderBy: [ConcernsOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Feedback`."""
+    orderBy: [FeedbacksOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConcernCondition
-  ): ConcernsConnection
-
-  """Reads and enables pagination through a set of `Help`."""
-  helps(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: HelpCondition
-  ): HelpsConnection
-
-  """Reads and enables pagination through a set of `Idea`."""
-  ideas(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Idea`."""
-    orderBy: [IdeasOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: IdeaCondition
-  ): IdeasConnection
+    condition: FeedbackCondition
+  ): FeedbacksConnection
 
   """Reads and enables pagination through a set of `Invite`."""
   invites(
@@ -3402,35 +2888,6 @@ type Query implements Node {
     """
     condition: OptionCondition
   ): OptionsConnection
-
-  """Reads and enables pagination through a set of `Question`."""
-  questions(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Question`."""
-    orderBy: [QuestionsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: QuestionCondition
-  ): QuestionsConnection
 
   """Reads and enables pagination through a set of `Relationship`."""
   relationships(
@@ -3582,12 +3039,9 @@ type Query implements Node {
   category(id: Int!): Category
   categoryByName(name: String!): Category
   characteristic(thingId: Int!, attributeId: Int!, optionId: Int!): Characteristic
-  concern(id: Int!): Concern
-  help(id: Int!): Help
-  idea(id: Int!): Idea
+  feedback(id: Int!): Feedback
   invite(phoneNumber: String!): Invite
   option(id: Int!): Option
-  question(id: Int!): Question
   relationship(attributeId: Int!, optionId: Int!): Relationship
   request(id: Int!): Request
   subcategory(id: Int!): Subcategory
@@ -3623,23 +3077,11 @@ type Query implements Node {
     nodeId: ID!
   ): Characteristic
 
-  """Reads a single `Concern` using its globally unique `ID`."""
-  concernByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Concern`."""
+  """Reads a single `Feedback` using its globally unique `ID`."""
+  feedbackByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Feedback`."""
     nodeId: ID!
-  ): Concern
-
-  """Reads a single `Help` using its globally unique `ID`."""
-  helpByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Help`."""
-    nodeId: ID!
-  ): Help
-
-  """Reads a single `Idea` using its globally unique `ID`."""
-  ideaByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Idea`."""
-    nodeId: ID!
-  ): Idea
+  ): Feedback
 
   """Reads a single `Invite` using its globally unique `ID`."""
   inviteByNodeId(
@@ -3652,12 +3094,6 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Option`."""
     nodeId: ID!
   ): Option
-
-  """Reads a single `Question` using its globally unique `ID`."""
-  questionByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Question`."""
-    nodeId: ID!
-  ): Question
 
   """Reads a single `Relationship` using its globally unique `ID`."""
   relationshipByNodeId(
@@ -3692,91 +3128,6 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `User`."""
     nodeId: ID!
   ): User
-}
-
-type Question implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int!
-  description: String!
-}
-
-"""
-A condition to be used against `Question` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input QuestionCondition {
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
-  """Checks for equality with the object’s `id` field."""
-  id: Int
-
-  """Checks for equality with the object’s `description` field."""
-  description: String
-}
-
-"""An input for mutations affecting `Question`"""
-input QuestionInput {
-  createdAt: Datetime
-  updatedAt: Datetime
-  createdBy: String
-  id: Int
-  description: String!
-}
-
-"""A connection to a list of `Question` values."""
-type QuestionsConnection {
-  """A list of `Question` objects."""
-  nodes: [Question!]!
-
-  """
-  A list of edges which contains the `Question` and cursor to aid in pagination.
-  """
-  edges: [QuestionsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Question` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Question` edge in the connection."""
-type QuestionsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Question` at the end of the edge."""
-  node: Question!
-}
-
-"""Methods to use when ordering `Question`."""
-enum QuestionsOrderBy {
-  NATURAL
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  ID_ASC
-  ID_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
 }
 
 type Relationship implements Node {
@@ -4534,8 +3885,8 @@ type UpdateCharacteristicPayload {
   ): CharacteristicsEdge
 }
 
-"""All input for the `updateHelpByNodeId` mutation."""
-input UpdateHelpByNodeIdInput {
+"""All input for the `updateFeedbackByNodeId` mutation."""
+input UpdateFeedbackByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4543,18 +3894,18 @@ input UpdateHelpByNodeIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `Help` to be updated.
+  The globally unique `ID` which will identify a single `Feedback` to be updated.
   """
   nodeId: ID!
 
   """
-  An object where the defined keys will be set on the `Help` being updated.
+  An object where the defined keys will be set on the `Feedback` being updated.
   """
-  patch: HelpPatch!
+  patch: FeedbackPatch!
 }
 
-"""All input for the `updateHelp` mutation."""
-input UpdateHelpInput {
+"""All input for the `updateFeedback` mutation."""
+input UpdateFeedbackInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4562,33 +3913,36 @@ input UpdateHelpInput {
   clientMutationId: String
 
   """
-  An object where the defined keys will be set on the `Help` being updated.
+  An object where the defined keys will be set on the `Feedback` being updated.
   """
-  patch: HelpPatch!
+  patch: FeedbackPatch!
   id: Int!
 }
 
-"""The output of our update `Help` mutation."""
-type UpdateHelpPayload {
+"""The output of our update `Feedback` mutation."""
+type UpdateFeedbackPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Help` that was updated by this mutation."""
-  help: Help
+  """The `Feedback` that was updated by this mutation."""
+  feedback: Feedback
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Help`. May be used by Relay 1."""
-  helpEdge(
-    """The method to use when ordering `Help`."""
-    orderBy: [HelpsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): HelpsEdge
+  """Reads a single `User` that is related to this `Feedback`."""
+  user: User
+
+  """An edge for our `Feedback`. May be used by Relay 1."""
+  feedbackEdge(
+    """The method to use when ordering `Feedback`."""
+    orderBy: [FeedbacksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): FeedbacksEdge
 }
 
 """All input for the `updateOptionByNodeId` mutation."""
@@ -4791,6 +4145,35 @@ type User implements Node {
     """
     condition: RequestCondition
   ): RequestsConnection!
+
+  """Reads and enables pagination through a set of `Feedback`."""
+  feedbacks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Feedback`."""
+    orderBy: [FeedbacksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FeedbackCondition
+  ): FeedbacksConnection!
 }
 
 """
