@@ -49,23 +49,3 @@ create trigger category_created_by before insert
   on everything.characteristic
   for each row
   execute procedure everything_private.set_created_by();
-
-  create trigger help_created_by before insert
-  on everything.help
-  for each row
-  execute procedure everything_private.set_created_by();
-
-  create trigger idea_created_by before insert
-  on everything.idea
-  for each row
-  execute procedure everything_private.set_created_by();
-
-  create trigger concern_created_by before insert
-  on everything.concern
-  for each row
-  execute procedure everything_private.set_created_by();
-
-  create trigger question_created_by before insert
-  on everything.question
-  for each row
-  execute procedure everything_private.set_created_by();
