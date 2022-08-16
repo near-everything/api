@@ -1,6 +1,6 @@
 const blockchain = require("./blockchain");
 const api = require("./api");
-
+const path = require('path');
 const fs = require("fs");
 const user = require("./user");
 const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
@@ -32,8 +32,9 @@ module.exports = {
         nftContract,
         "nft_mint",
         {
-          token_id: tokenId, // make this text
+          token_id: tokenId.toString(), // make this text
           metadata: metadata,
+          receiver_id: username
         },
         "100000000000000",
         "10000000000000000000000"
