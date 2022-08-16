@@ -7,4 +7,4 @@ ui-debug.log
 firebase-debug.log
 
 # NEAR
-src/utils/near/storage/
+storage/
