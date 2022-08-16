@@ -12,6 +12,7 @@ comment on table everything.base is E'@omit';
 -- create user + auth types
 create table everything.user (
   id text not null,
+  username text unique,
   primary key (id)
 ) inherits (everything.base);
 comment on table everything.user is E'@omit create,update';
@@ -30,7 +31,7 @@ comment on table everything.invite is E'@omit update';
 -- create category
 create table everything.category (
   id serial primary key,
-  name text not null check (char_length(name) < 80) unique,
+  name text not null check (char_length(name) < 33) unique,
   description text,
   is_approved boolean default false
 ) inherits (everything.base);
