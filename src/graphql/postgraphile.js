@@ -37,19 +37,19 @@ module.exports = {
         require("./plugins/mutations/CreateUserMutationPlugin"),
       ],
       pgSettings: async (req) => {
-        if (req.headers.authorization === undefined) {
-          return {
-            role: "everything_anon",
-          };
-        } else {
-          const token = req.headers.authorization.split("Bearer ")[1];
-          const decodedToken = await admin.auth().verifyIdToken(token);
-          // can check role, configure this role with database
-          return {
-            role: "everything_user",
-            "jwt.claims.firebase": decodedToken.uid,
-          };
-        }
+        // if (req.headers.authorization === undefined) {
+        //   return {
+        //     role: "everything_anon",
+        //   };
+        // } else {
+        //   const token = req.headers.authorization.split("Bearer ")[1];
+        //   const decodedToken = await admin.auth().verifyIdToken(token);
+        //   // can check role, configure this role with database
+        //   return {
+        //     role: "everything_user",
+        //     "jwt.claims.firebase": decodedToken.uid,
+        //   };
+        // }
       },
     }
   ),

@@ -1,6 +1,7 @@
 const nearApi = require('near-api-js');
 const api = require('./api');
 const fs = require('fs');
+const path = require('path');
 const fetch = require('node-fetch');
 const {getNetworkFromRpcNode} = require("./api");
 

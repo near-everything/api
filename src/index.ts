@@ -6,8 +6,10 @@ const fs = require('fs');
 const admin = require('./auth/admin');
 const path = require('path');
 const token = require("./utils/near/token")
+const api = require("./utils/near/api")
 const postgraphile = require("./graphql/postgraphile");
 
+const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 // Load .env variables
 require('dotenv').config()
 
@@ -26,25 +28,6 @@ app.use(cors({
   "preflightContinue": false,
   "optionsSuccessStatus": 204
 }));
-
-app.post('/create_user', async (req, res) => {
-  const username = (
-    'elliot.everything.testnet'
-  ).toLowerCase();
-  const tx = await token.MintNFT(
-    6,
-    {
-      title: "test title",
-      description: "test description",
-    },
-    username
-  );
-  if (tx) {
-    res.send(tx);
-  } else {
-    res.send("error minting"); // throw exception
-  }
-})
 
 // Postgraphile must be the last middleware used
 app.use(postgraphile.middleware);

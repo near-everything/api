@@ -3560,6 +3560,7 @@ type Thing implements Node {
   quantity: Int!
   metadata: JSON
   geomPoint: GeometryPoint
+  nftId: String
 
   """Reads a single `Category` that is related to this `Thing`."""
   category: Category
@@ -3636,6 +3637,9 @@ input ThingCondition {
 
   """Checks for equality with the object’s `geomPoint` field."""
   geomPoint: GeoJSON
+
+  """Checks for equality with the object’s `nftId` field."""
+  nftId: String
 }
 
 """A connection to a list of `Thing` values."""
@@ -3689,6 +3693,8 @@ enum ThingsOrderBy {
   METADATA_DESC
   GEOM_POINT_ASC
   GEOM_POINT_DESC
+  NFT_ID_ASC
+  NFT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }

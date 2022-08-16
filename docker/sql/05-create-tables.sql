@@ -88,6 +88,7 @@ create table everything.thing (
   category_id int not null references everything.category(id),
   subcategory_id int not null references everything.subcategory(id),
   owner_id text not null references everything.user(id),
+  nft_id text,
   media text [],
   quantity int not null default 1,
   metadata json,

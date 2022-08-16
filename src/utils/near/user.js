@@ -2,6 +2,7 @@ const nearApi = require('near-api-js');
 const blockchain = require('./blockchain');
 const nearSeedPhrase = require('near-seed-phrase');
 const fs = require('fs');
+const path = require('path');
 
 const storageFolder = "storage";
 

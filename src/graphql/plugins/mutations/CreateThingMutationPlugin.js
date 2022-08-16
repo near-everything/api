@@ -1,7 +1,8 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const token = require("../../../utils/near/token");
-const api = require("../../../api");
+const api = require("../../../utils/near/api");
 const fs = require("fs");
+const NftMintException = require("../../../utils/error/NftMintException")
 
 const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
@@ -37,6 +38,15 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
       Mutation: {
         createThing: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
+          const {
+            categoryId,
+            subcategoryId,
+            ownerId,
+            media,
+            quantity,
+            geomPoint,
+            attributes,
+          } = args.input;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
@@ -46,17 +56,17 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
             } = await pgClient.query(
               `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity, geom_point              ) VALUES ($1, $2, $3, $4, $5, $6)              RETURNING *`,
               [
-                args.input.categoryId,
-                args.input.subcategoryId,
-                args.input.ownerId,
-                args.input.media,
-                args.input.quantity || 1,
-                args.input.geomPoint,
+                categoryId,
+                subcategoryId,
+                ownerId,
+                media,
+                quantity || 1,
+                geomPoint,
               ]
             );
-            // create all the characteristics using the thing id
+            // create the characteristics using the thing id
             await Promise.all(
-              args.input.attributes.map(async (attribute) => {
+              attributes.map(async (attribute) => {
                 // create the option (regular text)
                 await pgClient.query(
                   `INSERT INTO everything.characteristic(                thing_id, attribute_id, option_id              ) VALUES ($1, $2, $3)              RETURNING *`,
@@ -64,33 +74,36 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                 );
               })
             );
-            // get the thing
-            const [row] =
-              await resolveInfo.graphile.selectGraphQLResultFromTable(
-                sql.fragment`everything.thing`,
-                (tableAlias, queryBuilder) => {
-                  queryBuilder.where(
-                    sql.fragment`${tableAlias}.id = ${sql.value(thing.id)}`
-                  );
-                }
-              );
-
             // mint the nft
-            const username = ("elliot." + settings.master_account_id).toLowerCase();
-            const tx = await token.MintNFT(
+            const username = (
+              "elliot." + settings.master_account_id
+            ).toLowerCase();
+            const nft_id = await token.MintNFT(
               thing.id,
               {
-                title: "test title",
-                description: "test description",
+                title: `Thing #${thing.id}`,
+                issued_at: Date.now(),
+                updated_at: Date.now(),
               },
               username
             );
-            if (tx) {
-              console.log(tx);
-            } else {
-              console.log("error minting"); // throw exception
+            if (nft_id.error) {
+              throw new NftMintException(
+                `Error while minting Thing #${thing.id}, abort.`
+              );
             }
-            
+            // update thing with nft_id
+            await pgClient.query(
+              `UPDATE everything.thing SET nft_id = $1 WHERE id = $2 RETURNING *`,
+              [nft_id, thing.id]
+            );
+            // get and return the updated thing
+            const [row] = await resolveInfo.graphile.selectGraphQLResultFromTable(
+              sql.fragment`everything.thing`,
+              (tableAlias, queryBuilder) => {
+                queryBuilder.where(sql.fragment`${tableAlias}.id = ${sql.value(thing.id)}`);
+              }
+            );
             return {
               data: row,
               query: build.$$isQuery,
