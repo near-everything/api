@@ -1,4 +1,9 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
+const token = require("../../../utils/near/token");
+const api = require("../../../api");
+const fs = require("fs");
+
+const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
 const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
@@ -14,8 +19,8 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
         subcategoryId: Int!
         attributes: [NewAttributeInput!]!
         media: [String!]!
-        ownerId: String!,
-        quantity: Int,
+        ownerId: String!
+        quantity: Int
         geomPoint: GeoJSON
       }
 
@@ -46,7 +51,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                 args.input.ownerId,
                 args.input.media,
                 args.input.quantity || 1,
-                args.input.geomPoint
+                args.input.geomPoint,
               ]
             );
             // create all the characteristics using the thing id
@@ -55,11 +60,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                 // create the option (regular text)
                 await pgClient.query(
                   `INSERT INTO everything.characteristic(                thing_id, attribute_id, option_id              ) VALUES ($1, $2, $3)              RETURNING *`,
-                  [
-                    thing.id,
-                    attribute.attributeId,
-                    attribute.optionId,
-                  ]
+                  [thing.id, attribute.attributeId, attribute.optionId]
                 );
               })
             );
@@ -73,6 +74,23 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                   );
                 }
               );
+
+            // mint the nft
+            const username = ("elliot." + settings.master_account_id).toLowerCase();
+            const tx = await token.MintNFT(
+              thing.id,
+              {
+                title: "test title",
+                description: "test description",
+              },
+              username
+            );
+            if (tx) {
+              console.log(tx);
+            } else {
+              console.log("error minting"); // throw exception
+            }
+            
             return {
               data: row,
               query: build.$$isQuery,
