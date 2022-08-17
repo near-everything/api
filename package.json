@@ -17,6 +17,7 @@
     "near-cli": "^3.4.2",
     "near-seed-phrase": "^0.2.0",
     "path": "^0.12.7",
-    "postgraphile": "^4.12.9"
+    "postgraphile": "^4.12.9",
+    "unique-username-generator": "^1.1.1"
   }
 }

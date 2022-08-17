@@ -2,6 +2,7 @@ const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const u = require("../../../utils/near/user");
 const api = require("../../../utils/near/api");
 const fs = require("fs");
+const { generateUsername } = require("unique-username-generator");
 
 const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
@@ -11,7 +12,6 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
     typeDefs: gql`
       input CreateUserInput {
         uid: String!
-        username: String
       }
 
       type CreateUserPayload {
@@ -27,6 +27,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
       Mutation: {
         createUser: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
+          const { uid } = args.input;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
@@ -37,9 +38,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
                 sql.fragment`everything.user`,
                 (tableAlias, queryBuilder) => {
                   queryBuilder.where(
-                    sql.fragment`${tableAlias}.id = ${sql.value(
-                      args.input.uid
-                    )}`
+                    sql.fragment`${tableAlias}.id = ${sql.value(uid)}`
                   );
                 }
               );
@@ -51,11 +50,8 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
               };
             } else {
               // create the User
-              const name = (
-                args.input.username +
-                "." +
-                settings.master_account_id
-              ).toLowerCase();
+              const walletName = generateUsername();
+              const name = (walletName + "." + settings.master_account_id).toLowerCase();
               let account = await u.CreateKeyPair(name);
 
               let status = await u.CreateAccount(account);
@@ -65,8 +61,8 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
               const {
                 rows: [user],
               } = await pgClient.query(
-                `INSERT INTO everything.user(                id, username              ) VALUES ($1, $2)              RETURNING *`,
-                [args.input.uid, args.input.username]
+                `INSERT INTO everything.user(                id,wallet              ) VALUES ($1, $2)              RETURNING *`,
+                [uid, walletName]
               );
               // get new user
               const [row] =

@@ -45,7 +45,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
             media,
             quantity,
             geomPoint,
-            attributes,
+            attributes
           } = args.input;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
@@ -74,9 +74,11 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                 );
               })
             );
+            // get user details
+            const { rows: [user] } = await pgClient.query(`SELECT * FROM everything.user WHERE id = $1`, [ownerId]);
             // mint the nft
             const username = (
-              "elliot." + settings.master_account_id
+              user.wallet + "." + settings.master_account_id
             ).toLowerCase();
             const nft_id = await token.MintNFT(
               thing.id,
@@ -89,7 +91,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
             );
             if (nft_id.error) {
               throw new NftMintException(
-                `Error while minting Thing #${thing.id}, abort.`
+                `Error while minting Thing #${thing.id} to wallet ${user.wallet}, aborting.`
               );
             }
             // update thing with nft_id
