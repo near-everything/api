@@ -1,2 +1,3 @@
 alter table everything.user add column username text unique;
+alter table everything.user add column wallet text unique;
 alter table everything.thing add column nft_id text;

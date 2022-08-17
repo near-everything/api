@@ -13,6 +13,7 @@ comment on table everything.base is E'@omit';
 create table everything.user (
   id text not null,
   username text unique,
+  wallet text unique,
   primary key (id)
 ) inherits (everything.base);
 comment on table everything.user is E'@omit create,update';
