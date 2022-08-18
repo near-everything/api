@@ -56,7 +56,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [thing],
             } = await pgClient.query(
-              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity, geom_point              ) VALUES ($1, $2, $3, $4, $5, $6)              RETURNING *`,
+              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity, geom_point, privacy_type              ) VALUES ($1, $2, $3, $4, $5, $6, $7)              RETURNING *`,
               [
                 categoryId,
                 subcategoryId,
@@ -64,6 +64,7 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
                 media,
                 quantity || 1,
                 geomPoint,
+                privacyType
               ]
             );
             // create the characteristics using the thing id
