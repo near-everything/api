@@ -2,6 +2,7 @@
 -- create types
 create type everything.option_type as enum ('text', 'company', 'size');
 create type everything.feedback_type as enum ('question', 'concern', 'help', 'idea', 'other');
+create type everything.privacy_type as enum ('private', 'public');
 -- create base type
 create table everything.base (
   created_at timestamp default now(),
@@ -93,12 +94,14 @@ create table everything.thing (
   media text [],
   quantity int not null default 1,
   metadata json,
-  geom_point everything.geometry(Point, 4326) default null
+  geom_point everything.geometry(Point, 4326) default null,
+  privacy_type everything.privacy_type not null
 ) inherits (everything.base);
 comment on table everything.thing is E'@omit create,update';
 create index on everything.thing (category_id);
 create index on everything.thing (subcategory_id);
 create index on everything.thing (owner_id);
+create index on everything.thing (privacy_type);
 
 -- create request
 create table everything.request (

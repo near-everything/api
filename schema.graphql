@@ -946,6 +946,7 @@ input CreateThingInput {
   ownerId: String!
   quantity: Int
   geomPoint: GeoJSON
+  privacyType: PrivacyType!
 }
 
 type CreateThingPayload {
@@ -2684,6 +2685,11 @@ type PageInfo {
   endCursor: Cursor
 }
 
+enum PrivacyType {
+  PRIVATE
+  PUBLIC
+}
+
 input ProposeAttributeInput {
   name: String!
 }
@@ -3574,11 +3580,12 @@ type Thing implements Node {
   categoryId: Int!
   subcategoryId: Int!
   ownerId: String!
+  nftId: String
   media: [String]
   quantity: Int!
   metadata: JSON
   geomPoint: GeometryPoint
-  nftId: String
+  privacyType: PrivacyType!
 
   """Reads a single `Category` that is related to this `Thing`."""
   category: Category
@@ -3644,6 +3651,9 @@ input ThingCondition {
   """Checks for equality with the object’s `ownerId` field."""
   ownerId: String
 
+  """Checks for equality with the object’s `nftId` field."""
+  nftId: String
+
   """Checks for equality with the object’s `media` field."""
   media: [String]
 
@@ -3656,8 +3666,8 @@ input ThingCondition {
   """Checks for equality with the object’s `geomPoint` field."""
   geomPoint: GeoJSON
 
-  """Checks for equality with the object’s `nftId` field."""
-  nftId: String
+  """Checks for equality with the object’s `privacyType` field."""
+  privacyType: PrivacyType
 }
 
 """A connection to a list of `Thing` values."""
@@ -3703,6 +3713,8 @@ enum ThingsOrderBy {
   SUBCATEGORY_ID_DESC
   OWNER_ID_ASC
   OWNER_ID_DESC
+  NFT_ID_ASC
+  NFT_ID_DESC
   MEDIA_ASC
   MEDIA_DESC
   QUANTITY_ASC
@@ -3711,8 +3723,8 @@ enum ThingsOrderBy {
   METADATA_DESC
   GEOM_POINT_ASC
   GEOM_POINT_DESC
-  NFT_ID_ASC
-  NFT_ID_DESC
+  PRIVACY_TYPE_ASC
+  PRIVACY_TYPE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -4130,9 +4142,9 @@ type User implements Node {
   createdAt: Datetime
   updatedAt: Datetime
   id: String!
-  createdBy: String
   username: String
   wallet: String
+  createdBy: String
 
   """Reads and enables pagination through a set of `Thing`."""
   thingsByOwnerId(
@@ -4235,14 +4247,14 @@ input UserCondition {
   """Checks for equality with the object’s `id` field."""
   id: String
 
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: String
-
   """Checks for equality with the object’s `username` field."""
   username: String
 
   """Checks for equality with the object’s `wallet` field."""
   wallet: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: String
 }
 
 """A connection to a list of `User` values."""
@@ -4280,12 +4292,12 @@ enum UsersOrderBy {
   UPDATED_AT_DESC
   ID_ASC
   ID_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
   USERNAME_ASC
   USERNAME_DESC
   WALLET_ASC
   WALLET_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }

@@ -1,3 +1,9 @@
+create type everything.privacy_type as enum ('private', 'public');
+
 alter table everything.user add column username text unique;
 alter table everything.user add column wallet text unique;
 alter table everything.thing add column nft_id text;
+alter table everything.thing add column privacy_type everything.privacy_type not null default 'private';
+
+create index on everything.thing (privacy_type);
+
