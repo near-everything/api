@@ -8,28 +8,48 @@ grant usage, select on all sequences in schema everything to everything_anon;
 -- to users & auth types
 grant insert on table everything.user to everything_anon;
 grant select,update,delete on table everything.user to everything_user;
-grant select,insert on table everything.invite to everything_anon;
-grant delete on table everything.invite to everything_admin;
--- to labels
-grant select,insert on table everything.category to everything_user;
-grant update,delete on table everything.category to everything_admin;
-grant select,insert on table everything.subcategory to everything_user;
-grant update,delete on table everything.subcategory to everything_admin;
-grant select,insert on table everything.attribute to everything_user;
-grant update,delete on table everything.attribute to everything_admin;
-grant select,insert on table everything.option to everything_user;
-grant update,delete on table everything.option to everything_admin;
-grant select,insert on table everything.association to everything_user;
-grant update,delete on table everything.association to everything_admin;
-grant select,insert on table everything.relationship to everything_user;
-grant update,delete on table everything.relationship to everything_admin;
+-- to app
+grant select on table everything.app to everything_user;
+grant select,update on table everything.app to everything_app;
+grant insert,delete on table everything.app to everything_admin;
+-- to location
+grant select,insert on table everything.location to everything_user;
+grant update,delete on table everything.location to everything_admin;
 -- to things
 grant select,insert,update on table everything.thing to everything_user;
+grant select,insert,update on table everything.thing to everything_app;
 grant delete on table everything.thing to everything_admin;
-grant select,insert,update on table everything.characteristic to everything_user;
 -- to requests
 grant select,insert,update on table everything.request to everything_user;
 grant delete on table everything.request to everything_admin;
--- to feedback
-grant select,insert on table everything.feedback to everything_user;
-grant delete on table everything.feedback to everything_admin;
+-- to posts
+grant select,insert,update,delete on table everything.post to everything_user;
+grant select,insert,update,delete on table everything.post to everything_app;
+-- to comments
+grant select,insert,update,delete on table everything.comment to everything_user;
+grant select,insert,update,delete on table everything.comment to everything_app;
+-- to media
+grant select,insert,update,delete on table everything.media to everything_user;
+grant select,insert,update,delete on table everything.media to everything_app;
+-- to tags
+grant select,insert,update,delete on table everything.thing_tag to everything_user;
+grant select,insert,update,delete on table everything.thing_tag to everything_app;
+
+grant select,insert,update,delete on table everything.user_tag to everything_user;
+grant select,insert,update,delete on table everything.user_tag to everything_app;
+-- to labels
+grant select,insert on table everything.attribute to everything_user;
+grant select,insert on table everything.attribute to everything_app;
+grant update,delete on table everything.attribute to everything_admin;
+
+grant select,insert on table everything.option to everything_user;
+grant select,insert on table everything.option to everything_app;
+grant update,delete on table everything.option to everything_admin;
+
+grant select,insert on table everything.relationship to everything_user;
+grant select,insert on table everything.relationship to everything_app;
+grant update,delete on table everything.relationship to everything_admin;
+
+grant select,insert,update on table everything.characteristic to everything_user;
+grant select,insert,update on table everything.characteristic to everything_app;
+

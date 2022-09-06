@@ -29,7 +29,6 @@ module.exports = {
         require("@graphile-contrib/pg-simplify-inflector"),
         postgis.default || postgis,
         require("./plugins/mutations/CreateThingMutationPlugin"),
-        require("./plugins/mutations/ApproveInviteMutationPlugin"),
         // require('./plugins/mutations/CreateCategoryMutationPlugin'),
         require("./plugins/mutations/CreateAttributeMutationPlugin"),
         require("./plugins/mutations/ProposeAttributeMutationPlugin"),
