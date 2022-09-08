@@ -1,12 +1,13 @@
+// @ts-nocheck
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
-const token = require("../../../utils/near/token");
-const api = require("../../../utils/near/api");
+const token = require("../utils/near/token");
+const api = require("../utils/near/api");
 const fs = require("fs");
-const NftMintException = require("../../../utils/error/NftMintException");
+const NftMintException = require("../utils/error/NftMintException");
 
 const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
-const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
+const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
@@ -139,4 +140,4 @@ const CreateThingMutationPlugin = makeExtendSchemaPlugin((build) => {
   };
 });
 
-module.exports = CreateThingMutationPlugin;
+export default ThingMutationsPlugin;

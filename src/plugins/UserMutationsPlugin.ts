@@ -1,12 +1,13 @@
+// @ts-nocheck
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
-const u = require("../../../utils/near/user");
-const api = require("../../../utils/near/api");
+const u = require("../utils/near/user");
+const api = require("../utils/near/api");
 const fs = require("fs");
 const { generateUsername } = require("unique-username-generator");
 
 const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
-const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
+const UserMutationsPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
@@ -31,7 +32,6 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
-            // check if invited
             // check if User exsists
             const [row] =
               await resolveInfo.graphile.selectGraphQLResultFromTable(
@@ -93,4 +93,4 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
   };
 });
 
-module.exports = CreateUserMutationPlugin;
+export default UserMutationsPlugin;

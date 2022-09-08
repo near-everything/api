@@ -1,48 +1,48 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env node
+import chalk from "chalk";
+import { makeApp } from "./app";
 
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const admin = require('./auth/admin');
-const path = require('path');
-const token = require("./utils/near/token")
-const api = require("./utils/near/api")
-const postgraphile = require("./graphql/postgraphile");
-
-const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
-// Load .env variables
 require('dotenv').config()
 
-// set up firebase admin for token verification
-admin.init();
+async function main() {
 
-// Instantiate express app
-const app = express();
+  // Make our application (loading all the middleware, etc)
+  const app = await makeApp();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Enable CORS from all origins 
-app.use(cors({
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}));
-
-// Postgraphile must be the last middleware used
-app.use(postgraphile.middleware);
-
-// Start server
-const server = app.listen(process.env.PORT || 4050, () => {
-  if (process.env.NODE_ENV === 'production') {
-    console.log("everything api started and listening")
-  } else {
+  // And finally, we open the listen port
+  const PORT = parseInt(process.env.PORT || "", 10) || 4050;
+  const server = app.listen(PORT, () => {
     const address = server.address();
-    if (typeof address !== 'string') {
-      const href = `http://localhost:${address.port}/graphiql`;
-      console.log(`PostGraphiQL available at ${href} 🚀`);
-    } else {
-      console.log(`PostGraphile listening on ${address} 🚀`);
-    }
-  }
+    const actualPort =
+      typeof address === "string"
+        ? address
+        : address && address.port
+          ? String(address.port)
+          : String(PORT);
+    console.log();
+    console.log(
+      chalk.green(
+        `${chalk.bold("everything")} listening on port ${chalk.bold(
+          actualPort
+        )}`
+      )
+    );
+    console.log();
+    console.log(
+      `  Site:     ${chalk.bold.underline(`http://localhost:${actualPort}`)}`
+    );
+    console.log(
+      `  GraphiQL: ${chalk.bold.underline(
+        `http://localhost:${actualPort}/graphiql`
+      )}`
+    );
+    console.log();
+  });
+}
+
+main().catch((e) => {
+  console.error("Fatal error occurred starting server!");
+  console.error(e);
+  process.exit(101);
 });
+

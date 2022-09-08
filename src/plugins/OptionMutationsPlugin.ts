@@ -1,6 +1,7 @@
+// @ts-nocheck
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 
-const ProposeOptionMutationPlugin = makeExtendSchemaPlugin((build) => {
+const OptionMutationsPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
@@ -67,4 +68,4 @@ const ProposeOptionMutationPlugin = makeExtendSchemaPlugin((build) => {
   };
 });
 
-module.exports = ProposeOptionMutationPlugin;
+export default OptionMutationsPlugin;
