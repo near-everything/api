@@ -1,72 +1,20 @@
 #!/usr/bin/env -S npx ts-node
 
 const express = require('express');
-const { postgraphile } = require('postgraphile');
 const cors = require('cors');
 const fs = require('fs');
-const config = require('./config.ts');
-const admin = require('firebase-admin');
+const admin = require('./auth/admin');
 const path = require('path');
-const postgis = require("@graphile/postgis");
+const token = require("./utils/near/token")
+const api = require("./utils/near/api")
+const postgraphile = require("./graphql/postgraphile");
 
+const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 // Load .env variables
 require('dotenv').config()
 
 // set up firebase admin for token verification
-if (process.env.NODE_ENV === 'production') {
-  const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG || "");
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-} else {
-  process.env['FIREBASE_AUTH_EMULATOR_HOST'] = "localhost:9099";
-  admin.initializeApp({ projectId: "demo-everything" });
-}
-
-// Describe postgraphile connection and configurations
-const middleware = postgraphile(
-  {
-    user: process.env.POSTGRES_USER,
-    host: process.env.POSTGRES_HOSTNAME,
-    database: process.env.POSTGRES_DATABASE,
-    password: process.env.POSTGRES_PASSWORD,
-    port: process.env.POSTGRES_PORT,
-    ssl: process.env.NODE_ENV === 'production' ? {
-      rejectUnauthorized: false,
-      ca: process.env.CA_CERT
-    } : null
-  },
-  process.env.POSTGRES_DATABASE,
-  {
-    ...(process.env.NODE_ENV === 'production' ? config.postgraphileOptionsProd : config.postgraphileOptionsDev),
-    appendPlugins: [
-      require("@graphile-contrib/pg-simplify-inflector"),
-      postgis.default || postgis,
-      require('./plugins/mutations/CreateThingMutationPlugin'),
-      require('./plugins/mutations/ApproveInviteMutationPlugin'),
-      // require('./plugins/mutations/CreateCategoryMutationPlugin'),
-      require('./plugins/mutations/CreateAttributeMutationPlugin'),
-      require('./plugins/mutations/ProposeAttributeMutationPlugin'),
-      require('./plugins/mutations/ProposeOptionMutationPlugin'),
-      require('./plugins/mutations/CreateUserMutationPlugin')
-    ],
-    pgSettings: async (req) => {
-      if (req.headers.authorization === undefined) {
-        return {
-          role: 'everything_anon'
-        }
-      } else {
-        const token = req.headers.authorization.split('Bearer ')[1];
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        // can check role, configure this role with database
-        return {
-          role: 'everything_user',
-          'jwt.claims.firebase': decodedToken.uid
-        };
-      }
-    }
-  }
-);
+admin.init();
 
 // Instantiate express app
 const app = express();
@@ -81,10 +29,8 @@ app.use(cors({
   "optionsSuccessStatus": 204
 }));
 
-// app.use(checkAuth)
-
 // Postgraphile must be the last middleware used
-app.use(middleware);
+app.use(postgraphile.middleware);
 
 // Start server
 const server = app.listen(process.env.PORT || 4050, () => {

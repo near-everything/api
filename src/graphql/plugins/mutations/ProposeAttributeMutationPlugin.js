@@ -1,51 +1,43 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 
-const ProposeOptionMutationPlugin = makeExtendSchemaPlugin((build) => {
+const ProposeAttributeMutationPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
-      input ProposeOptionInput {
-        value: String!
-        attributeId: Int!
+      input ProposeAttributeInput {
+        name: String!
       }
 
-      type ProposeOptionPayload {
-        option: Option @pgField
+      type ProposeAttributePayload {
+        attribute: Attribute @pgField
         query: Query
       }
 
       extend type Mutation {
-        proposeOption(input: ProposeOptionInput!): ProposeOptionPayload
+        proposeAttribute(input: ProposeAttributeInput!): ProposeAttributePayload
       }
     `,
     resolvers: {
       Mutation: {
-        proposeOption: async (_query, args, context, resolveInfo) => {
+        proposeAttribute: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
-            // Propose the option
+            // Propose the attribute
             const {
-              rows: [option],
+              rows: [attribute],
             } = await pgClient.query(
-              `INSERT INTO everything.option(                value, type              ) VALUES ($1, $2)              RETURNING *`,
-              [args.input.value, "text"]
+              `INSERT INTO everything.attribute(                name              ) VALUES ($1)              RETURNING *`,
+              [args.input.name]
             );
-            // create the relationship
-            const {
-              rows: [relationship],
-            } = await pgClient.query(
-              `INSERT INTO everything.relationship(                attribute_id, option_id              ) VALUES ($1, $2)              RETURNING *`,
-              [args.input.attributeId, option.id]
-            );
-            // get the option
+            // get the attribute
             const [row] =
               await resolveInfo.graphile.selectGraphQLResultFromTable(
-                sql.fragment`everything.option`,
+                sql.fragment`everything.attribute`,
                 (tableAlias, queryBuilder) => {
                   queryBuilder.where(
-                    sql.fragment`${tableAlias}.id = ${sql.value(option.id)}`
+                    sql.fragment`${tableAlias}.id = ${sql.value(attribute.id)}`
                   );
                 }
               );
@@ -67,4 +59,4 @@ const ProposeOptionMutationPlugin = makeExtendSchemaPlugin((build) => {
   };
 });
 
-module.exports = ProposeOptionMutationPlugin;
+module.exports = ProposeAttributeMutationPlugin;

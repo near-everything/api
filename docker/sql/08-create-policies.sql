@@ -5,6 +5,7 @@ alter table everything.user enable row level security;
 -- any user can see other users
 create policy select_user on everything.user for select to everything_user
   using (true);
+-- anon can create user
 create policy insert_user on everything.user for insert to everything_anon
   with check (true);
 -- only the user themself can update their own record

@@ -5,16 +5,6 @@ create trigger base_updated_at before update
   for each row
   execute procedure everything_private.set_updated_at();
 
-create trigger category_created_by before insert
-  on everything.category
-  for each row
-  execute procedure everything_private.set_created_by();
-
-  create trigger subcategory_created_by before insert
-  on everything.subcategory
-  for each row
-  execute procedure everything_private.set_created_by();
-
   create trigger attribute_created_by before insert
   on everything.attribute
   for each row
@@ -22,11 +12,6 @@ create trigger category_created_by before insert
 
   create trigger option_created_by before insert
   on everything.option
-  for each row
-  execute procedure everything_private.set_created_by();
-
-  create trigger association_created_by before insert
-  on everything.association
   for each row
   execute procedure everything_private.set_created_by();
 

@@ -1,4 +1,10 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
+const u = require("../../../utils/near/user");
+const api = require("../../../utils/near/api");
+const fs = require("fs");
+const { generateUsername } = require("unique-username-generator");
+
+const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
 const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
@@ -21,6 +27,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
       Mutation: {
         createUser: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
+          const { uid } = args.input;
           // Start a sub-transaction
           await pgClient.query("SAVEPOINT graphql_mutation");
           try {
@@ -31,9 +38,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
                 sql.fragment`everything.user`,
                 (tableAlias, queryBuilder) => {
                   queryBuilder.where(
-                    sql.fragment`${tableAlias}.id = ${sql.value(
-                      args.input.uid
-                    )}`
+                    sql.fragment`${tableAlias}.id = ${sql.value(uid)}`
                   );
                 }
               );
@@ -44,12 +49,20 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
                 query: build.$$isQuery,
               };
             } else {
-              // create the User
+              // create the wallet
+              const walletName = generateUsername();
+              const name = (walletName + "." + settings.master_account_id).toLowerCase();
+              let account = await u.CreateKeyPair(name);
+
+              let status = await u.CreateAccount(account);
+
+              if (!status) return { text: "Error" }; // throw exception
+              // create user
               const {
                 rows: [user],
               } = await pgClient.query(
-                `INSERT INTO everything.user(                id              ) VALUES ($1)              RETURNING *`,
-                [args.input.uid]
+                `INSERT INTO everything.user(                id,wallet              ) VALUES ($1, $2)              RETURNING *`,
+                [uid, walletName]
               );
               // get new user
               const [row] =
@@ -57,9 +70,7 @@ const CreateUserMutationPlugin = makeExtendSchemaPlugin((build) => {
                   sql.fragment`everything.user`,
                   (tableAlias, queryBuilder) => {
                     queryBuilder.where(
-                      sql.fragment`${tableAlias}.id = ${sql.value(
-                        user.id
-                      )}`
+                      sql.fragment`${tableAlias}.id = ${sql.value(user.id)}`
                     );
                   }
                 );
