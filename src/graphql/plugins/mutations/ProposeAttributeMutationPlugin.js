@@ -4,7 +4,7 @@ const ProposeAttributeMutationPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
-      input ProposeAttributeInput  {
+      input ProposeAttributeInput {
         name: String!
       }
 
@@ -28,11 +28,8 @@ const ProposeAttributeMutationPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [attribute],
             } = await pgClient.query(
-              `INSERT INTO everything.attribute(                name, type              ) VALUES ($1, $2)              RETURNING *`,
-              [
-                args.input.name,
-                'text'
-              ]
+              `INSERT INTO everything.attribute(                name              ) VALUES ($1)              RETURNING *`,
+              [args.input.name]
             );
             // get the attribute
             const [row] =

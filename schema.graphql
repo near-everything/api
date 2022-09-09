@@ -494,15 +494,8 @@ type CreateAppPayload {
   ): AppsEdge
 }
 
-input CreateAssociationForAttributeInput {
-  subcategoryId: Int!
-}
-
 input CreateAttributeInput {
   name: String!
-  type: String!
-  description: String
-  associations: [CreateAssociationForAttributeInput!]!
   options: [CreateOptionInput!]!
 }
 
@@ -660,7 +653,7 @@ type CreateMediaPayload {
   query: Query
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
@@ -828,12 +821,8 @@ type CreateRequestPayload {
 }
 
 input CreateThingInput {
-  categoryId: Int!
-  subcategoryId: Int!
   attributes: [NewAttributeInput!]!
-  media: [String!]!
   ownerId: String!
-  quantity: Int
   geomPoint: GeoJSON
   privacyType: PrivacyType!
 }
@@ -1252,7 +1241,7 @@ type DeleteMediaPayload {
   query: Query
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
@@ -1875,14 +1864,14 @@ type Media implements Node {
   createdAt: Datetime!
   updatedAt: Datetime!
   id: Int!
-  itemId: Int
+  thingId: Int
   requestId: Int
   postId: Int
   mediaUrl: String!
   metadata: JSON
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
@@ -1962,8 +1951,8 @@ input MediaCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
-  """Checks for equality with the object’s `itemId` field."""
-  itemId: Int
+  """Checks for equality with the object’s `thingId` field."""
+  thingId: Int
 
   """Checks for equality with the object’s `requestId` field."""
   requestId: Int
@@ -2009,7 +1998,7 @@ input MediaInput {
   createdAt: Datetime
   updatedAt: Datetime
   id: Int
-  itemId: Int
+  thingId: Int
   requestId: Int
   postId: Int
   mediaUrl: String!
@@ -2025,8 +2014,8 @@ enum MediaOrderBy {
   UPDATED_AT_DESC
   ID_ASC
   ID_DESC
-  ITEM_ID_ASC
-  ITEM_ID_DESC
+  THING_ID_ASC
+  THING_ID_DESC
   REQUEST_ID_ASC
   REQUEST_ID_DESC
   POST_ID_ASC
@@ -2046,7 +2035,7 @@ input MediaPatch {
   createdAt: Datetime
   updatedAt: Datetime
   id: Int
-  itemId: Int
+  thingId: Int
   requestId: Int
   postId: Int
   mediaUrl: String
@@ -3689,6 +3678,7 @@ type Thing implements Node {
   locationId: Int
   metadata: JSON
   privacyType: PrivacyType!
+  nftId: String
 
   """Reads a single `User` that is related to this `Thing`."""
   owner: User
@@ -3700,7 +3690,7 @@ type Thing implements Node {
   location: Location
 
   """Reads and enables pagination through a set of `Media`."""
-  mediaByItemId(
+  medias(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3814,6 +3804,9 @@ input ThingCondition {
 
   """Checks for equality with the object’s `privacyType` field."""
   privacyType: PrivacyType
+
+  """Checks for equality with the object’s `nftId` field."""
+  nftId: String
 }
 
 """A connection to a list of `Thing` values."""
@@ -3861,6 +3854,8 @@ enum ThingsOrderBy {
   METADATA_DESC
   PRIVACY_TYPE_ASC
   PRIVACY_TYPE_DESC
+  NFT_ID_ASC
+  NFT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -4264,7 +4259,7 @@ type UpdateMediaPayload {
   query: Query
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
