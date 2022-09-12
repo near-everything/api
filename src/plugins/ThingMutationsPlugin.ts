@@ -17,12 +17,8 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
       }
 
       input CreateThingInput {
-        categoryId: Int!
-        subcategoryId: Int!
         attributes: [NewAttributeInput!]!
-        media: [String!]!
         ownerId: String!
-        quantity: Int
         geomPoint: GeoJSON
         privacyType: PrivacyType!
       }
@@ -41,30 +37,21 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
         createThing: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
           const {
-            categoryId,
-            subcategoryId,
             ownerId,
-            media,
-            quantity,
-            geomPoint,
             attributes,
             privacyType,
           } = args.input;
           // Start a sub-transaction
-          await pgClient.query("SAVEPOINT graphql_mutation");
-          try {
+          await pgClient.query("SAVEPOINT graphql_mutation");        
+          try {           
             // create the thing
             const {
               rows: [thing],
             } = await pgClient.query(
-              `INSERT INTO everything.thing(                category_id, subcategory_id, owner_id, media, quantity, geom_point, privacy_type              ) VALUES ($1, $2, $3, $4, $5, $6, $7)              RETURNING *`,
+              `INSERT INTO everything.thing(                owner_id, origin_app_id, privacy_type              ) VALUES ($1, $2, $3)              RETURNING *`,
               [
-                categoryId,
-                subcategoryId,
                 ownerId,
-                media,
-                quantity || 1,
-                geomPoint,
+                1,
                 privacyType
               ]
             );

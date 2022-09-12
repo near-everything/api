@@ -420,10 +420,6 @@ type CreateAppPayload {
   query: Query
 }
 
-input CreateAssociationForAttributeInput {
-  subcategoryId: Int!
-}
-
 input CreateAttributeInput {
   associations: [CreateAssociationForAttributeInput!]!
   description: String
@@ -1077,7 +1073,7 @@ type DeleteMediaPayload {
   deletedMediaNodeId: ID
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """The `Media` that was deleted by this mutation."""
   media: Media
@@ -1630,8 +1626,8 @@ input MediaCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
-  """Checks for equality with the object’s `itemId` field."""
-  itemId: Int
+  """Checks for equality with the object’s `thingId` field."""
+  thingId: Int
 
   """Checks for equality with the object’s `postId` field."""
   postId: Int
@@ -3040,6 +3036,9 @@ input ThingCondition {
 
   """Checks for equality with the object’s `privacyType` field."""
   privacyType: PrivacyType
+
+  """Checks for equality with the object’s `nftId` field."""
+  nftId: String
 }
 
 """A connection to a list of `Thing` values."""
@@ -3353,7 +3352,7 @@ type UpdateMediaPayload {
   clientMutationId: String
 
   """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
+  thing: Thing
 
   """The `Media` that was updated by this mutation."""
   media: Media

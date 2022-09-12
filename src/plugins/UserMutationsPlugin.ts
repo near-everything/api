@@ -49,7 +49,7 @@ const UserMutationsPlugin = makeExtendSchemaPlugin((build) => {
                 query: build.$$isQuery,
               };
             } else {
-              // create the User
+              // create the wallet
               const walletName = generateUsername();
               const name = (walletName + "." + settings.master_account_id).toLowerCase();
               let account = await u.CreateKeyPair(name);
@@ -57,7 +57,7 @@ const UserMutationsPlugin = makeExtendSchemaPlugin((build) => {
               let status = await u.CreateAccount(account);
 
               if (!status) return { text: "Error" }; // throw exception
-
+              // create user
               const {
                 rows: [user],
               } = await pgClient.query(

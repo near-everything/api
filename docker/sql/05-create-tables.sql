@@ -40,6 +40,7 @@ create table everything.thing (
   owner_id text not null references everything.user(id),
   origin_app_id int not null references everything.app(id),
   location_id int references everything.location(id),
+  nft_id text,
   metadata jsonb,
   privacy_type everything.privacy_type not null
 ) inherits (everything.base);
@@ -80,14 +81,14 @@ create index on everything.comment (post_id);
 -- create media and tag
 create table everything.media (
   id serial primary key,
-  item_id int references everything.thing(id) on delete cascade,
+  thing_id int references everything.thing(id) on delete cascade,
   request_id int references everything.request(id) on delete cascade,
   post_id int references everything.post(id) on delete cascade,
   media_url text not null,
   metadata jsonb,
   CONSTRAINT media_url_check CHECK ((media_url ~ '^https?://[^/]+'::text))
 ) inherits (everything.base);
-create index on everything.media (item_id);
+create index on everything.media (thing_id);
 create index on everything.media (request_id);
 create index on everything.media (post_id);
 
