@@ -42,9 +42,8 @@ export async function makeApp(): Promise<Express> {
    * express middleware. These helpers may be asynchronous, but they should
    * operate very rapidly to enable quick as possible server startup.
    */
-  await middleware.installCors(app);
-  await middleware.installAuth(app);
   await middleware.installAuthErrorHandler(app);
+  await middleware.installAuth(app);
   await middleware.installDatabasePools(app);
   // await middleware.installWorkerUtils(app);
   // await middleware.installHelmet(app);

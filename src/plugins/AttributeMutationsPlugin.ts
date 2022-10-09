@@ -22,9 +22,6 @@ const AttributeMutationsPlugin = makeExtendSchemaPlugin(build => {
 
       input CreateAttributeInput  {
         name: String!
-        type: String!,
-        description: String, 
-        associations: [CreateAssociationForAttributeInput!]!
         options: [CreateOptionInput!]!
       }
 
@@ -49,11 +46,8 @@ const AttributeMutationsPlugin = makeExtendSchemaPlugin(build => {
             const {
               rows: [attribute],
             } = await pgClient.query(
-              `INSERT INTO everything.attribute(                name, type              ) VALUES ($1, $2)              RETURNING *`,
-              [
-                args.input.name,
-                'text'
-              ]
+              `INSERT INTO everything.attribute(                name              ) VALUES ($1)              RETURNING *`,
+              [args.input.name]
             );
             // get the attribute
             const [row] =
@@ -88,28 +82,17 @@ const AttributeMutationsPlugin = makeExtendSchemaPlugin(build => {
           const {
             rows: [attribute],
           } = await pgClient.query(
-            `INSERT INTO everything.attribute(                name, type, description              ) VALUES ($1, $2, $3)              RETURNING *`,
+            `INSERT INTO everything.attribute(                name              ) VALUES ($1)              RETURNING *`,
             [
-              args.input.name,
-              args.input.type, 
-              args.input.description,
+              args.input.name
             ]
-          );
-          // create all the associations using the attribute id
-          await Promise.all(
-            args.input.associations.map(async (association) => {
-              await pgClient.query(
-                `INSERT INTO everything.association(                subcategory_id, attribute_id              ) VALUES ($1, $2)              RETURNING *`,
-                [association.subcategoryId, attribute.id]
-              );
-            })
           );
           // create all the options and relationships
           await Promise.all(
             args.input.options.map(async (option) => {
               const { rows: [newOption] } = await pgClient.query(
-                `INSERT INTO everything.option(                value, type             ) VALUES ($1, $2)              RETURNING *`,
-                [option.option.value, option.option.type]
+                `INSERT INTO everything.option(                value            ) VALUES ($1)              RETURNING *`,
+                [option.option.value]
               );
               await pgClient.query(
                 `INSERT INTO everything.relationship(                attribute_id, option_id              ) VALUES ($1, $2)              RETURNING *`,

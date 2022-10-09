@@ -421,11 +421,8 @@ type CreateAppPayload {
 }
 
 input CreateAttributeInput {
-  associations: [CreateAssociationForAttributeInput!]!
-  description: String
   name: String!
   options: [CreateOptionInput!]!
-  type: String!
 }
 
 type CreateAttributePayload {
@@ -573,9 +570,6 @@ type CreateMediaPayload {
   """
   clientMutationId: String
 
-  """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
-
   """The `Media` that was created by this mutation."""
   media: Media
 
@@ -595,6 +589,9 @@ type CreateMediaPayload {
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
+
+  """Reads a single `Thing` that is related to this `Media`."""
+  thing: Thing
 }
 
 """All input for the create `Option` mutation."""
@@ -660,9 +657,6 @@ type CreatePostPayload {
     """The method to use when ordering `Post`."""
     orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
   ): PostsEdge
-
-  """Reads a single `User` that is related to this `Post`."""
-  poster: User
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -744,20 +738,13 @@ type CreateRequestPayload {
     """The method to use when ordering `Request`."""
     orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
   ): RequestsEdge
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
 }
 
 input CreateThingInput {
   attributes: [NewAttributeInput!]!
-  categoryId: Int!
   geomPoint: GeoJSON
-  media: [String!]!
   ownerId: String!
   privacyType: PrivacyType!
-  quantity: Int
-  subcategoryId: Int!
 }
 
 type CreateThingPayload {
@@ -1072,9 +1059,6 @@ type DeleteMediaPayload {
   clientMutationId: String
   deletedMediaNodeId: ID
 
-  """Reads a single `Thing` that is related to this `Media`."""
-  thing: Thing
-
   """The `Media` that was deleted by this mutation."""
   media: Media
 
@@ -1094,6 +1078,9 @@ type DeleteMediaPayload {
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
+
+  """Reads a single `Thing` that is related to this `Media`."""
+  thing: Thing
 }
 
 """All input for the `deleteOption` mutation."""
@@ -1157,9 +1144,6 @@ type DeletePostPayload {
     """The method to use when ordering `Post`."""
     orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
   ): PostsEdge
-
-  """Reads a single `User` that is related to this `Post`."""
-  poster: User
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -1241,9 +1225,6 @@ type DeleteRequestPayload {
     """The method to use when ordering `Request`."""
     orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
   ): RequestsEdge
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
 }
 
 """All input for the `deleteThing` mutation."""
@@ -1270,9 +1251,6 @@ type DeleteThingPayload {
 
   """Reads a single `App` that is related to this `Thing`."""
   originApp: App
-
-  """Reads a single `User` that is related to this `Thing`."""
-  owner: User
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -1544,10 +1522,6 @@ enum LocationsOrderBy {
 type Media {
   createdAt: Datetime!
   id: Int!
-
-  """Reads a single `Thing` that is related to this `Media`."""
-  item: Thing
-  itemId: Int
   mediaUrl: String!
   metadata: JSON
 
@@ -1558,6 +1532,10 @@ type Media {
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
   requestId: Int
+
+  """Reads a single `Thing` that is related to this `Media`."""
+  thing: Thing
+  thingId: Int
 
   """Reads and enables pagination through a set of `ThingTag`."""
   thingTags(
@@ -1626,14 +1604,14 @@ input MediaCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
-  """Checks for equality with the object’s `thingId` field."""
-  thingId: Int
-
   """Checks for equality with the object’s `postId` field."""
   postId: Int
 
   """Checks for equality with the object’s `requestId` field."""
   requestId: Int
+
+  """Checks for equality with the object’s `thingId` field."""
+  thingId: Int
 }
 
 """A connection to a list of `Media` values."""
@@ -1666,11 +1644,11 @@ type MediaEdge {
 input MediaInput {
   createdAt: Datetime
   id: Int
-  itemId: Int
   mediaUrl: String!
   metadata: JSON
   postId: Int
   requestId: Int
+  thingId: Int
   updatedAt: Datetime
 }
 
@@ -1678,8 +1656,6 @@ input MediaInput {
 enum MediaOrderBy {
   ID_ASC
   ID_DESC
-  ITEM_ID_ASC
-  ITEM_ID_DESC
   NATURAL
   POST_ID_ASC
   POST_ID_DESC
@@ -1687,6 +1663,8 @@ enum MediaOrderBy {
   PRIMARY_KEY_DESC
   REQUEST_ID_ASC
   REQUEST_ID_DESC
+  THING_ID_ASC
+  THING_ID_DESC
 }
 
 """
@@ -1695,11 +1673,11 @@ Represents an update to a `Media`. Fields that are set will be updated.
 input MediaPatch {
   createdAt: Datetime
   id: Int
-  itemId: Int
   mediaUrl: String
   metadata: JSON
   postId: Int
   requestId: Int
+  thingId: Int
   updatedAt: Datetime
 }
 
@@ -2219,9 +2197,6 @@ type Post {
     orderBy: [MediaOrderBy!] = [PRIMARY_KEY_ASC]
   ): MediaConnection!
   metadata: JSON
-
-  """Reads a single `User` that is related to this `Post`."""
-  poster: User
   posterId: String!
   privacyType: PrivacyType!
   updatedAt: Datetime!
@@ -2848,9 +2823,6 @@ type Request {
     orderBy: [MediaOrderBy!] = [PRIMARY_KEY_ASC]
   ): MediaConnection!
   metadata: JSON
-
-  """Reads a single `User` that is related to this `Request`."""
-  requester: User
   requesterId: String!
   updatedAt: Datetime!
 }
@@ -2949,7 +2921,7 @@ type Thing {
   locationId: Int
 
   """Reads and enables pagination through a set of `Media`."""
-  mediaByItemId(
+  medias(
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
@@ -2977,13 +2949,11 @@ type Thing {
     orderBy: [MediaOrderBy!] = [PRIMARY_KEY_ASC]
   ): MediaConnection!
   metadata: JSON
+  nftId: String
 
   """Reads a single `App` that is related to this `Thing`."""
   originApp: App
   originAppId: Int!
-
-  """Reads a single `User` that is related to this `Thing`."""
-  owner: User
   ownerId: String!
   privacyType: PrivacyType!
 
@@ -3036,9 +3006,6 @@ input ThingCondition {
 
   """Checks for equality with the object’s `privacyType` field."""
   privacyType: PrivacyType
-
-  """Checks for equality with the object’s `nftId` field."""
-  nftId: String
 }
 
 """A connection to a list of `Thing` values."""
@@ -3351,9 +3318,6 @@ type UpdateMediaPayload {
   """
   clientMutationId: String
 
-  """Reads a single `Thing` that is related to this `Media`."""
-  thing: Thing
-
   """The `Media` that was updated by this mutation."""
   media: Media
 
@@ -3373,6 +3337,9 @@ type UpdateMediaPayload {
 
   """Reads a single `Request` that is related to this `Media`."""
   request: Request
+
+  """Reads a single `Thing` that is related to this `Media`."""
+  thing: Thing
 }
 
 """All input for the `updateOption` mutation."""
@@ -3444,9 +3411,6 @@ type UpdatePostPayload {
     """The method to use when ordering `Post`."""
     orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
   ): PostsEdge
-
-  """Reads a single `User` that is related to this `Post`."""
-  poster: User
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3578,93 +3542,6 @@ type User {
   id: String!
   metadata: JSON
   name: String
-
-  """Reads and enables pagination through a set of `Post`."""
-  postsByPosterId(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: PostCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Post`."""
-    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): PostsConnection!
-
-  """Reads and enables pagination through a set of `Request`."""
-  requestsByRequesterId(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: RequestCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Request`."""
-    orderBy: [RequestsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RequestsConnection!
-
-  """Reads and enables pagination through a set of `Thing`."""
-  thingsByOwnerId(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ThingCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ThingsConnection!
   updatedAt: Datetime!
   username: String
 

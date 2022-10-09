@@ -10,7 +10,7 @@ services:
     volumes:
        - postgres:/data/postgres
       #  load sql schemas
-      #  - ./docker/sql:/docker-entrypoint-initdb.d/
+       - ./docker/sql:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
     networks:
@@ -42,9 +42,8 @@ services:
       - .:/src
     ports:
       - 8001:8001
-      - 9099:9099
       - 9199:9199
-    command: firebase emulators:start --only 'auth','storage'
+    command: firebase emulators:start --only 'storage'
 
 networks:
   postgres:
