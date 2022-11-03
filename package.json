@@ -4,15 +4,18 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "build": "babel src/index.ts -d dist",
-    "start": "npm run build && nodemon src/index.ts"
+    "start": "NODE_ENV=development npm run build && nodemon src/index.ts"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.18.6",
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
     "@graphile/postgis": "^0.1.0",
+    "@pinata/sdk": "^2.0.0-beta.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
     "express-jwt": "^7.7.5",
     "express-oauth2-jwt-bearer": "^1.1.0",
     "firebase-admin": "^11.0.0",
@@ -31,6 +34,7 @@
     "@babel/core": "^7.19.0",
     "@babel/preset-env": "^7.19.0",
     "@types/cors": "^2.8.12",
+    "@types/express-fileupload": "^1.4.1",
     "@types/lodash": "^4.14.184",
     "@types/morgan": "^1.9.3",
     "nodemon": "^2.0.19",

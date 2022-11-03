@@ -11,3 +11,5 @@ storage/
 
 # Build
 dist/
+
+.env

@@ -44,6 +44,7 @@ export async function makeApp(): Promise<Express> {
    */
   await middleware.installAuthErrorHandler(app);
   await middleware.installAuth(app);
+  await middleware.installCors(app);
   await middleware.installDatabasePools(app);
   // await middleware.installWorkerUtils(app);
   // await middleware.installHelmet(app);

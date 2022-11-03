@@ -1,5 +1,6 @@
 import installAuth from "./installAuth";
 import installAuthErrorHandler from "./installAuthErrorHandler";
+import installCors from "./installCors";
 // import installCSRFProtection from "./installCSRFProtection";
 // import installCypressServerCommand from "./installCypressServerCommand";
 import installDatabasePools from "./installDatabasePools";
@@ -14,6 +15,7 @@ import installPostGraphile from "./installPostGraphile";
 export {
   installAuth,
   installAuthErrorHandler,
+  installCors,
   // installCSRFProtection,
   // installCypressServerCommand,
   installDatabasePools,
