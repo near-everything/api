@@ -4,8 +4,8 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "build": "babel src/index.ts -d dist",
-    "start": " npm run build && nodemon src/index.ts",
-    "dev": "NODE_ENV=development npm run start"
+    "dev": "NODE_ENV=development npm run build && nodemon src/index.ts",
+    "start": "./node_modules/.bin/babel --extensions .ts,.js src -d dist && node dist/index.js"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.18.6",

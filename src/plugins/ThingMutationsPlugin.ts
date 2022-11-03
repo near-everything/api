@@ -1,11 +1,9 @@
 // @ts-nocheck
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
-const token = require("../utils/near/token");
-const api = require("../utils/near/api");
+// const api = require("../utils/near/api");
 const fs = require("fs");
-const NftMintException = require("../utils/error/NftMintException");
 
-const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
+// const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
 const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
@@ -65,40 +63,40 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
                 );
               })
             );
-            if (privacyType.toLowerCase() !== "private") {
-              // get user details
-              const {
-                rows: [user],
-              } = await pgClient.query(
-                `SELECT * FROM everything.user WHERE id = $1`,
-                [ownerId]
-              );
-              // mint the nft
-              const username = (
-                user.wallet +
-                "." +
-                settings.master_account_id
-              ).toLowerCase();
-              const nft_id = await token.MintNFT(
-                thing.id,
-                {
-                  title: `Thing #${thing.id}`,
-                  issued_at: Date.now(),
-                  updated_at: Date.now(),
-                },
-                username
-              );
-              if (nft_id.error) {
-                throw new NftMintException(
-                  `Error while minting Thing #${thing.id} to wallet ${user.wallet}, aborting.`
-                );
-              }
-              // update thing with nft_id
-              await pgClient.query(
-                `UPDATE everything.thing SET nft_id = $1 WHERE id = $2 RETURNING *`,
-                [nft_id, thing.id]
-              );
-            }
+            // if (privacyType.toLowerCase() !== "private") {
+            //   // get user details
+            //   const {
+            //     rows: [user],
+            //   } = await pgClient.query(
+            //     `SELECT * FROM everything.user WHERE id = $1`,
+            //     [ownerId]
+            //   );
+            //   // mint the nft
+            //   const username = (
+            //     user.wallet +
+            //     "." +
+            //     settings.master_account_id
+            //   ).toLowerCase();
+            //   const nft_id = await token.MintNFT(
+            //     thing.id,
+            //     {
+            //       title: `Thing #${thing.id}`,
+            //       issued_at: Date.now(),
+            //       updated_at: Date.now(),
+            //     },
+            //     username
+            //   );
+            //   if (nft_id.error) {
+            //     throw new NftMintException(
+            //       `Error while minting Thing #${thing.id} to wallet ${user.wallet}, aborting.`
+            //     );
+            //   }
+            //   // update thing with nft_id
+            //   await pgClient.query(
+            //     `UPDATE everything.thing SET nft_id = $1 WHERE id = $2 RETURNING *`,
+            //     [nft_id, thing.id]
+            //   );
+            // }
             // get and return the updated thing
             const [row] =
               await resolveInfo.graphile.selectGraphQLResultFromTable(
