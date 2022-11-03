@@ -32,19 +32,6 @@ services:
       - postgres
     restart: unless-stopped
 
-  firebase:
-    container_name: firebase_container
-    build: 
-      context: ./docker
-      dockerfile: firebase.Dockerfile
-    image: firebase-emulator:firebase-emulator
-    volumes:
-      - .:/src
-    ports:
-      - 8001:8001
-      - 9199:9199
-    command: firebase emulators:start --only 'storage'
-
 networks:
   postgres:
     driver: bridge
@@ -52,4 +39,3 @@ networks:
 volumes:
     postgres:
     pgadmin:
-    firebase:

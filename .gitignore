@@ -2,10 +2,6 @@
 node_modules/
 everything-dev-pk.json
 
-# Firebase
-ui-debug.log
-firebase-debug.log
-
 # NEAR
 storage/
 
