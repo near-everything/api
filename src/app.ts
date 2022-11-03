@@ -14,7 +14,7 @@ export async function makeApp(): Promise<Express> {
    */
   sanitizeEnv();
 
-  const isTest = process.env.NODE_ENV === "test";
+  // const isTest = process.env.NODE_ENV === "test";
   const isDev = process.env.NODE_ENV === "development";
 
   const shutdownActions = makeShutdownActions();

@@ -1,48 +1,12 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "incremental": true,
-    "noEmitOnError": true,
-
-    "rootDir": "src",
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
-    "declarationDir": "dist",
-    "lib": ["es2018", "esnext.asynciterable"],
-    "target": "es2018",
     "module": "commonjs",
-
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "jsx": "preserve",
+    "target": "es6",
     "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "preserveConstEnums": true,
-    "resolveJsonModule": true,
     "sourceMap": true,
-    "removeComments": false,
-    "strict": true,
-    "strictNullChecks": true,
-    "importHelpers": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "preserveWatchOutput": true,
-    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
     "skipLibCheck": true,
-
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-
-    "noEmit": false,
-    "declaration": true,
-    "declarationMap": true,
-    "baseUrl": ".",
   },
-  "include": ["src"],
-  "ts-node": {
-    "compilerOptions": {
-      "rootDir": null
-    }
-  }
+  "lib": ["es2015"]
 }

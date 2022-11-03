@@ -1,11 +1,6 @@
 // @ts-nocheck
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
-// const u = require("../utils/near/user");
-// const api = require("../utils/near/api");
 const fs = require("fs");
-// const { generateUsername } = require("unique-username-generator");
-
-// const settings = JSON.parse(fs.readFileSync(api.CONFIG_PATH, "utf8"));
 
 const UserMutationsPlugin = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
@@ -49,21 +44,13 @@ const UserMutationsPlugin = makeExtendSchemaPlugin((build) => {
                 query: build.$$isQuery,
               };
             } else {
-              // create the wallet
-              // const walletName = generateUsername();
-              // const name = (walletName + "." + settings.master_account_id).toLowerCase();
-              // let account = await u.CreateKeyPair(name);
-
-              // let status = await u.CreateAccount(account);
-
-              // if (!status) return { text: "Error" }; // throw exception
               // create user
-              // const {
-              //   rows: [user],
-              // } = await pgClient.query(
-              //   `INSERT INTO everything.user(                id,wallet              ) VALUES ($1, $2)              RETURNING *`,
-              //   [uid, walletName]
-              // );
+              const {
+                rows: [user],
+              } = await pgClient.query(
+                `INSERT INTO everything.user(                id              ) VALUES ($1)              RETURNING *`,
+                [uid]
+              );
               // get new user
               const [row] =
                 await resolveInfo.graphile.selectGraphQLResultFromTable(
