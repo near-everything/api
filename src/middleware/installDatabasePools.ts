@@ -26,14 +26,36 @@ function swallowPoolError(_error: Error) {
 export default (app: Express) => {
   // This pool runs as the database owner, so it can do anything.
   const rootPgPool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOSTNAME,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    port: parseInt(process.env.POSTGRES_PORT),
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? {
+            rejectUnauthorized: false,
+            ca: process.env.CA_CERT,
+          }
+        : null,
   });
   rootPgPool.on("error", swallowPoolError);
   app.set("rootPgPool", rootPgPool);
 
   // This pool runs as the unprivileged user, it's what PostGraphile uses.
   const authPgPool = new Pool({
-    connectionString: process.env.AUTH_DATABASE_URL,
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOSTNAME,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    port: parseInt(process.env.POSTGRES_PORT),
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? {
+            rejectUnauthorized: false,
+            ca: process.env.CA_CERT,
+          }
+        : null,
   });
 
   authPgPool.on("error", swallowPoolError);
