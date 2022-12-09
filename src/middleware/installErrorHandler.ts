@@ -17,7 +17,6 @@
 //    * might help attackers, by default we don't output the error message at all.
 //    * You should override this for specific classes of errors below.
 //    */
-
 //   if (error["code"] === "EBADCSRFTOKEN") {
 //     return {
 //       message: "Invalid CSRF token: please reload the page.",

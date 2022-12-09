@@ -36,17 +36,14 @@ create table everything.location (
 
 -- create thing
 create table everything.thing (
-  id serial primary key,
-  owner_id text not null references everything.user(id),
-  origin_app_id int not null references everything.app(id),
+  id text not null primary key,
+  owner_id text not null,
   location_id int references everything.location(id),
-  nft_id text,
   metadata jsonb,
-  privacy_type everything.privacy_type not null
+  privacy_type everything.privacy_type
 ) inherits (everything.base);
-comment on table everything.thing is E'@omit create,update';
+comment on table everything.thing is E'@omit create,update,delete';
 create index on everything.thing (owner_id);
-create index on everything.thing (origin_app_id);
 create index on everything.thing (location_id);
 create index on everything.thing (privacy_type);
 

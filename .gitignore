@@ -9,3 +9,5 @@ storage/
 dist/
 
 .env
+
+uploads/
