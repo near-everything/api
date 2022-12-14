@@ -17,6 +17,7 @@ import AttributeMutationsPlugin from "../plugins/AttributeMutationsPlugin";
 import OptionMutationsPlugin from "../plugins/OptionMutationsPlugin";
 import handleErrors from "../utils/handleErrors";
 import { getAuthPgPool, getRootPgPool } from "./installDatabasePools";
+import MediaMutationsPlugin from "../plugins/MediaMutationsPlugin";
 
 export interface OurGraphQLContext {
   pgClient: PoolClient;
@@ -101,9 +102,7 @@ export function getPostGraphileOptions({
 
     // Keep data/schema.graphql up to date
     sortExport: true,
-    exportGqlSchemaPath: isDev
-      ? `${__dirname}/../data/schema.graphql`
-      : undefined,
+    exportGqlSchemaPath: `${__dirname}/../data/schema.graphql`,
 
     /*
      * Plugins to enhance the GraphQL schema, see:
@@ -126,8 +125,9 @@ export function getPostGraphileOptions({
       // Omits by default non-primary-key constraint mutations
       PrimaryKeyMutationsOnlyPlugin,
 
-      UserMutationsPlugin,
+      // UserMutationsPlugin,
       ThingMutationsPlugin,
+      MediaMutationsPlugin,
       AttributeMutationsPlugin,
       OptionMutationsPlugin
     ],

@@ -9,9 +9,9 @@ end;
 $$ language plpgsql;
 
 -- created_by
-create function everything_private.set_created_by() returns trigger as $$
-begin
-  new.created_by := current_setting('jwt.claims.firebase');
-  return new;
-end;
-$$ language plpgsql;
+-- create function everything_private.set_created_by() returns trigger as $$
+-- begin
+--   new.created_by := current_setting('jwt.claims.firebase');
+--   return new;
+-- end;
+-- $$ language plpgsql;

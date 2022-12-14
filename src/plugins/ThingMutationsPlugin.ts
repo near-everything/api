@@ -17,6 +17,7 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
       # }
 
       input CreateThingInput {
+        thingId: String!
         characteristics: [NewCharacteristicInput!]!
         ownerId: String!
       }
@@ -42,6 +43,7 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
         createThing: async (_query, args, context, resolveInfo) => {
           const { pgClient } = context;
           const {
+            thingId,
             ownerId,
             characteristics,
           } = args.input;
@@ -52,8 +54,9 @@ const ThingMutationsPlugin = makeExtendSchemaPlugin((build) => {
             const {
               rows: [thing],
             } = await pgClient.query(
-              `INSERT INTO everything.thing(                owner_id              ) VALUES ($1)              RETURNING *`,
+              `INSERT INTO everything.thing(id, owner_id) VALUES ($1, $2)              RETURNING *`,
               [
+                thingId,
                 ownerId,
               ]
             ); // TODO : create a postgres function that automatically sets creator_id on creation

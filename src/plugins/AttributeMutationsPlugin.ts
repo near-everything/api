@@ -20,6 +20,10 @@ const AttributeMutationsPlugin = makeExtendSchemaPlugin(build => {
         subcategoryId: Int!
       }
 
+      input CreateOptionInput {
+        value: String!
+      }
+
       input CreateAttributeInput  {
         name: String!
         options: [CreateOptionInput!]!

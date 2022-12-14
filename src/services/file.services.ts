@@ -1,36 +1,52 @@
+import { Pool } from "pg";
+require('dotenv').config()
 
-export const uploadFile = async (data: object) => {
-  // const pgClient = getAuthPgPool(app);
-  // try {
-  //   await pgClient.query("SAVEPOINT graphql_mutation");
-  //   // create the File
-  //   const FileId = await createFile(pgClient, creatorId, privacySetting);
-  //   // create characteristics
-  //   await Promise.all(
-  //     charArr.map(async (char) => {
-  //       // create the option (regular text)
-  //       await createCharacteristic(pgClient, FileId, char);
-  //     })
-  //   );
-  //   // create media
-  // } catch (e) {
-  //   // mutation failed, abort
-  //   await pgClient.query("ROLLBACK TO SAVEPOINT graphql_mutation");
-  //   throw e;
-  // } finally {
-  //   // Release our savepoint so it doesn't conflict with other mutations
-  //   await pgClient.query("RELEASE SAVEPOINT graphql_mutation");
-  // }
-  // // create the File in db
-  // // create the characteristics
-  // // create the medias (these can be two different threads or done by workers, ya?)
-  // console.log("hit service");
+const mediaPool = new Pool({
+  user: process.env.POSTGRES_USER,
+  host: process.env.POSTGRES_HOSTNAME,
+  database: process.env.POSTGRES_DATABASE,
+  password: process.env.POSTGRES_PASSWORD,
+  port: parseInt(process.env.POSTGRES_PORT),
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? {
+          rejectUnauthorized: false,
+          ca: process.env.CA_CERT,
+        }
+      : null,
+});
 
-  // Return the new File id
-  return null;
-};
-
-// Delete a File
-export const deleteFile = (id: string) => {
-  
+export const uploadFile = async (url: string, thingId?: string) => {
+  const client = await mediaPool.connect();
+  try {
+    await client.query("BEGIN");
+    const {
+      rows: [media],
+    } = await client.query(
+      `INSERT INTO everything.media(media_url) VALUES ($1)              RETURNING *`,
+      [
+        url,
+      ]
+    ); 
+    // if thingId provided, create tag
+    if (thingId) {
+      const {
+        rows: [tag]
+      } = await client.query(
+        `INSERT INTO everything.tag(thing_id, media_id) VALUES ($1, $2) RETURNING *`,
+        [
+          thingId,
+          media.id
+        ]
+      )
+    }
+    await client.query("COMMIT");
+  } catch (e) {
+    // mutation failed, abort
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    // Release our savepoint so it doesn't conflict with other mutations
+    client.release();
+  }
 };
