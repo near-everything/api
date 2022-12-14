@@ -19,7 +19,7 @@ create table everything.user (
   primary key (id),
   CONSTRAINT user_username_check CHECK (((length((username)::text) >= 2) AND (length((username)::text) <= 24) AND (username OPERATOR(public.~) '^[a-zA-Z]([_]?[a-zA-Z0-9])+$'::public.citext)))
 ) inherits (everything.base);
-comment on table everything.user is E'@omit create,update';
+comment on table everything.user is E'@omit create,update,delete';
 
 -- create app
 -- create table everything.app (
@@ -54,7 +54,6 @@ create table everything.media (
   CONSTRAINT media_url_check CHECK ((media_url ~ '^https?://[^/]+'::text))
 ) inherits (everything.base);
 comment on table everything.media is E'@omit create,update,delete';
-create index on everything.media (thing_id);
 
 create table everything.tag (
   thing_id text references everything.thing(id) on delete cascade,

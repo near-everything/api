@@ -71,7 +71,7 @@ router.post('/', uploadFiles, function (req, res, next) {
       message: "Uploaded!",
       // @ts-ignore
       urls: req.files.map(function (file) {
-        return { url: file.location, name: file.key, type: file.mimetype, size: file.size };
+        return file.location
       })
     })
   } catch (error) {
@@ -79,7 +79,7 @@ router.post('/', uploadFiles, function (req, res, next) {
       message: `Uploaded to S3, but exception while creating Media: ${error.message}`,
       // @ts-ignore
       urls: req.files.map(function (file) {
-        return { url: file.location, name: file.key, type: file.mimetype, size: file.size };
+        file.location
       })
     })
   }
