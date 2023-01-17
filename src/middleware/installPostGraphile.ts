@@ -98,7 +98,7 @@ export function getPostGraphileOptions({
     handleErrors,
 
     // Automatically update GraphQL schema when database changes
-    watchPg: true,
+    watchPg: isDev,
 
     // Keep data/schema.graphql up to date
     sortExport: true,
