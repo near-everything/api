@@ -102,7 +102,7 @@ export function getPostGraphileOptions({
 
     // Keep data/schema.graphql up to date
     sortExport: true,
-    exportGqlSchemaPath: path.join(__dirname, "../data/schema.graphql"),
+    exportGqlSchemaPath: isDev && path.join(__dirname, "../data/schema.graphql"),
 
     /*
      * Plugins to enhance the GraphQL schema, see:
