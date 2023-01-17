@@ -12,7 +12,6 @@ const postgis = require("@graphile/postgis");
 import PrimaryKeyMutationsOnlyPlugin from "../plugins/PrimaryKeyMutationsOnlyPlugin";
 import RemoveQueryQueryPlugin from "../plugins/RemoveQueryQueryPlugin";
 import ThingMutationsPlugin from "../plugins/ThingMutationsPlugin";
-import UserMutationsPlugin from "../plugins/UserMutationsPlugin";
 import AttributeMutationsPlugin from "../plugins/AttributeMutationsPlugin";
 import OptionMutationsPlugin from "../plugins/OptionMutationsPlugin";
 import handleErrors from "../utils/handleErrors";
