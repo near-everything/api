@@ -2,6 +2,7 @@ import PgSimplifyInflectorPlugin from "@graphile-contrib/pg-simplify-inflector";
 import { Express, Request, Response } from "express";
 import { NodePlugin } from "graphile-build";
 import { Pool, PoolClient } from "pg";
+const path = require('path');
 import {
   Middleware,
   postgraphile,
@@ -101,7 +102,7 @@ export function getPostGraphileOptions({
 
     // Keep data/schema.graphql up to date
     sortExport: true,
-    exportGqlSchemaPath: `${__dirname}/../data/schema.graphql`,
+    exportGqlSchemaPath: path.join(__dirname, "../data/schema.graphql"),
 
     /*
      * Plugins to enhance the GraphQL schema, see:
