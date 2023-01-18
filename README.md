@@ -117,7 +117,7 @@ Ensure you have these packages and tools installed on your machine before instal
     ```
 2. Run the server:
     ```sh
-    npm start
+    npm start dev
     ```
 3. Explore: 
 
